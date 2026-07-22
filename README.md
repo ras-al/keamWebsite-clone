@@ -8,7 +8,7 @@ This project is developed purely for academic and educational purposes. It is no
 
 ## Status
 
-🚧 Currently working on the frontend split. Core UI components and pages (like Home, Login, and Header) are being actively developed.
+Currently working on the frontend split. Core UI components and pages (like Home, Login, and Header) are being actively developed.
 
 ## Tech Stack
 
@@ -108,7 +108,7 @@ The frontend will run on `http://localhost:5173` (Vite's default) and the backen
 |------|-------------|------|
 | Rasal Musthafa | B24CSA49 | Project setup, Landing page, Home page |
 | Ayman Riaz | B24CSA17 | Shared components (Navbar, Footer, Button design, Input) |
-| Faheem Shan | B24CSA20 | Student dashboard page, Application form, UI |
+| Faheem Shan | B24CSA20 | Student dashboard page, Application form UI |
 | Safdil Arafath | B24CSA54 | Login & Registration page, Form validation UI |
 | Shan M A | B24CSA59 | Admin Panel UI, Application status tracking page |
 
