@@ -8,7 +8,7 @@ This project is developed purely for academic and educational purposes. It is no
 
 ## Status
 
-Project initialized. Core folder structure and dependencies are set up. Feature development is in progress.
+🚧 Currently working on the frontend split. Core UI components and pages (like Home, Login, and Header) are being actively developed.
 
 ## Tech Stack
 
@@ -42,6 +42,14 @@ keam-clone/
 ├── .gitignore
 └── README.md
 ```
+
+## Frontend Split
+
+The React application is modularized and split into the following logical boundaries:
+- **Pages** (`src/pages/`): Container components mapping to application routes (e.g., `Home`, `Login`, `Dashboard`).
+- **Components** (`src/components/`): Reusable, smaller UI blocks (e.g., Form elements, Buttons).
+- **Layouts** (`src/components/layout/`): Structural templates used across multiple pages (e.g., `Header`).
+- **Routing**: Client-side navigation handled by React Router mapping URLs to specific page components.
 
 ## Getting Started
 
@@ -98,11 +106,11 @@ The frontend will run on `http://localhost:5173` (Vite's default) and the backen
 
 | Name | Roll Number | Role |
 |------|-------------|------|
-| Rasal Musthafa | B24CSA49 | Team Lead - architecture, integration, deployment |
-| Ayman Riaz | B24CSA17 | Frontend Development |
-| Faheem Shan | B24CSA20 | Backend Development |
-| Safdil Arafath | B24CSA54 | Admin Panel |
-| Shan M A | B24CSA59 | Notifications, Testing & Documentation |
+| Rasal Musthafa | B24CSA49 | Project setup, Landing page, Home page |
+| Ayman Riaz | B24CSA17 | Shared components (Navbar, Footer, Button design, Input) |
+| Faheem Shan | B24CSA20 | Student dashboard page, Application form, UI |
+| Safdil Arafath | B24CSA54 | Login & Registration page, Form validation UI |
+| Shan M A | B24CSA59 | Admin Panel UI, Application status tracking page |
 
 ## Course Details
 
