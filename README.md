@@ -1,8 +1,8 @@
-# KEAM Portal Clone — MERN Stack
+# KEAM Portal Clone - MERN Stack
 
 ## Description
 
-This project is an academic clone of the KEAM (Kerala Engineering, Architecture and Medicine) official portal, built using the MERN stack (MongoDB, Express.js, React.js, Node.js). It is developed as part of the Project Oriented Course (AWT) and aims to recreate the core functionalities of an online entrance exam admission system — including candidate registration, application submission, document upload, an admin panel, and application status tracking.
+This project is an academic clone of the KEAM (Kerala Engineering, Architecture and Medicine) official portal, built using the MERN stack (MongoDB, Express.js, React.js, Node.js). It is developed as part of the Project Oriented Course (AWT) and aims to recreate the core functionalities of an online entrance exam admission system - including candidate registration, application submission, document upload, an admin panel, and application status tracking.
 
 This project is developed purely for academic and educational purposes. It is not affiliated with, endorsed by, or connected to the Government of Kerala or the Commissioner for Entrance Examinations. Reference: [cee.kerala.gov.in](https://cee.kerala.gov.in/cee/index.php)
 
@@ -98,7 +98,7 @@ The frontend will run on `http://localhost:5173` (Vite's default) and the backen
 
 | Name | Roll Number | Role |
 |------|-------------|------|
-| Rasal Musthafa | B24CSA49 | Team Lead — architecture, integration, deployment |
+| Rasal Musthafa | B24CSA49 | Team Lead - architecture, integration, deployment |
 | Ayman Riaz | B24CSA17 | Frontend Development |
 | Faheem Shan | B24CSA20 | Backend Development |
 | Safdil Arafath | B24CSA54 | Admin Panel |
@@ -106,11 +106,11 @@ The frontend will run on `http://localhost:5173` (Vite's default) and the backen
 
 ## Course Details
 
-- **Course:** Advanced Web Technologies (AWT) — Project Oriented Course
+- **Course:** Advanced Web Technologies (AWT) - Project Oriented Course
 - **Faculty Guide:** Dr. Reshma Sheikh
 - **Department:** Computer Science and Engineering
 - **College:** TKM College of Engineering, Kollam
-- **Academic Year:** 2025 - 2026
+- **Academic Year:** 2026 - 2027
 
 ## License
 
