@@ -8,7 +8,9 @@ This project is developed purely for academic and educational purposes. It is no
 
 ## Status
 
-Currently working on the frontend split. Core UI components and pages (like Home, Login, and Header) are being actively developed.
+**Phase 1 (Active):** Building the frontend UI using plain HTML, CSS, and JavaScript. Landing page is complete; teammate pages are scaffolded and in progress.
+
+**Phase 2 (Planned):** Migrate the frontend to React (Vite) and integrate with the Express/MongoDB backend for a full MERN stack application.
 
 ## Tech Stack
 
@@ -23,15 +25,30 @@ Currently working on the frontend split. Core UI components and pages (like Home
 
 ```text
 keam-clone/
-├── frontend/               # React frontend (Vite)
-│   ├── public/
-│   ├── src/
+├── frontend/
+│   ├── phase1/                 # Phase 1 — Plain HTML/CSS/JS
+│   │   ├── index.html          # Landing/Home page (Rasal)
+│   │   ├── pages/
+│   │   │   ├── login.html      # Safdil
+│   │   │   ├── register.html   # Safdil
+│   │   │   ├── dashboard.html  # Faheem
+│   │   │   ├── application.html# Faheem
+│   │   │   ├── admin.html      # Shan
+│   │   │   └── status.html     # Shan
+│   │   ├── components/         # Shared navbar/footer (Ayman)
+│   │   ├── css/
+│   │   │   ├── style.css       # Shared base styles
+│   │   │   └── home.css        # Landing page styles
+│   │   └── js/
+│   │       ├── main.js         # Shared JS utilities
+│   │       └── home.js         # Landing page JS
+│   ├── src/                    # Phase 2 — React (Vite) scaffold
 │   │   ├── components/
 │   │   ├── pages/
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   └── package.json
-├── backend/                # Express backend
+├── backend/                    # Express backend
 │   ├── config/
 │   ├── models/
 │   ├── routes/
@@ -43,23 +60,38 @@ keam-clone/
 └── README.md
 ```
 
-## Frontend Split
+## Development Phases
 
-The React application is modularized and split into the following logical boundaries:
-- **Pages** (`src/pages/`): Container components mapping to application routes (e.g., `Home`, `Login`, `Dashboard`).
-- **Components** (`src/components/`): Reusable, smaller UI blocks (e.g., Form elements, Buttons).
-- **Layouts** (`src/components/layout/`): Structural templates used across multiple pages (e.g., `Header`).
-- **Routing**: Client-side navigation handled by React Router mapping URLs to specific page components.
+### Phase 1 — Static Frontend (Current)
+Plain HTML5, CSS3, and vanilla JavaScript. No frameworks, no libraries, no build tools.
+- **Pages** (`phase1/pages/`): Individual HTML pages for each feature (login, dashboard, admin, etc.).
+- **Components** (`phase1/components/`): Shared navbar and footer HTML/JS snippets injected across all pages.
+- **Shared Styles** (`phase1/css/style.css`): CSS reset, design tokens (colors, typography, spacing), and utility classes.
+- **Page Styles**: Each page can add its own CSS file (e.g., `home.css`, `login.css`) for page-specific rules.
+- Open `frontend/phase1/index.html` directly in a browser to preview.
+
+### Phase 2 — React + MERN Integration (Planned)
+- Migrate the static pages into React components using the existing Vite scaffold (`frontend/src/`).
+- Connect to the Express/MongoDB backend via REST APIs.
+- Implement JWT authentication, form submissions, and dynamic data rendering.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or later)
+- A web browser (for Phase 1)
+- Node.js v18+ and npm (for backend and Phase 2)
 - MongoDB (local instance or Atlas connection string)
-- npm
 
-### Installation
+### Phase 1 — View the Static Frontend
+
+No installation needed. Open the landing page directly:
+```
+frontend/phase1/index.html
+```
+Or use a local server (e.g., VS Code Live Server extension) for the best experience.
+
+### Backend Setup
 
 1. Clone the repository
    ```bash
@@ -73,34 +105,29 @@ The React application is modularized and split into the following logical bounda
    npm install
    ```
 
-3. Install frontend dependencies
-   ```bash
-   cd ../frontend
-   npm install
-   ```
-
-4. Set up environment variables
-
-   Create a `.env` file inside `backend/`:
+3. Create a `.env` file inside `backend/`:
    ```env
    PORT=5000
    MONGO_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret
    ```
 
-5. Run the backend
+4. Run the backend
    ```bash
-   cd backend
    npm run dev
    ```
 
-6. Run the frontend
-   ```bash
-   cd ../frontend
-   npm run dev
-   ```
+   The backend API will run on `http://localhost:5000`.
 
-The frontend will run on `http://localhost:5173` (Vite's default) and the backend API on `http://localhost:5000`.
+### Phase 2 — React Frontend (when ready)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The React dev server will run on `http://localhost:5173`.
 
 ## Team
 

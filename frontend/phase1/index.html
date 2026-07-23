@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="KEAM Portal Clone - Kerala Entrance Examination admission system. Academic project by TKM College of Engineering.">
+  <title>CEE Kerala - Entrance Examination Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       GOVERNMENT HEADER BAND
+       ============================================================ -->
+  <div class="govt-band">
+    <div class="container">
+      <span class="govt-band__label">Government of Kerala</span>
+      <div class="govt-band__links">
+        <span id="current-datetime"></span>
+        <a href="#">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+        <a href="#">RTI</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       NAVBAR - Placeholder for Ayman's shared component
+       Leave this element for him to populate via JS include.
+       ============================================================ -->
+  <header id="navbar">
+    <!-- Ayman: mount shared navbar here -->
+    <div class="container flex items-center justify-between" style="padding-block: 10px;">
+      <span style="color: #fff; font-size: 0.9rem;">Navigation (Ayman's component)</span>
+      <button id="nav-toggle" aria-label="Toggle navigation menu"
+              style="background:none; border:1px solid rgba(255,255,255,0.4); color:#fff; padding:6px 14px; cursor:pointer; font-size:0.85rem;">
+        Menu
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       PORTAL TITLE
+       ============================================================ -->
+  <section class="portal-title">
+    <div class="container">
+      <img src="assets/logo.png" alt="CEE Kerala Emblem" class="portal-title__emblem">
+      <div class="portal-title__text">
+        <h1>Office of the Commissioner for Entrance Examinations</h1>
+        <p class="subtitle">Candidate Portal - Kerala Entrance Examination System</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COURSE CATEGORY STRIP
+       Horizontal scrollable on mobile, wraps on desktop.
+       ============================================================ -->
+  <nav class="course-strip" aria-label="Course categories">
+    <ul class="course-strip__list">
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link course-strip__link--active">Engineering</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">Architecture</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">Medical</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">LLB (3 Year)</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">LLB (5 Year)</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">LLM</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">B.Pharm (LE)</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">PG Medical</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">PG Dental</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">PG Nursing</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">PG Ayurveda</a>
+      </li>
+      <li class="course-strip__item">
+        <a href="#" class="course-strip__link">M.Pharm</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main>
+
+    <!-- ----- Welcome / About Section (Full-width) ----- -->
+    <section class="welcome">
+      <div class="container">
+        <h2 class="welcome__heading">Welcome to the Candidate Portal</h2>
+        <p class="welcome__text">
+          The Entrance Commissionerate, established by the State Government, is the
+          statutory body responsible for conducting entrance examinations and managing
+          centralized allotment for admission to professional courses in Kerala.
+          This portal provides candidates with a single-window system for
+          registration, exam management, allotment tracking, and document
+          verification across all major professional streams including Engineering,
+          Medical, Legal, and Paramedical courses. The Centralized Allotment
+          Process (CAP) ensures transparent, merit-based admissions across all
+          participating institutions.
+        </p>
+      </div>
+    </section>
+
+    <!-- ----- Scrolling Notifications Ticker ----- -->
+    <section class="notifications-ticker" aria-label="Live notifications">
+      <div class="container">
+        <span class="notifications-ticker__label">Updates</span>
+        <div class="notifications-ticker__scroll">
+          <div class="notifications-ticker__track">
+            <!-- JS (home.js) will duplicate these items for seamless looping -->
+            <div class="notifications-ticker__item">
+              <a href="#">Engineering: Second phase allotment results have been published. Check the candidate portal for details.</a>
+            </div>
+            <div class="notifications-ticker__item">
+              <a href="#">Architecture: First phase allotment is now available. Candidates may verify their seat status.</a>
+            </div>
+            <div class="notifications-ticker__item">
+              <a href="#">Medical Courses: Document rectification window is open for eligible candidates.</a>
+            </div>
+            <div class="notifications-ticker__item">
+              <a href="#">PG Dental 2026: Online registration portal is now accepting applications.</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----- Candidate Portal Cards (Quick Links) ----- -->
+    <section class="portal-cards">
+      <div class="container">
+        <h2 class="portal-cards__heading">Candidate Portals</h2>
+        <p class="portal-cards__subtext">Select your course to access the dedicated candidate portal.</p>
+
+        <!-- Group: UG Admissions -->
+        <div class="portal-cards__group">
+          <h3 class="portal-cards__group-title">UG Admissions</h3>
+          <div class="portal-cards__grid">
+
+            <a href="#" class="portal-card" id="card-keam-2026">
+              <div class="portal-card__icon">
+                <!-- Gear icon - Engineering -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">KEAM 2026 - Candidate Portal</div>
+                <div class="portal-card__year">Engineering, Architecture &amp; Medical</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-llb3-2026">
+              <div class="portal-card__icon">
+                <!-- Scale icon - Law -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7l7-4 7 4"/><path d="M2 12l3-5 3 5"/><path d="M16 12l3-5 3 5"/><path d="M2 12h6"/><path d="M16 12h6"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">Three Year LL.B 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-llb5-2026">
+              <div class="portal-card__icon">
+                <!-- Scale icon - Law -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7l7-4 7 4"/><path d="M2 12l3-5 3 5"/><path d="M16 12l3-5 3 5"/><path d="M2 12h6"/><path d="M16 12h6"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">Integrated Five Year LL.B 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-bpharm-2026">
+              <div class="portal-card__icon">
+                <!-- Capsule icon - Pharmacy -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="2" width="15" height="20" rx="7.5"/><line x1="4.5" y1="12" x2="19.5" y2="12"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">B.Pharm (Lateral Entry) 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Group: PG Admissions -->
+        <div class="portal-cards__group">
+          <h3 class="portal-cards__group-title">PG Admissions</h3>
+          <div class="portal-cards__grid">
+
+            <a href="#" class="portal-card" id="card-pgm-2026">
+              <div class="portal-card__icon">
+                <!-- Medical cross icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8v6h6v8h-6v6H8v-6H2V8h6z"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">PG Medical 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-pgd-2026">
+              <div class="portal-card__icon">
+                <!-- Tooth icon - Dental -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3C4.5 3 3 5 3 7.5c0 3 2 5.5 3.5 8C8 18 8.5 21 9.5 21c1.5 0 1.5-3 2.5-3s1 3 2.5 3c1 0 1.5-3 3-5.5C19 13 21 10.5 21 7.5 21 5 19.5 3 17 3c-1.5 0-3 1-5 1S8.5 3 7 3z"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">PG Dental 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-pgn-2026">
+              <div class="portal-card__icon">
+                <!-- Heart icon - Nursing -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/><line x1="12" y1="10" x2="12" y2="16"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">PG Nursing 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-llm-2026">
+              <div class="portal-card__icon">
+                <!-- Scale icon - Law -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7l7-4 7 4"/><path d="M2 12l3-5 3 5"/><path d="M16 12l3-5 3 5"/><path d="M2 12h6"/><path d="M16 12h6"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">LL.M 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-pga-2026">
+              <div class="portal-card__icon">
+                <!-- Leaf icon - Ayurveda -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8C8 10 5.9 16.17 3.82 21.34"/><path d="M20.5 3.5C15 9 11 13.5 3.82 21.34"/><path d="M20.5 3.5C20.5 3.5 22 8.5 20 12c-2 3.5-5.5 6-9.5 7.5"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">PG Ayurveda 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-mpharm-2026">
+              <div class="portal-card__icon">
+                <!-- Capsule icon - Pharmacy -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="2" width="15" height="20" rx="7.5"/><line x1="4.5" y1="12" x2="19.5" y2="12"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">M.Pharm 2026</div>
+                <div class="portal-card__year">Candidate Portal</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Group: Other Links -->
+        <div class="portal-cards__group">
+          <h3 class="portal-cards__group-title">Other Links</h3>
+          <div class="portal-cards__grid">
+
+            <a href="#" class="portal-card" id="card-kmat-2026">
+              <div class="portal-card__icon">
+                <!-- Book icon - KMAT -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">K-MAT 2026 (Session 1)</div>
+                <div class="portal-card__year">Management Aptitude Test</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-kmat2-2026">
+              <div class="portal-card__icon">
+                <!-- Book icon - KMAT -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">K-MAT 2026 (Session 2)</div>
+                <div class="portal-card__year">Management Aptitude Test</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+            <a href="#" class="portal-card" id="card-nonutilization">
+              <div class="portal-card__icon">
+                <!-- File/document icon - Certificate -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <div class="portal-card__info">
+                <div class="portal-card__name">Non-Utilization Certificate</div>
+                <div class="portal-card__year">Defence Personnel &amp; Ex-Servicemen</div>
+              </div>
+              <span class="portal-card__arrow">&rarr;</span>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ----- Latest Notifications ----- -->
+    <section class="latest-notifications">
+      <div class="container">
+        <h2 class="latest-notifications__heading">Latest Notifications</h2>
+        <ul class="latest-notifications__list">
+          <li class="latest-notifications__item">
+            <span class="latest-notifications__bullet" aria-hidden="true"></span>
+            <a href="#" class="latest-notifications__link">
+              LLM 2026 - Candidates can now download admit cards from the portal
+              <span class="latest-notifications__badge">New</span>
+            </a>
+          </li>
+          <li class="latest-notifications__item">
+            <span class="latest-notifications__bullet" aria-hidden="true"></span>
+            <a href="#" class="latest-notifications__link">
+              PG Nursing 2026 - Admit card download is available for registered candidates
+              <span class="latest-notifications__badge">New</span>
+            </a>
+          </li>
+          <li class="latest-notifications__item">
+            <span class="latest-notifications__bullet" aria-hidden="true"></span>
+            <a href="#" class="latest-notifications__link">
+              LLM 2026 - Facility for correcting defective photo and signature is open
+            </a>
+          </li>
+          <li class="latest-notifications__item">
+            <span class="latest-notifications__bullet" aria-hidden="true"></span>
+            <a href="#" class="latest-notifications__link">
+              PG Nursing 2026 - Photo and signature correction window is now active
+            </a>
+          </li>
+          <li class="latest-notifications__item">
+            <span class="latest-notifications__bullet" aria-hidden="true"></span>
+            <a href="#" class="latest-notifications__link">
+              Three Year LL.B 2026 - Final answer key and candidate response published
+            </a>
+          </li>
+          <li class="latest-notifications__item">
+            <span class="latest-notifications__bullet" aria-hidden="true"></span>
+            <a href="#" class="latest-notifications__link">
+              Five Year LL.B 2026 - Final answer key and candidate response published
+            </a>
+          </li>
+          <li class="latest-notifications__item">
+            <span class="latest-notifications__bullet" aria-hidden="true"></span>
+            <a href="#" class="latest-notifications__link">
+              KEAM 2026 - Engineering rank list has been published
+            </a>
+          </li>
+          <li class="latest-notifications__item">
+            <span class="latest-notifications__bullet" aria-hidden="true"></span>
+            <a href="#" class="latest-notifications__link">
+              PG Dental 2026 - Application submission deadline extended to August 15
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       HELPLINE / CONTACT BAND
+       ============================================================ -->
+  <section class="helpline">
+    <div class="container">
+      <h4 class="helpline__title">Helpline &amp; Contact</h4>
+      <div class="helpline__details">
+        <div class="helpline__item">
+          <span class="helpline__item-label">Phone:</span>
+          <span class="helpline__item-value">0471-2525300</span>
+        </div>
+        <div class="helpline__item">
+          <span class="helpline__item-label">Email:</span>
+          <span class="helpline__item-value">caborhelp@cee.kerala.gov.in</span>
+        </div>
+        <div class="helpline__item">
+          <span class="helpline__item-label">Office:</span>
+          <span class="helpline__item-value">CEE, Housing Board Buildings, Santhi Nagar, Thiruvananthapuram</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER - Placeholder for Ayman's shared component
+       ============================================================ -->
+  <footer id="footer">
+    <!-- Ayman: mount shared footer here -->
+    <div class="container" style="padding-block: 20px; text-align: center;">
+      <p style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">
+        &copy; 2026 CEE Kerala Portal Clone - Academic Project, TKM College of Engineering
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts: shared utilities first, then page-specific -->
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
+
+</body>
+</html>
