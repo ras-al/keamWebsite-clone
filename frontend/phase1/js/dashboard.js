@@ -1,5 +1,5 @@
 /* ============================================================
-   DASHBOARD.JS — Page-specific JavaScript for dashboard.html
+   DASHBOARD.JS - Page-specific JavaScript for dashboard.html
    Author: Faheem Shan
    Dependencies: js/main.js must be loaded first.
    ============================================================ */
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var candidateData = {
     name: 'Arjun Krishnan S',
     applicationNo: 'KEAM2026018374',
-    exam: 'KEAM 2026 — Engineering',
+    exam: 'KEAM 2026 - Engineering',
     category: 'General',
     dob: '15-03-2008',
     gender: 'Male',
