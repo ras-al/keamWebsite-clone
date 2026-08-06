@@ -1,32 +1,1009 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Application Form — KEAM Portal Clone">
-  <title>Application Form — CEE Kerala</title>
+  <meta name="description"
+    content="Application Form - KEAM Portal Clone. Complete your KEAM entrance examination application with personal, academic, and document details.">
+  <title>Application Form - CEE Kerala</title>
   <link rel="stylesheet" href="../css/style.css">
-  <!-- Faheem: add your page-specific CSS file here, e.g. -->
-  <!-- <link rel="stylesheet" href="../css/application.css"> -->
+  <link rel="stylesheet" href="../css/application.css">
 </head>
+
 <body>
 
+  <!-- ============================================================
+       GOVERNMENT HEADER BAND
+       ============================================================ -->
+  <div class="govt-band">
+    <div class="container">
+      <span class="govt-band__label">Government of Kerala</span>
+      <div class="govt-band__links">
+        <span id="current-datetime"></span>
+        <a href="../index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       NAVBAR - Placeholder for Ayman's shared component
+       ============================================================ -->
   <header id="navbar">
-    <!-- Ayman: shared navbar component -->
+    <!-- Ayman: mount shared navbar here -->
+    <div class="container flex items-center justify-between" style="padding-block: 10px;">
+      <span style="color: #fff; font-size: 0.9rem;">Navigation (Ayman's component Part)</span>
+      <button id="nav-toggle" aria-label="Toggle navigation menu"
+        style="background:none; border:1px solid rgba(255,255,255,0.4); color:#fff; padding:6px 14px; cursor:pointer; font-size:0.85rem;">
+        Menu
+      </button>
+    </div>
   </header>
 
-  <main class="container">
-    <h1>Application Form</h1>
-    <p>Page owner: <strong>Faheem Shan</strong></p>
-    <!-- Faheem: build your application form here -->
+  <!-- ============================================================
+       APPLICATION HEADER
+       ============================================================ -->
+  <section class="app-header">
+    <div class="container">
+      <img src="../assets/logo.png" alt="CEE Kerala Emblem" class="app-header__emblem">
+      <div>
+        <h1 class="app-header__title">KEAM 2026 - Application Form</h1>
+        <p class="app-header__subtitle">Commissioner for Entrance Examinations, Kerala</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STEP PROGRESS INDICATOR
+       ============================================================ -->
+  <nav class="step-progress" aria-label="Application form steps">
+    <ol class="step-progress__list">
+      <li class="step-progress__item step-progress__item--active">
+        <button class="step-progress__button" type="button" aria-label="Step 1: Personal Details">
+          <span class="step-progress__circle"></span>
+          <span class="step-progress__label">Personal</span>
+        </button>
+      </li>
+      <li class="step-progress__item">
+        <button class="step-progress__button" type="button" aria-label="Step 2: Academic Details">
+          <span class="step-progress__circle"></span>
+          <span class="step-progress__label">Academic</span>
+        </button>
+      </li>
+      <li class="step-progress__item">
+        <button class="step-progress__button" type="button" aria-label="Step 3: Communication">
+          <span class="step-progress__circle"></span>
+          <span class="step-progress__label">Communication</span>
+        </button>
+      </li>
+      <li class="step-progress__item">
+        <button class="step-progress__button" type="button" aria-label="Step 4: Documents">
+          <span class="step-progress__circle"></span>
+          <span class="step-progress__label">Documents</span>
+        </button>
+      </li>
+      <li class="step-progress__item">
+        <button class="step-progress__button" type="button" aria-label="Step 5: Fee Payment">
+          <span class="step-progress__circle"></span>
+          <span class="step-progress__label">Payment</span>
+        </button>
+      </li>
+      <li class="step-progress__item">
+        <button class="step-progress__button" type="button" aria-label="Step 6: Review & Submit">
+          <span class="step-progress__circle"></span>
+          <span class="step-progress__label">Review</span>
+        </button>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- ============================================================
+       MAIN CONTENT - MULTI-STEP FORM
+       ============================================================ -->
+  <main class="form-container">
+    <div class="container">
+      <div class="form-card">
+
+        <!-- ========== STEP 1: Personal Details ========== -->
+        <div class="form-step form-step--active" id="step-personal">
+          <div class="form-card__header">
+            <h2 class="form-card__title">Personal Details</h2>
+            <p class="form-card__desc">Enter your personal information as it appears in official documents.</p>
+          </div>
+          <div class="form-card__body">
+
+            <div class="form-row form-row--2col">
+              <div class="form-group">
+                <label class="form-label" for="full-name">
+                  Full Name <span class="form-label__required">*</span>
+                </label>
+                <input type="text" id="full-name" class="form-input" placeholder="As in SSLC/10th certificate" required>
+                <span class="form-error">Full name is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="dob">
+                  Date of Birth <span class="form-label__required">*</span>
+                </label>
+                <input type="date" id="dob" class="form-input" required>
+                <span class="form-error">Date of birth is required</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--2col">
+              <div class="form-group">
+                <label class="form-label">
+                  Gender <span class="form-label__required">*</span>
+                </label>
+                <div class="form-radio-group">
+                  <label class="form-radio-label">
+                    <input type="radio" name="gender" value="male" required> Male
+                  </label>
+                  <label class="form-radio-label">
+                    <input type="radio" name="gender" value="female"> Female
+                  </label>
+                  <label class="form-radio-label">
+                    <input type="radio" name="gender" value="other"> Other
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="category">
+                  Category <span class="form-label__required">*</span>
+                </label>
+                <select id="category" class="form-select" required>
+                  <option value="">Select category</option>
+                  <option value="general">General</option>
+                  <option value="obc">OBC (Non-Creamy Layer)</option>
+                  <option value="sc">SC (Scheduled Caste)</option>
+                  <option value="st">ST (Scheduled Tribe)</option>
+                  <option value="obh">OBH</option>
+                  <option value="ews">EWS (Economically Weaker Section)</option>
+                </select>
+                <span class="form-error">Category is required</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--3col">
+              <div class="form-group">
+                <label class="form-label" for="religion">
+                  Religion <span class="form-label__required">*</span>
+                </label>
+                <select id="religion" class="form-select" required>
+                  <option value="">Select religion</option>
+                  <option value="hindu">Hindu</option>
+                  <option value="muslim">Muslim</option>
+                  <option value="christian">Christian</option>
+                  <option value="buddhist">Buddhist</option>
+                  <option value="sikh">Sikh</option>
+                  <option value="jain">Jain</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="form-error">Religion is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="nationality">
+                  Nationality <span class="form-label__required">*</span>
+                </label>
+                <input type="text" id="nationality" class="form-input" value="Indian" required>
+                <span class="form-error">Nationality is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="aadhaar">
+                  Aadhaar Number
+                </label>
+                <input type="text" id="aadhaar" class="form-input" placeholder="XXXX XXXX XXXX" maxlength="14">
+                <span class="form-hint">12-digit Aadhaar number</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--2col">
+              <div class="form-group">
+                <label class="form-label" for="father-name">
+                  Father's Name <span class="form-label__required">*</span>
+                </label>
+                <input type="text" id="father-name" class="form-input" placeholder="Father's full name" required>
+                <span class="form-error">Father's name is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mother-name">
+                  Mother's Name <span class="form-label__required">*</span>
+                </label>
+                <input type="text" id="mother-name" class="form-input" placeholder="Mother's full name" required>
+                <span class="form-error">Mother's name is required</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--2col">
+              <div class="form-group">
+                <label class="form-label" for="guardian-name">
+                  Guardian's Name
+                </label>
+                <input type="text" id="guardian-name" class="form-input" placeholder="If applicable">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="guardian-occupation">
+                  Guardian's Occupation
+                </label>
+                <input type="text" id="guardian-occupation" class="form-input" placeholder="Occupation">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ========== STEP 2: Academic Details ========== -->
+        <div class="form-step" id="step-academic">
+          <div class="form-card__header">
+            <h2 class="form-card__title">Academic Details</h2>
+            <p class="form-card__desc">Provide your qualifying examination details and academic records.</p>
+          </div>
+          <div class="form-card__body">
+
+            <div class="form-row form-row--2col">
+              <div class="form-group">
+                <label class="form-label" for="qualifying-exam">
+                  Qualifying Examination <span class="form-label__required">*</span>
+                </label>
+                <select id="qualifying-exam" class="form-select" required>
+                  <option value="">Select examination</option>
+                  <option value="plus2">Plus Two (HSE Kerala)</option>
+                  <option value="cbse12">CBSE Class XII</option>
+                  <option value="icse12">ISC (ICSE) Class XII</option>
+                  <option value="vhse">VHSE (Vocational Higher Secondary)</option>
+                  <option value="equivalent">Other Equivalent Exam</option>
+                </select>
+                <span class="form-error">Qualifying examination is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="board">
+                  Board / University <span class="form-label__required">*</span>
+                </label>
+                <select id="board" class="form-select" required>
+                  <option value="">Select board</option>
+                  <option value="dhse">DHSE Kerala</option>
+                  <option value="cbse">CBSE</option>
+                  <option value="icse">ICSE</option>
+                  <option value="nios">NIOS</option>
+                  <option value="other-state">Other State Board</option>
+                </select>
+                <span class="form-error">Board is required</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--3col">
+              <div class="form-group">
+                <label class="form-label" for="pass-year">
+                  Year of Passing <span class="form-label__required">*</span>
+                </label>
+                <select id="pass-year" class="form-select" required>
+                  <option value="">Select year</option>
+                  <option value="2026">2026</option>
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                  <option value="appearing">Appearing in 2026</option>
+                </select>
+                <span class="form-error">Year of passing is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="total-marks">
+                  Total Marks Obtained <span class="form-label__required">*</span>
+                </label>
+                <input type="number" id="total-marks" class="form-input" placeholder="e.g. 450" required>
+                <span class="form-error">Total marks is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="percentage">
+                  Percentage / CGPA <span class="form-label__required">*</span>
+                </label>
+                <input type="text" id="percentage" class="form-input" placeholder="e.g. 90.5 or 9.2" required>
+                <span class="form-error">Percentage is required</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--2col">
+              <div class="form-group">
+                <label class="form-label" for="school-name">
+                  School / Institution Name <span class="form-label__required">*</span>
+                </label>
+                <input type="text" id="school-name" class="form-input" placeholder="Name of school" required>
+                <span class="form-error">School name is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="school-district">
+                  School District <span class="form-label__required">*</span>
+                </label>
+                <select id="school-district" class="form-select" required>
+                  <option value="">Select district</option>
+                  <option value="thiruvananthapuram">Thiruvananthapuram</option>
+                  <option value="kollam">Kollam</option>
+                  <option value="pathanamthitta">Pathanamthitta</option>
+                  <option value="alappuzha">Alappuzha</option>
+                  <option value="kottayam">Kottayam</option>
+                  <option value="idukki">Idukki</option>
+                  <option value="ernakulam">Ernakulam</option>
+                  <option value="thrissur">Thrissur</option>
+                  <option value="palakkad">Palakkad</option>
+                  <option value="malappuram">Malappuram</option>
+                  <option value="kozhikode">Kozhikode</option>
+                  <option value="wayanad">Wayanad</option>
+                  <option value="kannur">Kannur</option>
+                  <option value="kasaragod">Kasaragod</option>
+                </select>
+                <span class="form-error">District is required</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">
+                  Subjects Studied <span class="form-label__required">*</span>
+                </label>
+                <div class="form-radio-group">
+                  <label class="form-radio-label">
+                    <input type="checkbox" name="subjects" value="physics"> Physics
+                  </label>
+                  <label class="form-radio-label">
+                    <input type="checkbox" name="subjects" value="chemistry"> Chemistry
+                  </label>
+                  <label class="form-radio-label">
+                    <input type="checkbox" name="subjects" value="mathematics"> Mathematics
+                  </label>
+                  <label class="form-radio-label">
+                    <input type="checkbox" name="subjects" value="biology"> Biology
+                  </label>
+                  <label class="form-radio-label">
+                    <input type="checkbox" name="subjects" value="computer-science"> Computer Science
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ========== STEP 3: Communication Details ========== -->
+        <div class="form-step" id="step-communication">
+          <div class="form-card__header">
+            <h2 class="form-card__title">Communication Details</h2>
+            <p class="form-card__desc">Provide your current address and contact information for official communication.
+            </p>
+          </div>
+          <div class="form-card__body">
+
+            <div class="form-row">
+              <div class="form-group form-group--full">
+                <label class="form-label" for="address">
+                  Address for Communication <span class="form-label__required">*</span>
+                </label>
+                <textarea id="address" class="form-textarea" placeholder="House name/number, street, locality" rows="3"
+                  required></textarea>
+                <span class="form-error">Address is required</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--3col">
+              <div class="form-group">
+                <label class="form-label" for="district">
+                  District <span class="form-label__required">*</span>
+                </label>
+                <select id="district" class="form-select" required>
+                  <option value="">Select district</option>
+                  <option value="thiruvananthapuram">Thiruvananthapuram</option>
+                  <option value="kollam">Kollam</option>
+                  <option value="pathanamthitta">Pathanamthitta</option>
+                  <option value="alappuzha">Alappuzha</option>
+                  <option value="kottayam">Kottayam</option>
+                  <option value="idukki">Idukki</option>
+                  <option value="ernakulam">Ernakulam</option>
+                  <option value="thrissur">Thrissur</option>
+                  <option value="palakkad">Palakkad</option>
+                  <option value="malappuram">Malappuram</option>
+                  <option value="kozhikode">Kozhikode</option>
+                  <option value="wayanad">Wayanad</option>
+                  <option value="kannur">Kannur</option>
+                  <option value="kasaragod">Kasaragod</option>
+                </select>
+                <span class="form-error">District is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="state">
+                  State <span class="form-label__required">*</span>
+                </label>
+                <select id="state" class="form-select" required>
+                  <option value="">Select state</option>
+                  <option value="kerala" selected>Kerala</option>
+                  <option value="tamilnadu">Tamil Nadu</option>
+                  <option value="karnataka">Karnataka</option>
+                  <option value="andhra">Andhra Pradesh</option>
+                  <option value="telangana">Telangana</option>
+                  <option value="maharashtra">Maharashtra</option>
+                  <option value="delhi">Delhi</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="form-error">State is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pincode">
+                  PIN Code <span class="form-label__required">*</span>
+                </label>
+                <input type="text" id="pincode" class="form-input" placeholder="6-digit PIN" maxlength="6" required>
+                <span class="form-error">PIN code is required</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--2col">
+              <div class="form-group">
+                <label class="form-label" for="mobile">
+                  Mobile Number <span class="form-label__required">*</span>
+                </label>
+                <input type="tel" id="mobile" class="form-input" placeholder="10-digit mobile number" maxlength="10"
+                  required>
+                <span class="form-error">Valid mobile number is required</span>
+                <span class="form-hint">OTPs and alerts will be sent to this number</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">
+                  Email Address <span class="form-label__required">*</span>
+                </label>
+                <input type="email" id="email" class="form-input" placeholder="your.email@example.com" required>
+                <span class="form-error">Valid email address is required</span>
+                <span class="form-hint">Admit card and notifications will be sent here</span>
+              </div>
+            </div>
+
+            <div class="form-row form-row--2col">
+              <div class="form-group">
+                <label class="form-label" for="alt-phone">
+                  Alternate Phone
+                </label>
+                <input type="tel" id="alt-phone" class="form-input" placeholder="Landline or alternate mobile"
+                  maxlength="12">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="exam-center-pref">
+                  Exam Center Preference
+                </label>
+                <select id="exam-center-pref" class="form-select">
+                  <option value="">Select preferred center</option>
+                  <option value="thiruvananthapuram">Thiruvananthapuram</option>
+                  <option value="kollam">Kollam</option>
+                  <option value="ernakulam">Ernakulam</option>
+                  <option value="thrissur">Thrissur</option>
+                  <option value="kozhikode">Kozhikode</option>
+                  <option value="kannur">Kannur</option>
+                </select>
+                <span class="form-hint">Subject to availability</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ========== STEP 4: Document Upload ========== -->
+        <div class="form-step" id="step-documents">
+          <div class="form-card__header">
+            <h2 class="form-card__title">Document Upload</h2>
+            <p class="form-card__desc">Upload scanned copies of the required documents. Ensure clarity and correct file
+              specifications.</p>
+          </div>
+          <div class="form-card__body">
+
+            <div class="documents-grid">
+
+              <!-- Passport Photo -->
+              <div class="document-item">
+                <span class="document-item__label">Passport Size Photograph <span
+                    class="form-label__required">*</span></span>
+                <span class="document-item__specs">JPEG/PNG • Max 100KB • 150×200 px recommended</span>
+                <div class="file-upload" id="upload-photo">
+                  <div class="file-upload__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                  </div>
+                  <div class="file-upload__text">Click to upload or <strong>drag & drop</strong></div>
+                  <div class="file-upload__hint">JPEG or PNG, max 100KB</div>
+                  <input type="file" class="file-upload__input" accept="image/jpeg,image/png" id="photo-input">
+                  <div class="file-upload__preview">
+                    <img src="" alt="Photo preview">
+                    <div class="file-upload__preview-name"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Signature -->
+              <div class="document-item">
+                <span class="document-item__label">Candidate's Signature <span
+                    class="form-label__required">*</span></span>
+                <span class="document-item__specs">JPEG/PNG • Max 50KB • 300×100 px recommended</span>
+                <div class="file-upload" id="upload-signature">
+                  <div class="file-upload__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                      <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                      <path d="M2 2l7.586 7.586" />
+                      <circle cx="11" cy="11" r="2" />
+                    </svg>
+                  </div>
+                  <div class="file-upload__text">Click to upload or <strong>drag & drop</strong></div>
+                  <div class="file-upload__hint">JPEG or PNG, max 50KB</div>
+                  <input type="file" class="file-upload__input" accept="image/jpeg,image/png" id="signature-input">
+                  <div class="file-upload__preview">
+                    <img src="" alt="Signature preview">
+                    <div class="file-upload__preview-name"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SSLC Certificate -->
+              <div class="document-item">
+                <span class="document-item__label">SSLC / 10th Mark Sheet</span>
+                <span class="document-item__specs">PDF/JPEG • Max 500KB</span>
+                <div class="file-upload" id="upload-sslc">
+                  <div class="file-upload__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                  </div>
+                  <div class="file-upload__text">Click to upload or <strong>drag & drop</strong></div>
+                  <div class="file-upload__hint">PDF or JPEG, max 500KB</div>
+                  <input type="file" class="file-upload__input" accept=".pdf,image/jpeg" id="sslc-input">
+                  <div class="file-upload__preview">
+                    <img src="" alt="Document preview">
+                    <div class="file-upload__preview-name"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Plus Two Certificate -->
+              <div class="document-item">
+                <span class="document-item__label">Plus Two / 12th Mark Sheet</span>
+                <span class="document-item__specs">PDF/JPEG • Max 500KB</span>
+                <div class="file-upload" id="upload-plus2">
+                  <div class="file-upload__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                  </div>
+                  <div class="file-upload__text">Click to upload or <strong>drag & drop</strong></div>
+                  <div class="file-upload__hint">PDF or JPEG, max 500KB</div>
+                  <input type="file" class="file-upload__input" accept=".pdf,image/jpeg" id="plus2-input">
+                  <div class="file-upload__preview">
+                    <img src="" alt="Document preview">
+                    <div class="file-upload__preview-name"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Community Certificate -->
+              <div class="document-item">
+                <span class="document-item__label">Community / Caste Certificate</span>
+                <span class="document-item__specs">PDF/JPEG • Max 500KB • If applicable</span>
+                <div class="file-upload" id="upload-community">
+                  <div class="file-upload__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                  </div>
+                  <div class="file-upload__text">Click to upload or <strong>drag & drop</strong></div>
+                  <div class="file-upload__hint">PDF or JPEG, max 500KB</div>
+                  <input type="file" class="file-upload__input" accept=".pdf,image/jpeg" id="community-input">
+                  <div class="file-upload__preview">
+                    <img src="" alt="Document preview">
+                    <div class="file-upload__preview-name"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Income Certificate -->
+              <div class="document-item">
+                <span class="document-item__label">Income Certificate</span>
+                <span class="document-item__specs">PDF/JPEG • Max 500KB • For fee concession</span>
+                <div class="file-upload" id="upload-income">
+                  <div class="file-upload__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                  </div>
+                  <div class="file-upload__text">Click to upload or <strong>drag & drop</strong></div>
+                  <div class="file-upload__hint">PDF or JPEG, max 500KB</div>
+                  <input type="file" class="file-upload__input" accept=".pdf,image/jpeg" id="income-input">
+                  <div class="file-upload__preview">
+                    <img src="" alt="Document preview">
+                    <div class="file-upload__preview-name"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ========== STEP 5: Fee Payment ========== -->
+        <div class="form-step" id="step-payment">
+          <div class="form-card__header">
+            <h2 class="form-card__title">Fee Payment</h2>
+            <p class="form-card__desc">Review the fee structure and select your preferred payment method.</p>
+          </div>
+          <div class="form-card__body">
+
+            <!-- Fee Summary -->
+            <div class="fee-summary">
+              <div class="fee-summary__row">
+                <span>Application Fee</span>
+                <span>₹ 700.00</span>
+              </div>
+              <div class="fee-summary__row">
+                <span>Examination Fee</span>
+                <span>₹ 100.00</span>
+              </div>
+              <div class="fee-summary__row">
+                <span>Processing Charge</span>
+                <span>₹ 0.00</span>
+              </div>
+              <div class="fee-summary__row fee-summary__row--total">
+                <span>Total Amount Payable</span>
+                <span>₹ 800.00</span>
+              </div>
+            </div>
+
+            <h3 style="font-size: var(--fs-md); color: var(--color-navy); margin-bottom: var(--space-md);">Select
+              Payment Method</h3>
+
+            <!-- Payment Methods -->
+            <div class="payment-methods">
+
+              <label class="payment-method payment-method--selected">
+                <input type="radio" name="payment-method" value="netbanking" class="payment-method__radio" checked>
+                <div class="payment-method__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M3 21h18" />
+                    <path d="M3 10h18" />
+                    <path d="M5 6l7-3 7 3" />
+                    <path d="M4 10v11" />
+                    <path d="M20 10v11" />
+                    <path d="M8 14v4" />
+                    <path d="M12 14v4" />
+                    <path d="M16 14v4" />
+                  </svg>
+                </div>
+                <div class="payment-method__info">
+                  <div class="payment-method__name">Net Banking</div>
+                  <div class="payment-method__desc">Pay through your bank's online portal</div>
+                </div>
+              </label>
+
+              <label class="payment-method">
+                <input type="radio" name="payment-method" value="debit-card" class="payment-method__radio">
+                <div class="payment-method__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                    <line x1="1" y1="10" x2="23" y2="10" />
+                  </svg>
+                </div>
+                <div class="payment-method__info">
+                  <div class="payment-method__name">Debit Card</div>
+                  <div class="payment-method__desc">Visa, MasterCard, RuPay</div>
+                </div>
+              </label>
+
+              <label class="payment-method">
+                <input type="radio" name="payment-method" value="credit-card" class="payment-method__radio">
+                <div class="payment-method__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                    <line x1="1" y1="10" x2="23" y2="10" />
+                    <line x1="7" y1="15" x2="13" y2="15" />
+                  </svg>
+                </div>
+                <div class="payment-method__info">
+                  <div class="payment-method__name">Credit Card</div>
+                  <div class="payment-method__desc">Visa, MasterCard, American Express</div>
+                </div>
+              </label>
+
+              <label class="payment-method">
+                <input type="radio" name="payment-method" value="upi" class="payment-method__radio">
+                <div class="payment-method__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                    <line x1="12" y1="18" x2="12.01" y2="18" />
+                  </svg>
+                </div>
+                <div class="payment-method__info">
+                  <div class="payment-method__name">UPI</div>
+                  <div class="payment-method__desc">Google Pay, PhonePe, Paytm, BHIM</div>
+                </div>
+              </label>
+
+            </div>
+
+            <p style="font-size: var(--fs-xs); color: var(--color-mid-gray); margin-top: var(--space-md);">
+              Note: Payment processing is simulated in this academic project. No actual transaction will take place.
+              SC/ST candidates and candidates with annual family income below ₹1 lakh are eligible for fee concession.
+            </p>
+
+          </div>
+        </div>
+
+        <!-- ========== STEP 6: Review & Submit ========== -->
+        <div class="form-step" id="step-review">
+          <div class="form-card__header">
+            <h2 class="form-card__title">Review & Submit</h2>
+            <p class="form-card__desc">Please review all the details carefully before submitting your application. Once
+              submitted, modifications will only be allowed during designated correction windows.</p>
+          </div>
+          <div class="form-card__body">
+
+            <!-- Personal Details Review -->
+            <div class="review-section">
+              <h3 class="review-section__title">
+                Personal Details
+                <a href="#" class="review-section__edit" data-step="0">Edit</a>
+              </h3>
+              <table class="review-table">
+                <tr>
+                  <th>Full Name</th>
+                  <td id="review-name">-</td>
+                </tr>
+                <tr>
+                  <th>Date of Birth</th>
+                  <td id="review-dob">-</td>
+                </tr>
+                <tr>
+                  <th>Gender</th>
+                  <td id="review-gender">-</td>
+                </tr>
+                <tr>
+                  <th>Category</th>
+                  <td id="review-category">-</td>
+                </tr>
+                <tr>
+                  <th>Religion</th>
+                  <td id="review-religion">-</td>
+                </tr>
+                <tr>
+                  <th>Nationality</th>
+                  <td id="review-nationality">-</td>
+                </tr>
+                <tr>
+                  <th>Aadhaar Number</th>
+                  <td id="review-aadhaar">-</td>
+                </tr>
+                <tr>
+                  <th>Father's Name</th>
+                  <td id="review-father">-</td>
+                </tr>
+                <tr>
+                  <th>Mother's Name</th>
+                  <td id="review-mother">-</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Academic Details Review -->
+            <div class="review-section">
+              <h3 class="review-section__title">
+                Academic Details
+                <a href="#" class="review-section__edit" data-step="1">Edit</a>
+              </h3>
+              <table class="review-table">
+                <tr>
+                  <th>Qualifying Exam</th>
+                  <td id="review-qualifying">-</td>
+                </tr>
+                <tr>
+                  <th>Board / University</th>
+                  <td id="review-board">-</td>
+                </tr>
+                <tr>
+                  <th>Year of Passing</th>
+                  <td id="review-pass-year">-</td>
+                </tr>
+                <tr>
+                  <th>School Name</th>
+                  <td id="review-school">-</td>
+                </tr>
+                <tr>
+                  <th>Total Marks</th>
+                  <td id="review-marks">-</td>
+                </tr>
+                <tr>
+                  <th>Percentage / CGPA</th>
+                  <td id="review-percentage">-</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Communication Details Review -->
+            <div class="review-section">
+              <h3 class="review-section__title">
+                Communication Details
+                <a href="#" class="review-section__edit" data-step="2">Edit</a>
+              </h3>
+              <table class="review-table">
+                <tr>
+                  <th>Address</th>
+                  <td id="review-address">-</td>
+                </tr>
+                <tr>
+                  <th>District</th>
+                  <td id="review-district">-</td>
+                </tr>
+                <tr>
+                  <th>State</th>
+                  <td id="review-state">-</td>
+                </tr>
+                <tr>
+                  <th>PIN Code</th>
+                  <td id="review-pincode">-</td>
+                </tr>
+                <tr>
+                  <th>Mobile Number</th>
+                  <td id="review-mobile">-</td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td id="review-email">-</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Payment Review -->
+            <div class="review-section">
+              <h3 class="review-section__title">
+                Fee Payment
+                <a href="#" class="review-section__edit" data-step="4">Edit</a>
+              </h3>
+              <table class="review-table">
+                <tr>
+                  <th>Amount</th>
+                  <td>₹ 800.00</td>
+                </tr>
+                <tr>
+                  <th>Payment Method</th>
+                  <td id="review-payment">-</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Declaration -->
+            <div class="declaration">
+              <p class="declaration__text">
+                I hereby declare that all the information provided in this application is true, complete, and correct
+                to the best of my knowledge and belief. I understand that in the event of any information being found
+                false or incorrect at any stage, my candidature/admission is liable to be cancelled. I agree to abide
+                by the rules and regulations of the Commissioner for Entrance Examinations, Government of Kerala.
+              </p>
+              <div class="declaration__checkbox">
+                <input type="checkbox" id="declaration-check">
+                <label for="declaration-check">
+                  I have read and agree to the above declaration and the terms and conditions of CEE Kerala.
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===== Form Navigation ===== -->
+        <div class="form-nav">
+          <button type="button" class="btn btn--secondary" id="btn-prev" style="visibility: hidden;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Previous
+          </button>
+          <button type="button" class="btn btn--primary" id="btn-next">
+            Next Step
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </button>
+          <button type="button" class="btn btn--success" id="btn-submit" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Submit Application
+          </button>
+        </div>
+
+      </div>
+    </div>
   </main>
 
+  <!-- ============================================================
+       SUCCESS MODAL
+       ============================================================ -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal">
+      <div class="modal__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      <h3 class="modal__title">Application Submitted!</h3>
+      <p class="modal__text">
+        Your KEAM 2026 application has been submitted successfully.
+        Please save your application number for future reference.
+      </p>
+      <div class="modal__app-number">KEAM2026018374</div>
+      <a href="dashboard.html" class="btn btn--primary" id="modal-close">Go to Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HELPLINE / CONTACT BAND
+       ============================================================ -->
+  <section class="helpline">
+    <div class="container">
+      <h4 class="helpline__title">Helpline &amp; Contact</h4>
+      <div class="helpline__details">
+        <div class="helpline__item">
+          <span class="helpline__item-label">Phone:</span>
+          <span class="helpline__item-value">0471-2525300</span>
+        </div>
+        <div class="helpline__item">
+          <span class="helpline__item-label">Email:</span>
+          <span class="helpline__item-value">caborhelp@cee.kerala.gov.in</span>
+        </div>
+        <div class="helpline__item">
+          <span class="helpline__item-label">Office:</span>
+          <span class="helpline__item-value">CEE, Housing Board Buildings, Santhi Nagar, Thiruvananthapuram</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER - Placeholder for Ayman's shared component
+       ============================================================ -->
   <footer id="footer">
-    <!-- Ayman: shared footer component -->
+    <!-- Ayman: mount shared footer here -->
+    <div class="container" style="padding-block: 20px; text-align: center;">
+      <p style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">
+        &copy; 2026 CEE Kerala Portal Clone - Academic Project, TKM College of Engineering
+      </p>
+    </div>
   </footer>
 
+  <!-- Scripts: shared utilities first, then page-specific -->
   <script src="../js/main.js"></script>
-  <!-- <script src="../js/application.js"></script> -->
+  <script src="../js/application.js"></script>
 
 </body>
+
 </html>

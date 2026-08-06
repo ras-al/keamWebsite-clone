@@ -1,32 +1,430 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Student Dashboard — KEAM Portal Clone">
+  <meta name="description" content="Student Dashboard — KEAM Portal Clone. View your application status, download admit cards, and manage your candidate profile.">
   <title>Student Dashboard — CEE Kerala</title>
   <link rel="stylesheet" href="../css/style.css">
-  <!-- Faheem: add your page-specific CSS file here, e.g. -->
-  <!-- <link rel="stylesheet" href="../css/dashboard.css"> -->
+  <link rel="stylesheet" href="../css/dashboard.css">
 </head>
+
 <body>
 
+  <!-- ============================================================
+       GOVERNMENT HEADER BAND
+       ============================================================ -->
+  <div class="govt-band">
+    <div class="container">
+      <span class="govt-band__label">Government of Kerala</span>
+      <div class="govt-band__links">
+        <span id="current-datetime"></span>
+        <a href="../index.html">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       NAVBAR - Placeholder for Ayman's shared component
+       ============================================================ -->
   <header id="navbar">
-    <!-- Ayman: shared navbar component -->
+    <!-- Ayman: mount shared navbar here -->
+    <div class="container flex items-center justify-between" style="padding-block: 10px;">
+      <span style="color: #fff; font-size: 0.9rem;">Navigation (Ayman's component Part)</span>
+      <button id="nav-toggle" aria-label="Toggle navigation menu"
+        style="background:none; border:1px solid rgba(255,255,255,0.4); color:#fff; padding:6px 14px; cursor:pointer; font-size:0.85rem;">
+        Menu
+      </button>
+    </div>
   </header>
 
-  <main class="container">
-    <h1>Student Dashboard</h1>
-    <p>Page owner: <strong>Faheem Shan</strong></p>
-    <!-- Faheem: build your dashboard layout here -->
+  <!-- ============================================================
+       DASHBOARD HEADER
+       ============================================================ -->
+  <section class="dashboard-header">
+    <div class="container">
+      <div class="dashboard-header__left">
+        <img src="../assets/logo.png" alt="CEE Kerala Emblem" class="dashboard-header__emblem">
+        <div>
+          <h1 class="dashboard-header__title">Candidate Dashboard</h1>
+          <p class="dashboard-header__subtitle">Office of the Commissioner for Entrance Examinations</p>
+        </div>
+      </div>
+      <div class="dashboard-header__actions">
+        <a href="application.html" class="btn btn--primary">
+          <!-- Edit icon -->
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          My Application
+        </a>
+        <a href="login.html" class="btn btn--outline">
+          <!-- Logout icon -->
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Logout
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main class="dashboard-layout">
+    <div class="container">
+      <div class="dashboard-grid">
+
+        <!-- ===== Profile Card ===== -->
+        <div class="profile-card">
+          <div class="profile-card__header">
+            <div class="profile-card__avatar">
+              <!-- User silhouette -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="profile-card__identity">
+              <div class="profile-card__name" id="profile-name">Loading...</div>
+              <div class="profile-card__app-no">Application No: <span id="profile-app-no">—</span></div>
+              <span class="profile-card__status-tag profile-card__status-tag--active">Application Submitted</span>
+            </div>
+          </div>
+          <div class="profile-card__body">
+            <div class="profile-card__details">
+              <div class="profile-card__field">
+                <span class="profile-card__field-label">Exam Stream</span>
+                <span class="profile-card__field-value" id="profile-exam">—</span>
+              </div>
+              <div class="profile-card__field">
+                <span class="profile-card__field-label">Category</span>
+                <span class="profile-card__field-value" id="profile-category">—</span>
+              </div>
+              <div class="profile-card__field">
+                <span class="profile-card__field-label">Date of Birth</span>
+                <span class="profile-card__field-value" id="profile-dob">—</span>
+              </div>
+              <div class="profile-card__field">
+                <span class="profile-card__field-label">Gender</span>
+                <span class="profile-card__field-value" id="profile-gender">—</span>
+              </div>
+              <div class="profile-card__field">
+                <span class="profile-card__field-label">Mobile</span>
+                <span class="profile-card__field-value" id="profile-phone">—</span>
+              </div>
+              <div class="profile-card__field">
+                <span class="profile-card__field-label">Email</span>
+                <span class="profile-card__field-value" id="profile-email">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Application Status Timeline ===== -->
+        <section class="status-timeline">
+          <h2 class="section-title">Application Progress</h2>
+          <div class="timeline">
+
+            <div class="timeline__step">
+              <div class="timeline__dot"></div>
+              <div class="timeline__step-title">Registration</div>
+              <div class="timeline__step-date">Completed: 12-Jun-2026</div>
+            </div>
+
+            <div class="timeline__step">
+              <div class="timeline__dot"></div>
+              <div class="timeline__step-title">Application Submitted</div>
+              <div class="timeline__step-date">Completed: 14-Jun-2026</div>
+            </div>
+
+            <div class="timeline__step">
+              <div class="timeline__dot"></div>
+              <div class="timeline__step-title">Fee Payment</div>
+              <div class="timeline__step-date">Completed: 14-Jun-2026</div>
+            </div>
+
+            <div class="timeline__step">
+              <div class="timeline__dot"></div>
+              <div class="timeline__step-title">Admit Card</div>
+              <div class="timeline__step-date">Downloaded: 25-Jul-2026</div>
+            </div>
+
+            <div class="timeline__step">
+              <div class="timeline__dot"></div>
+              <div class="timeline__step-title">Examination</div>
+              <div class="timeline__step-date">Scheduled: 10-Aug-2026</div>
+              <div class="timeline__step-desc">Engineering Paper I & II</div>
+            </div>
+
+            <div class="timeline__step">
+              <div class="timeline__dot"></div>
+              <div class="timeline__step-title">Results</div>
+              <div class="timeline__step-date">Expected: Sep 2026</div>
+            </div>
+
+            <div class="timeline__step">
+              <div class="timeline__dot"></div>
+              <div class="timeline__step-title">Allotment</div>
+              <div class="timeline__step-date">Expected: Oct 2026</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===== Quick Actions ===== -->
+        <section class="quick-actions">
+          <h2 class="section-title">Quick Actions</h2>
+          <div class="quick-actions__grid">
+
+            <a href="#" class="action-card" id="action-admit-card">
+              <div class="action-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+              </div>
+              <span class="action-card__label">Download Admit Card</span>
+              <span class="action-card__desc">Hall ticket for exam day</span>
+            </a>
+
+            <a href="#" class="action-card" id="action-rank-card">
+              <div class="action-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <span class="action-card__label">View Rank Card</span>
+              <span class="action-card__desc">Score & rank details</span>
+            </a>
+
+            <a href="#" class="action-card" id="action-allotment">
+              <div class="action-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <span class="action-card__label">Check Allotment</span>
+              <span class="action-card__desc">Seat allotment status</span>
+            </a>
+
+            <a href="#" class="action-card" id="action-documents">
+              <div class="action-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+              </div>
+              <span class="action-card__label">Upload Documents</span>
+              <span class="action-card__desc">Certificates & mark lists</span>
+            </a>
+
+            <a href="#" class="action-card" id="action-option-reg">
+              <div class="action-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="8" y1="6" x2="21" y2="6"/>
+                  <line x1="8" y1="12" x2="21" y2="12"/>
+                  <line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/>
+                  <line x1="3" y1="12" x2="3.01" y2="12"/>
+                  <line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+              </div>
+              <span class="action-card__label">Option Registration</span>
+              <span class="action-card__desc">College preferences</span>
+            </a>
+
+            <a href="#" class="action-card" id="action-pay-fee">
+              <div class="action-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                  <line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+              </div>
+              <span class="action-card__label">Pay Fee</span>
+              <span class="action-card__desc">Admission fee payment</span>
+            </a>
+
+          </div>
+        </section>
+
+        <!-- ===== Important Dates ===== -->
+        <section class="important-dates">
+          <h2 class="section-title">Important Dates</h2>
+          <ul class="dates-list">
+
+            <li class="dates-list__item">
+              <div class="dates-list__date-box">
+                <div class="dates-list__month">Aug</div>
+                <div class="dates-list__day">10</div>
+              </div>
+              <div class="dates-list__info">
+                <div class="dates-list__title">KEAM 2026 — Engineering Exam</div>
+                <div class="dates-list__subtitle">Paper I & II • Reporting at 8:30 AM</div>
+              </div>
+            </li>
+
+            <li class="dates-list__item">
+              <div class="dates-list__date-box">
+                <div class="dates-list__month">Aug</div>
+                <div class="dates-list__day">15</div>
+              </div>
+              <div class="dates-list__info">
+                <div class="dates-list__title">PG Dental — Application Deadline</div>
+                <div class="dates-list__subtitle">Last date for online submission</div>
+              </div>
+            </li>
+
+            <li class="dates-list__item">
+              <div class="dates-list__date-box">
+                <div class="dates-list__month">Sep</div>
+                <div class="dates-list__day">05</div>
+              </div>
+              <div class="dates-list__info">
+                <div class="dates-list__title">KEAM 2026 — Result Publication</div>
+                <div class="dates-list__subtitle">Rank list expected (tentative)</div>
+              </div>
+            </li>
+
+            <li class="dates-list__item">
+              <div class="dates-list__date-box">
+                <div class="dates-list__month">Oct</div>
+                <div class="dates-list__day">01</div>
+              </div>
+              <div class="dates-list__info">
+                <div class="dates-list__title">Option Registration Opens</div>
+                <div class="dates-list__subtitle">College-course preference entry</div>
+              </div>
+            </li>
+
+            <li class="dates-list__item">
+              <div class="dates-list__date-box">
+                <div class="dates-list__month">Oct</div>
+                <div class="dates-list__day">20</div>
+              </div>
+              <div class="dates-list__info">
+                <div class="dates-list__title">First Phase Allotment</div>
+                <div class="dates-list__subtitle">CAP Phase 1 result publication</div>
+              </div>
+            </li>
+
+          </ul>
+        </section>
+
+        <!-- ===== Recent Notifications ===== -->
+        <section class="recent-notifications">
+          <h2 class="section-title">Recent Notifications</h2>
+          <ul class="notification-list">
+
+            <li class="notification-list__item">
+              <span class="notification-list__icon notification-list__icon--new"></span>
+              <div class="notification-list__content">
+                <div class="notification-list__text">
+                  <a href="#">Your admit card for Engineering Paper I & II is now available for download.</a>
+                  <span class="notification-list__badge">New</span>
+                </div>
+                <div class="notification-list__time">2 hours ago</div>
+              </div>
+            </li>
+
+            <li class="notification-list__item">
+              <span class="notification-list__icon notification-list__icon--success"></span>
+              <div class="notification-list__content">
+                <div class="notification-list__text">
+                  <a href="#">Application fee of ₹800 has been successfully processed. Transaction ID: TXN2026071400042</a>
+                </div>
+                <div class="notification-list__time">22-Jul-2026</div>
+              </div>
+            </li>
+
+            <li class="notification-list__item">
+              <span class="notification-list__icon notification-list__icon--info"></span>
+              <div class="notification-list__content">
+                <div class="notification-list__text">
+                  <a href="#">Photo and signature correction window is now closed. No further modifications allowed.</a>
+                </div>
+                <div class="notification-list__time">18-Jul-2026</div>
+              </div>
+            </li>
+
+            <li class="notification-list__item">
+              <span class="notification-list__icon notification-list__icon--success"></span>
+              <div class="notification-list__content">
+                <div class="notification-list__text">
+                  <a href="#">Your application has been verified and confirmed. Application number: KEAM2026018374</a>
+                </div>
+                <div class="notification-list__time">15-Jun-2026</div>
+              </div>
+            </li>
+
+            <li class="notification-list__item">
+              <span class="notification-list__icon notification-list__icon--warning"></span>
+              <div class="notification-list__content">
+                <div class="notification-list__text">
+                  <a href="#">Please upload the community certificate before 30-Jun-2026 for reservation verification.</a>
+                </div>
+                <div class="notification-list__time">14-Jun-2026</div>
+              </div>
+            </li>
+
+          </ul>
+        </section>
+
+      </div>
+    </div>
   </main>
 
+  <!-- ============================================================
+       HELPLINE / CONTACT BAND
+       ============================================================ -->
+  <section class="helpline">
+    <div class="container">
+      <h4 class="helpline__title">Helpline &amp; Contact</h4>
+      <div class="helpline__details">
+        <div class="helpline__item">
+          <span class="helpline__item-label">Phone:</span>
+          <span class="helpline__item-value">0471-2525300</span>
+        </div>
+        <div class="helpline__item">
+          <span class="helpline__item-label">Email:</span>
+          <span class="helpline__item-value">caborhelp@cee.kerala.gov.in</span>
+        </div>
+        <div class="helpline__item">
+          <span class="helpline__item-label">Office:</span>
+          <span class="helpline__item-value">CEE, Housing Board Buildings, Santhi Nagar, Thiruvananthapuram</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER - Placeholder for Ayman's shared component
+       ============================================================ -->
   <footer id="footer">
-    <!-- Ayman: shared footer component -->
+    <!-- Ayman: mount shared footer here -->
+    <div class="container" style="padding-block: 20px; text-align: center;">
+      <p style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">
+        &copy; 2026 CEE Kerala Portal Clone - Academic Project, TKM College of Engineering
+      </p>
+    </div>
   </footer>
 
+  <!-- Scripts: shared utilities first, then page-specific -->
   <script src="../js/main.js"></script>
-  <!-- <script src="../js/dashboard.js"></script> -->
+  <script src="../js/dashboard.js"></script>
 
 </body>
+
 </html>
