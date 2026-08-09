@@ -8,7 +8,13 @@ This project is developed purely for academic and educational purposes. It is no
 
 ## Status
 
-**Phase 1 (Active):** Building the frontend UI using plain HTML, CSS, and JavaScript. Landing page is complete; teammate pages are scaffolded and in progress.
+**Phase 1 (Active):** Building the frontend UI using plain HTML, CSS, and JavaScript. The following pages are complete:
+- ✅ Landing / Home page (Rasal)
+- ✅ Student Dashboard page (Faheem Shan) — profile card, application progress timeline, quick actions, important dates, and recent notifications
+- ✅ Application Form page (Faheem Shan) — 6-step multi-step form with personal, academic, communication, document upload, payment, and review sections
+- 🔧 Login & Registration pages (Safdil) — scaffolded, in progress
+- 🔧 Admin Panel & Status Tracking pages (Shan M A) — scaffolded, in progress
+- 🔧 Shared components: Navbar & Footer (Ayman) — placeholder mounted, in progress
 
 **Phase 2 (Planned):** Migrate the frontend to React (Vite) and integrate with the Express/MongoDB backend for a full MERN stack application.
 
@@ -31,17 +37,24 @@ keam-clone/
 │   │   ├── pages/
 │   │   │   ├── login.html      # Safdil
 │   │   │   ├── register.html   # Safdil
-│   │   │   ├── dashboard.html  # Faheem
-│   │   │   ├── application.html# Faheem
-│   │   │   ├── admin.html      # Shan
-│   │   │   └── status.html     # Shan
+│   │   │   ├── dashboard.html  # Faheem Shan 
+│   │   │   ├── application.html# Faheem Shan 
+│   │   │   ├── admin.html      # Shan M A
+│   │   │   └── status.html     # Shan M A
+│   │   ├── assets/
+│   │   │   └── logo.png        # CEE Kerala emblem
 │   │   ├── components/         # Shared navbar/footer (Ayman)
+│   │   │   └── README.html
 │   │   ├── css/
-│   │   │   ├── style.css       # Shared base styles
-│   │   │   └── home.css        # Landing page styles
+│   │   │   ├── style.css       # Shared base styles & design tokens
+│   │   │   ├── home.css        # Landing page styles
+│   │   │   ├── dashboard.css   # Dashboard page styles (Faheem Shan)
+│   │   │   └── application.css # Application form styles (Faheem Shan)
 │   │   └── js/
 │   │       ├── main.js         # Shared JS utilities
-│   │       └── home.js         # Landing page JS
+│   │       ├── home.js         # Landing page JS
+│   │       ├── dashboard.js    # Dashboard page JS (Faheem Shan)
+│   │       └── application.js  # Application form JS (Faheem Shan)
 │   ├── src/                    # Phase 2 — React (Vite) scaffold
 │   │   ├── components/
 │   │   ├── pages/
@@ -65,9 +78,12 @@ keam-clone/
 ### Phase 1 — Static Frontend (Current)
 Plain HTML5, CSS3, and vanilla JavaScript. No frameworks, no libraries, no build tools.
 - **Pages** (`phase1/pages/`): Individual HTML pages for each feature (login, dashboard, admin, etc.).
+  - `dashboard.html` — *Faheem Shan*: Full student dashboard with profile card, application progress timeline (7-step), quick action cards (admit card, rank card, allotment, documents, option registration, fee payment), important dates calendar, and recent notifications feed.
+  - `application.html` — *Faheem Shan*: Complete 6-step multi-step application form with step progress indicator, personal details, academic details, communication details, document upload (drag & drop with preview), fee payment (net banking / debit / credit / UPI), and review & submit sections.
 - **Components** (`phase1/components/`): Shared navbar and footer HTML/JS snippets injected across all pages.
 - **Shared Styles** (`phase1/css/style.css`): CSS reset, design tokens (colors, typography, spacing), and utility classes.
-- **Page Styles**: Each page can add its own CSS file (e.g., `home.css`, `login.css`) for page-specific rules.
+- **Page Styles**: Each page has its own CSS file (`home.css`, `dashboard.css`, `application.css`) for page-specific rules.
+- **Page Scripts**: Each page has its own JS file (`home.js`, `dashboard.js`, `application.js`) for page-specific interactivity.
 - Open `frontend/phase1/index.html` directly in a browser to preview.
 
 ### Phase 2 — React + MERN Integration (Planned)
@@ -131,13 +147,13 @@ The React dev server will run on `http://localhost:5173`.
 
 ## Team
 
-| Name | Roll Number | Role |
-|------|-------------|------|
-| Rasal Musthafa | B24CSA49 | Project setup, Landing page, Home page |
-| Ayman Riaz | B24CSA17 | Shared components (Navbar, Footer, Button design, Input) |
-| Faheem Shan | B24CSA20 | Student dashboard page, Application form UI |
-| Safdil Arafath | B24CSA54 | Login & Registration page, Form validation UI |
-| Shan M A | B24CSA59 | Admin Panel UI, Application status tracking page |
+| Name | Roll Number | Role | Phase 1 Status |
+|------|-------------|------|----------------|
+| Rasal Musthafa | B24CSA49 | Project setup, Landing page, Home page | ✅ Complete |
+| Ayman Riaz | B24CSA17 | Shared components (Navbar, Footer, Button design, Input) | 🔧 In Progress |
+| Faheem Shan | B24CSA20 | Student dashboard page, Application form UI | ✅ Complete |
+| Safdil Arafath | B24CSA54 | Login & Registration page, Form validation UI | 🔧 In Progress |
+| Shan M A | B24CSA59 | Admin Panel UI, Application status tracking page | 🔧 In Progress |
 
 ## Course Details
 
