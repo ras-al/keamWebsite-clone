@@ -9,6 +9,7 @@
   <title>CEE Kerala - Entrance Examination Portal</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 
 <body>
@@ -34,14 +35,7 @@
        Leave this element for him to populate via JS include.
        ============================================================ -->
   <header id="navbar">
-    <!-- Ayman: mount shared navbar here -->
-    <div class="container flex items-center justify-between" style="padding-block: 10px;">
-      <span style="color: #fff; font-size: 0.9rem;">Navigation (Ayman's component Part)</span>
-      <button id="nav-toggle" aria-label="Toggle navigation menu"
-        style="background:none; border:1px solid rgba(255,255,255,0.4); color:#fff; padding:6px 14px; cursor:pointer; font-size:0.85rem;">
-        Menu
-      </button>
-    </div>
+    <!-- Navbar injected by components/navbar.js -->
   </header>
 
   <!-- ============================================================
@@ -504,16 +498,13 @@
        FOOTER - Placeholder for Ayman's shared component
        ============================================================ -->
   <footer id="footer">
-    <!-- Ayman: mount shared footer here -->
-    <div class="container" style="padding-block: 20px; text-align: center;">
-      <p style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">
-        &copy; 2026 CEE Kerala Portal Clone - Academic Project, TKM College of Engineering
-      </p>
-    </div>
+    <!-- Footer injected by components/footer.js -->
   </footer>
 
-  <!-- Scripts: shared utilities first, then page-specific -->
+  <!-- Scripts: shared utilities first, then components, then page-specific -->
   <script src="js/main.js"></script>
+  <script src="components/navbar.js"></script>
+  <script src="components/footer.js"></script>
   <script src="js/home.js"></script>
 
 </body>
