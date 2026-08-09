@@ -9,7 +9,7 @@ This project is developed purely for academic and educational purposes. It is no
 ## Status
 
 **Phase 1 (Active):** Building the frontend UI using plain HTML, CSS, and JavaScript. The following pages are complete:
-- ✅ Landing / Home page (Rasal)
+- ✅ Landing / Home page (Rasal Musthafa) - government header, course category strip, scrolling notifications, candidate portal cards, and latest notifications list
 - ✅ Student Dashboard page (Faheem Shan) - profile card, application progress timeline, quick actions, important dates, and recent notifications
 - ✅ Application Form page (Faheem Shan) - 6-step multi-step form with personal, academic, communication, document upload, payment, and review sections
 - ✅ Shared components: Navbar & Footer, Button system, Input system (Ayman Riaz) - responsive navbar with mobile hamburger menu, multi-column footer, reusable `.btn` and `.form-*` CSS classes
@@ -81,6 +81,7 @@ keam-clone/
 ### Phase 1 - Static Frontend (Current)
 Plain HTML5, CSS3, and vanilla JavaScript. No frameworks, no libraries, no build tools.
 - **Pages** (`phase1/pages/`): Individual HTML pages for each feature (login, dashboard, admin, etc.).
+  - `index.html` (root) - *Rasal Musthafa*: Complete landing and home page featuring a government header, course category strip, scrolling notifications ticker, detailed candidate portal cards grouped by admission type, and a latest notifications list.
   - `dashboard.html` - *Faheem Shan*: Full student dashboard with profile card, application progress timeline (7-step), quick action cards (admit card, rank card, allotment, documents, option registration, fee payment), important dates calendar, and recent notifications feed.
   - `application.html` - *Faheem Shan*: Complete 6-step multi-step application form with step progress indicator, personal details, academic details, communication details, document upload (drag & drop with preview), fee payment (net banking / debit / credit / UPI), and review & submit sections.
 - **Components** (`phase1/components/`): Shared navbar and footer JS-based includes that inject HTML into `#navbar` and `#footer` on every page via `DOMContentLoaded`. Auto-detects root vs. subpage paths.
