@@ -13,7 +13,7 @@ This project is developed purely for academic and educational purposes. It is no
 - ✅ Student Dashboard page (Faheem Shan) - profile card, application progress timeline, quick actions, important dates, and recent notifications
 - ✅ Application Form page (Faheem Shan) - 6-step multi-step form with personal, academic, communication, document upload, payment, and review sections
 - ✅ Shared components: Navbar & Footer, Button system, Input system (Ayman Riaz) - responsive navbar with mobile hamburger menu, multi-column footer, reusable `.btn` and `.form-*` CSS classes
-- 🔧 Login & Registration pages (Safdil) - scaffolded, in progress
+- ✅ Login & Registration pages (Safdil Arafath) - login form with captcha & password toggle, registration with strength meter & full validation
 - 🔧 Admin Panel & Status Tracking pages (Shan M A) - scaffolded, in progress
 
 **Phase 2 (Planned):** Migrate the frontend to React (Vite) and integrate with the Express/MongoDB backend for a full MERN stack application.
@@ -35,8 +35,8 @@ keam-clone/
 │   ├── phase1/                 # Phase 1 - Plain HTML/CSS/JS
 │   │   ├── index.html          # Landing/Home page (Rasal)
 │   │   ├── pages/
-│   │   │   ├── login.html      # Safdil
-│   │   │   ├── register.html   # Safdil
+│   │   │   ├── login.html      # Safdil — login form, captcha, password toggle
+│   │   │   ├── register.html   # Safdil — registration form, strength meter
 │   │   │   ├── dashboard.html  # Faheem Shan 
 │   │   │   ├── application.html# Faheem Shan 
 │   │   │   ├── admin.html      # Shan M A
@@ -52,12 +52,14 @@ keam-clone/
 │   │   │   ├── components.css  # Navbar, footer, button & input styles (Ayman Riaz)
 │   │   │   ├── home.css        # Landing page styles
 │   │   │   ├── dashboard.css   # Dashboard page styles (Faheem Shan)
-│   │   │   └── application.css # Application form styles (Faheem Shan)
+│   │   │   ├── application.css # Application form styles (Faheem Shan)
+│   │   │   └── login.css       # Login & Register page styles (Safdil)
 │   │   └── js/
 │   │       ├── main.js         # Shared JS utilities
 │   │       ├── home.js         # Landing page JS
 │   │       ├── dashboard.js    # Dashboard page JS (Faheem Shan)
-│   │       └── application.js  # Application form JS (Faheem Shan)
+│   │       ├── application.js  # Application form JS (Faheem Shan)
+│   │       └── login.js        # Login & Register JS (Safdil)
 │   ├── src/                    # Phase 2 - React (Vite) scaffold
 │   │   ├── components/
 │   │   ├── pages/
@@ -84,11 +86,14 @@ Plain HTML5, CSS3, and vanilla JavaScript. No frameworks, no libraries, no build
   - `index.html` (root) - *Rasal Musthafa*: Complete landing and home page featuring a government header, course category strip, scrolling notifications ticker, detailed candidate portal cards grouped by admission type, and a latest notifications list.
   - `dashboard.html` - *Faheem Shan*: Full student dashboard with profile card, application progress timeline (7-step), quick action cards (admit card, rank card, allotment, documents, option registration, fee payment), important dates calendar, and recent notifications feed.
   - `application.html` - *Faheem Shan*: Complete 6-step multi-step application form with step progress indicator, personal details, academic details, communication details, document upload (drag & drop with preview), fee payment (net banking / debit / credit / UPI), and review & submit sections.
+  - `login.html` - *Safdil Arafath*: Candidate login page with Application Number field, Password field with show/hide toggle, client-generated CAPTCHA with noise-line overlay and refresh button, Remember Me checkbox, Forgot Password link, and form-level validation with styled error messages. Simulates login flow with loading state and redirect to dashboard.
+  - `register.html` - *Safdil Arafath*: New candidate registration form with Full Name, Date of Birth, Email, Mobile Number (+91 addon), Gender and Category dropdowns, Password with real-time 4-bar strength meter (Weak/Fair/Good/Strong), Confirm Password match check, CAPTCHA verification, Terms & Conditions checkbox, and age validation (15–30). Generates a dummy application number on successful submission.
 - **Components** (`phase1/components/`): Shared navbar and footer JS-based includes that inject HTML into `#navbar` and `#footer` on every page via `DOMContentLoaded`. Auto-detects root vs. subpage paths.
 - **Shared Styles** (`phase1/css/style.css`): CSS reset, design tokens (colors, typography, spacing), and utility classes.
 - **Component Styles** (`phase1/css/components.css`): Navbar, footer, button system, and form input system styles. See [Shared CSS Classes](#shared-css-classes-ayman-riaz) below.
-- **Page Styles**: Each page has its own CSS file (`home.css`, `dashboard.css`, `application.css`) for page-specific rules.
-- **Page Scripts**: Each page has its own JS file (`home.js`, `dashboard.js`, `application.js`) for page-specific interactivity.
+- **Auth Styles** (`phase1/css/login.css`): Login and registration page-specific styles including auth card layout (Flexbox centering), card header with navy gradient and gold accent, CAPTCHA display widget with CSS noise lines, password strength meter bars, alert/notification boxes, responsive breakpoints, and two-column registration grid.
+- **Page Styles**: Each page has its own CSS file (`home.css`, `dashboard.css`, `application.css`, `login.css`) for page-specific rules.
+- **Page Scripts**: Each page has its own JS file (`home.js`, `dashboard.js`, `application.js`, `login.js`) for page-specific interactivity.
 - Open `frontend/phase1/index.html` directly in a browser to preview.
 
 #### Shared CSS Classes (Ayman Riaz)
@@ -187,7 +192,7 @@ The React dev server will run on `http://localhost:5173`.
 | Rasal Musthafa | B24CSA49 | Project setup, Landing page, Home page | ✅ Complete |
 | Ayman Riaz | B24CSA17 | Shared components (Navbar, Footer, Button design, Input) | ✅ Complete |
 | Faheem Shan | B24CSA20 | Student dashboard page, Application form UI | ✅ Complete |
-| Safdil Arafath | B24CSA54 | Login & Registration page, Form validation UI | 🔧 In Progress |
+| Safdil Arafath | B24CSA54 | Login & Registration page, Form validation UI | ✅ Complete |
 | Shan M A | B24CSA59 | Admin Panel UI, Application status tracking page | 🔧 In Progress |
 
 ## Course Details
