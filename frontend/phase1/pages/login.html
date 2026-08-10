@@ -4,12 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Candidate Login - KEAM Portal Clone">
+  <meta name="description" content="Candidate Login - KEAM Portal Clone. Enter your application number and password to access the CEE Kerala entrance examination portal.">
   <title>Candidate Login - CEE Kerala</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/components.css">
-  <!-- Safdil: add your page-specific CSS file here, e.g. -->
-  <!-- <link rel="stylesheet" href="../css/login.css"> -->
+  <link rel="stylesheet" href="../css/login.css">
 </head>
 
 <body>
@@ -18,10 +17,125 @@
     <!-- Navbar injected by components/navbar.js -->
   </header>
 
-  <main class="container">
-    <h1>Candidate Login</h1>
-    <p>Page owner: <strong>Safdil Arafath</strong></p>
-    <!-- Safdil: build your login form here -->
+  <main class="auth-page">
+
+    <div class="auth-card">
+
+      <!-- Card Header -->
+      <div class="auth-card__header">
+        <div class="auth-card__icon">
+          <!-- Lock SVG icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </div>
+        <h1 class="auth-card__title">Candidate Login</h1>
+        <p class="auth-card__subtitle">KEAM Entrance Examination Portal</p>
+      </div>
+
+      <!-- Card Body -->
+      <div class="auth-card__body">
+
+        <!-- Alert area (hidden by default, shown by JS on error/success) -->
+        <div class="auth-alert auth-alert--error" id="login-alert" role="alert">
+          <span class="auth-alert__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </span>
+          <span id="login-alert-text">Invalid credentials. Please try again.</span>
+        </div>
+
+        <form id="login-form" novalidate>
+
+          <!-- Application Number -->
+          <div class="form-group">
+            <label for="login-appno" class="form-label form-label--required">Application Number</label>
+            <input type="text" id="login-appno" class="form-input" placeholder="e.g. KEAM2026XXXXX"
+              autocomplete="username" maxlength="20" required>
+            <span class="form-error" id="login-appno-error"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="login-password" class="form-label form-label--required">Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="login-password" class="form-input" placeholder="Enter your password"
+                autocomplete="current-password" required>
+              <button type="button" class="password-toggle" id="login-pwd-toggle" aria-label="Toggle password visibility">
+                <!-- Eye icon (show) -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+            <span class="form-error" id="login-password-error"></span>
+          </div>
+
+          <!-- Captcha -->
+          <div class="captcha-group">
+            <label class="form-label form-label--required">Security Verification</label>
+            <div class="captcha-box">
+              <div class="captcha-display" id="captcha-display" aria-label="Captcha code"></div>
+              <button type="button" class="captcha-refresh" id="captcha-refresh" aria-label="Refresh captcha">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </button>
+              <input type="text" id="login-captcha" class="form-input captcha-input" placeholder="Enter captcha"
+                maxlength="6" autocomplete="off" required>
+            </div>
+            <span class="form-error" id="login-captcha-error"></span>
+          </div>
+
+          <!-- Remember me + Forgot password -->
+          <div class="auth-form__options">
+            <label class="form-check">
+              <input type="checkbox" id="login-remember">
+              <span class="form-check__label">Remember me</span>
+            </label>
+            <a href="#" class="auth-form__forgot" id="forgot-password-link">Forgot Password?</a>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn btn--primary btn--block btn--lg" id="login-submit">
+            Sign In
+          </button>
+
+        </form>
+
+        <div class="auth-divider">or</div>
+
+        <!-- Quick link to download hall ticket etc. -->
+        <a href="dashboard.html" class="btn btn--outline btn--block">
+          View Sample Dashboard
+        </a>
+
+      </div>
+
+      <!-- Card Footer — toggle to register -->
+      <div class="auth-card__footer">
+        Don't have an account? <a href="register.html">Register as New Candidate</a>
+      </div>
+
+    </div>
+
+    <!-- Important notice below card -->
+    <div class="auth-notice">
+      <strong>⚠ Notice:</strong> This is an academic project clone. Do not enter real personal information.
+      For the actual KEAM portal, visit <a href="https://cee.kerala.gov.in" target="_blank"
+        rel="noopener">cee.kerala.gov.in</a>.
+    </div>
+
   </main>
 
   <footer id="footer">
@@ -31,7 +145,7 @@
   <script src="../js/main.js"></script>
   <script src="../components/navbar.js"></script>
   <script src="../components/footer.js"></script>
-  <!-- <script src="../js/login.js"></script> -->
+  <script src="../js/login.js"></script>
 
 </body>
 

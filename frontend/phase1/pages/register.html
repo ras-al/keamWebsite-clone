@@ -1,25 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Candidate Registration — KEAM Portal Clone">
+  <meta name="description"
+    content="Candidate Registration — Create a new account for the KEAM entrance examination portal. Fill in your personal details to get started.">
   <title>Candidate Registration — CEE Kerala</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/components.css">
-  <!-- Safdil: add your page-specific CSS file here, e.g. -->
-  <!-- <link rel="stylesheet" href="../css/register.css"> -->
+  <link rel="stylesheet" href="../css/login.css">
 </head>
+
 <body>
 
   <header id="navbar">
     <!-- Navbar injected by components/navbar.js -->
   </header>
 
-  <main class="container">
-    <h1>Candidate Registration</h1>
-    <p>Page owner: <strong>Safdil Arafath</strong></p>
-    <!-- Safdil: build your registration form here -->
+  <main class="auth-page">
+
+    <div class="auth-card auth-card--register">
+
+      <!-- Card Header -->
+      <div class="auth-card__header">
+        <div class="auth-card__icon">
+          <!-- User-Plus SVG icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="8.5" cy="7" r="4" />
+            <line x1="20" y1="8" x2="20" y2="14" />
+            <line x1="23" y1="11" x2="17" y2="11" />
+          </svg>
+        </div>
+        <h1 class="auth-card__title">Candidate Registration</h1>
+        <p class="auth-card__subtitle">Create your KEAM Portal account</p>
+      </div>
+
+      <!-- Card Body -->
+      <div class="auth-card__body">
+
+        <!-- Alert area -->
+        <div class="auth-alert auth-alert--error" id="register-alert" role="alert">
+          <span class="auth-alert__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </span>
+          <span id="register-alert-text">Please fix the errors below.</span>
+        </div>
+
+        <form id="register-form" novalidate>
+
+          <!-- Row 1: Full Name + Date of Birth -->
+          <div class="auth-form__row">
+            <div class="form-group">
+              <label for="reg-fullname" class="form-label form-label--required">Full Name</label>
+              <input type="text" id="reg-fullname" class="form-input" placeholder="As in SSLC certificate"
+                autocomplete="name" required>
+              <span class="form-error" id="reg-fullname-error"></span>
+            </div>
+            <div class="form-group">
+              <label for="reg-dob" class="form-label form-label--required">Date of Birth</label>
+              <input type="date" id="reg-dob" class="form-input" required>
+              <span class="form-error" id="reg-dob-error"></span>
+            </div>
+          </div>
+
+          <!-- Row 2: Email + Mobile -->
+          <div class="auth-form__row">
+            <div class="form-group">
+              <label for="reg-email" class="form-label form-label--required">Email Address</label>
+              <input type="email" id="reg-email" class="form-input" placeholder="you@example.com"
+                autocomplete="email" required>
+              <span class="form-error" id="reg-email-error"></span>
+            </div>
+            <div class="form-group">
+              <label for="reg-mobile" class="form-label form-label--required">Mobile Number</label>
+              <div class="form-input-group">
+                <input type="tel" id="reg-mobile" class="form-input" placeholder="10-digit mobile"
+                  maxlength="10" autocomplete="tel" required>
+                <span class="form-input-group__addon">+91</span>
+              </div>
+              <span class="form-error" id="reg-mobile-error"></span>
+            </div>
+          </div>
+
+          <!-- Gender -->
+          <div class="form-group">
+            <label for="reg-gender" class="form-label form-label--required">Gender</label>
+            <select id="reg-gender" class="form-select" required>
+              <option value="" disabled selected>Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="transgender">Transgender</option>
+            </select>
+            <span class="form-error" id="reg-gender-error"></span>
+          </div>
+
+          <!-- Category -->
+          <div class="form-group">
+            <label for="reg-category" class="form-label form-label--required">Category</label>
+            <select id="reg-category" class="form-select" required>
+              <option value="" disabled selected>Select category</option>
+              <option value="general">General</option>
+              <option value="obc">OBC</option>
+              <option value="sc">SC</option>
+              <option value="st">ST</option>
+              <option value="ews">EWS</option>
+            </select>
+            <span class="form-error" id="reg-category-error"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="reg-password" class="form-label form-label--required">Create Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="reg-password" class="form-input" placeholder="Minimum 8 characters"
+                autocomplete="new-password" minlength="8" required>
+              <button type="button" class="password-toggle" id="reg-pwd-toggle"
+                aria-label="Toggle password visibility">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+            <!-- Password strength meter -->
+            <div class="password-strength" id="reg-pwd-strength">
+              <div class="password-strength__bar" id="str-bar-1"></div>
+              <div class="password-strength__bar" id="str-bar-2"></div>
+              <div class="password-strength__bar" id="str-bar-3"></div>
+              <div class="password-strength__bar" id="str-bar-4"></div>
+            </div>
+            <span class="password-strength-text" id="reg-pwd-strength-text"></span>
+            <span class="form-hint">Use at least 8 characters, one uppercase, one number, and one special character.</span>
+            <span class="form-error" id="reg-password-error"></span>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="reg-confirm-password" class="form-label form-label--required">Confirm Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="reg-confirm-password" class="form-input" placeholder="Re-enter password"
+                autocomplete="new-password" required>
+              <button type="button" class="password-toggle" id="reg-cpwd-toggle"
+                aria-label="Toggle password visibility">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+            <span class="form-error" id="reg-confirm-password-error"></span>
+          </div>
+
+          <!-- Captcha -->
+          <div class="captcha-group">
+            <label class="form-label form-label--required">Security Verification</label>
+            <div class="captcha-box">
+              <div class="captcha-display" id="reg-captcha-display" aria-label="Captcha code"></div>
+              <button type="button" class="captcha-refresh" id="reg-captcha-refresh" aria-label="Refresh captcha">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </button>
+              <input type="text" id="reg-captcha" class="form-input captcha-input" placeholder="Enter captcha"
+                maxlength="6" autocomplete="off" required>
+            </div>
+            <span class="form-error" id="reg-captcha-error"></span>
+          </div>
+
+          <!-- Terms & Conditions -->
+          <div class="auth-form__terms">
+            <label class="form-check">
+              <input type="checkbox" id="reg-terms" required>
+              <span class="form-check__label">
+                I agree to the <a href="#" target="_blank">Terms &amp; Conditions</a> and
+                <a href="#" target="_blank">Privacy Policy</a> of the KEAM examination portal.
+              </span>
+            </label>
+            <span class="form-error" id="reg-terms-error"></span>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn btn--primary btn--block btn--lg" id="register-submit">
+            Create Account
+          </button>
+
+        </form>
+
+      </div>
+
+      <!-- Card Footer — toggle to login -->
+      <div class="auth-card__footer">
+        Already have an account? <a href="login.html">Sign In</a>
+      </div>
+
+    </div>
+
+    <!-- Important notice -->
+    <div class="auth-notice">
+      <strong>⚠ Notice:</strong> This is an academic project clone. Do not enter real personal information.
+      For the actual KEAM portal, visit <a href="https://cee.kerala.gov.in" target="_blank"
+        rel="noopener">cee.kerala.gov.in</a>.
+    </div>
+
   </main>
 
   <footer id="footer">
@@ -29,7 +223,8 @@
   <script src="../js/main.js"></script>
   <script src="../components/navbar.js"></script>
   <script src="../components/footer.js"></script>
-  <!-- <script src="../js/register.js"></script> -->
+  <script src="../js/login.js"></script>
 
 </body>
+
 </html>
