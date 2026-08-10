@@ -14,7 +14,7 @@ This project is developed purely for academic and educational purposes. It is no
 - ✅ Application Form page (Faheem Shan) - 6-step multi-step form with personal, academic, communication, document upload, payment, and review sections
 - ✅ Shared components: Navbar & Footer, Button system, Input system (Ayman Riaz) - responsive navbar with mobile hamburger menu, multi-column footer, reusable `.btn` and `.form-*` CSS classes
 - ✅ Login & Registration pages (Safdil Arafath) - login form with captcha & password toggle, registration with strength meter & full validation
-- 🔧 Admin Panel & Status Tracking pages (Shan M A) - scaffolded, in progress
+- 🔧 Admin Panel & Status Tracking pages (Shan M A) - scaffolded, (in progress)
 
 **Phase 2 (Planned):** Migrate the frontend to React (Vite) and integrate with the Express/MongoDB backend for a full MERN stack application.
 
