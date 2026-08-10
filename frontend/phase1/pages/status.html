@@ -8,8 +8,7 @@
   <title>Application Status - CEE Kerala</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/components.css">
-  <!-- Shan: add your page-specific CSS file here, e.g. -->
-  <!-- <link rel="stylesheet" href="../css/status.css"> -->
+  <link rel="stylesheet" href="../css/status.css">
 </head>
 
 <body>
@@ -18,10 +17,117 @@
     <!-- Navbar injected by components/navbar.js -->
   </header>
 
-  <main class="container">
-    <h1>Application Status Tracking</h1>
-    <p>Page owner: <strong>Shan M A</strong></p>
-    <!-- Shan: build your status tracking interface here -->
+  <main class="status-page">
+    <div class="container status-container">
+      
+      <div class="status-header">
+        <h1>Track Your Application Status</h1>
+        <p>Enter your application details below to view the current progress of your application.</p>
+      </div>
+
+      <!-- Status Search Form -->
+      <div class="status-card">
+        <form id="status-form" class="status-form">
+          <div class="form-group">
+            <label for="app-no" class="form-label form-label--required">Application Number</label>
+            <input type="text" id="app-no" class="form-input" placeholder="e.g. KEAM260012" required>
+            <span class="form-hint">Format: KEAM26XXXX</span>
+          </div>
+          <div class="form-group">
+            <label for="dob" class="form-label form-label--required">Date of Birth</label>
+            <input type="date" id="dob" class="form-input" required>
+            <span class="form-hint" aria-hidden="true">&nbsp;</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" aria-hidden="true">&nbsp;</label>
+            <button type="submit" class="btn btn--primary btn--block">Check Status</button>
+            <span class="form-hint" aria-hidden="true">&nbsp;</span>
+          </div>
+        </form>
+      </div>
+
+      <!-- Status Results Area (Hidden initially) -->
+      <div id="status-results" class="status-results">
+        
+        <div class="results-header">
+          <div class="results-profile">
+            <h3 id="res-name">Candidate Name</h3>
+            <p>Application No: <strong id="res-app-no">KEAM260012</strong> | Course: <strong id="res-course">Engineering</strong></p>
+          </div>
+          <div>
+            <span id="res-badge" class="status-badge status-badge--pending">Pending Verification</span>
+          </div>
+        </div>
+
+        <!-- Timeline Progress -->
+        <div class="status-timeline">
+          <!-- Step 1 -->
+          <div class="timeline-step completed" id="step-1">
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div class="timeline-content">
+              <h4>Registration</h4>
+              <p>Submitted</p>
+            </div>
+          </div>
+          
+          <!-- Step 2 -->
+          <div class="timeline-step completed" id="step-2">
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            <div class="timeline-content">
+              <h4>Application form</h4>
+              <p>Submitted</p>
+            </div>
+          </div>
+          
+          <!-- Step 3 -->
+          <div class="timeline-step active" id="step-3">
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            </div>
+            <div class="timeline-content">
+              <h4>Document Verification</h4>
+              <p>In Progress</p>
+            </div>
+          </div>
+          
+          <!-- Step 4 -->
+          <div class="timeline-step" id="step-4">
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <div class="timeline-content">
+              <h4>Fee Payment</h4>
+              <p>Pending</p>
+            </div>
+          </div>
+          
+          <!-- Step 5 -->
+          <div class="timeline-step" id="step-5">
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div class="timeline-content">
+              <h4>Final Approval</h4>
+              <p>Pending</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Remarks Alert -->
+        <div id="status-alert" class="status-alert status-alert--warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <div>
+            <strong>Current Remark:</strong> <span id="res-remark">Your documents are currently under review by the authority. Please check back later.</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
   </main>
 
   <footer id="footer">
@@ -31,7 +137,7 @@
   <script src="../js/main.js"></script>
   <script src="../components/navbar.js"></script>
   <script src="../components/footer.js"></script>
-  <!-- <script src="../js/status.js"></script> -->
+  <script src="../js/status.js"></script>
 
 </body>
 
