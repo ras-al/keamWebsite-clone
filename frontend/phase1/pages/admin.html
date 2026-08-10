@@ -8,8 +8,7 @@
   <title>Admin Panel - CEE Kerala</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/components.css">
-  <!-- Shan: add your page-specific CSS file here, e.g. -->
-  <!-- <link rel="stylesheet" href="../css/admin.css"> -->
+  <link rel="stylesheet" href="../css/admin.css">
 </head>
 
 <body>
@@ -18,10 +17,97 @@
     <!-- Navbar injected by components/navbar.js -->
   </header>
 
-  <main class="container">
-    <h1>Admin Panel</h1>
-    <p>Page owner: <strong>Shan M A</strong></p>
-    <!-- Shan: build your admin panel layout here -->
+  <main class="container admin-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <h2 class="admin-sidebar__title">Admin Menu</h2>
+      <nav class="admin-nav">
+        <a href="#" class="admin-nav__link admin-nav__link--active">Dashboard</a>
+        <a href="#" class="admin-nav__link">Applications</a>
+        <a href="#" class="admin-nav__link">Approve/Reject</a>
+        <a href="#" class="admin-nav__link">Reports</a>
+        <a href="#" class="admin-nav__link">Settings</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <section class="admin-content">
+      <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <div class="admin-user-info">
+          Logged in as <strong>Shan M A</strong> | <a href="login.html" class="logout-link">Logout</a>
+        </div>
+      </div>
+
+      <!-- Stats Overview -->
+      <div class="admin-stats">
+        <div class="stat-card">
+          <div class="stat-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="stat-card__value" id="stat-total">1,245</div>
+          <div class="stat-card__label">Total Applications</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-card__icon" style="color: var(--color-warning);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div class="stat-card__value" id="stat-pending">312</div>
+          <div class="stat-card__label">Pending Review</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon" style="color: var(--color-success);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div class="stat-card__value" id="stat-approved">890</div>
+          <div class="stat-card__label">Approved</div>
+        </div>
+      </div>
+
+      <!-- Applications Table -->
+      <div class="admin-panel-card">
+        <div class="admin-panel-card__header">
+          <h2 class="admin-panel-card__title">Recent Applications</h2>
+          <div class="admin-search">
+            <input type="text" class="form-input" id="admin-search-input" placeholder="Search by App No or Name...">
+            <button class="btn btn--primary" id="admin-search-btn">Search</button>
+          </div>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>App No.</th>
+                <th>Candidate Name</th>
+                <th>Course</th>
+                <th>Date Applied</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-body">
+              <!-- Rows will be populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
   </main>
 
   <footer id="footer">
@@ -31,7 +117,7 @@
   <script src="../js/main.js"></script>
   <script src="../components/navbar.js"></script>
   <script src="../components/footer.js"></script>
-  <!-- <script src="../js/admin.js"></script> -->
+  <script src="../js/admin.js"></script>
 
 </body>
 

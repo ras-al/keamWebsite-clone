@@ -14,7 +14,7 @@ This project is developed purely for academic and educational purposes. It is no
 - ✅ Application Form page (Faheem Shan) - 6-step multi-step form with personal, academic, communication, document upload, payment, and review sections
 - ✅ Shared components: Navbar & Footer, Button system, Input system (Ayman Riaz) - responsive navbar with mobile hamburger menu, multi-column footer, reusable `.btn` and `.form-*` CSS classes
 - ✅ Login & Registration pages (Safdil Arafath) - login form with captcha & password toggle, registration with strength meter & full validation
-- 🔧 Admin Panel & Status Tracking pages (Shan M A) - scaffolded, (in progress)
+- ✅ Admin Panel & Status Tracking pages (Shan M A) - complete (stats dashboard, datatable, and status progress tracker)
 
 **Phase 2 (Planned):** Migrate the frontend to React (Vite) and integrate with the Express/MongoDB backend for a full MERN stack application.
 
@@ -88,6 +88,8 @@ Plain HTML5, CSS3, and vanilla JavaScript. No frameworks, no libraries, no build
   - `application.html` - *Faheem Shan*: Complete 6-step multi-step application form with step progress indicator, personal details, academic details, communication details, document upload (drag & drop with preview), fee payment (net banking / debit / credit / UPI), and review & submit sections.
   - `login.html` - *Safdil Arafath*: Candidate login page with Application Number field, Password field with show/hide toggle, client-generated CAPTCHA with noise-line overlay and refresh button, Remember Me checkbox, Forgot Password link, and form-level validation with styled error messages. Simulates login flow with loading state and redirect to dashboard.
   - `register.html` - *Safdil Arafath*: New candidate registration form with Full Name, Date of Birth, Email, Mobile Number (+91 addon), Gender and Category dropdowns, Password with real-time 4-bar strength meter (Weak/Fair/Good/Strong), Confirm Password match check, CAPTCHA verification, Terms & Conditions checkbox, and age validation (15–30). Generates a dummy application number on successful submission.
+  - `admin.html` - *Shan M A*: Complete Admin Dashboard with stats overview cards (total, pending, approved), responsive datatable for application management, search/filter functionality, and action buttons to dynamically approve/reject candidates.
+  - `status.html` - *Shan M A*: Application status tracking interface where candidates can enter their Application Number and DOB to view a visual timeline progress tracker (Registration -> Form -> Verification -> Payment -> Approval) and read specific remarks from the administration.
 - **Components** (`phase1/components/`): Shared navbar and footer JS-based includes that inject HTML into `#navbar` and `#footer` on every page via `DOMContentLoaded`. Auto-detects root vs. subpage paths.
 - **Shared Styles** (`phase1/css/style.css`): CSS reset, design tokens (colors, typography, spacing), and utility classes.
 - **Component Styles** (`phase1/css/components.css`): Navbar, footer, button system, and form input system styles. See [Shared CSS Classes](#shared-css-classes-ayman-riaz) below.
@@ -193,7 +195,7 @@ The React dev server will run on `http://localhost:5173`.
 | Ayman Riaz | B24CSA17 | Shared components (Navbar, Footer, Button design, Input) | ✅ Complete |
 | Faheem Shan | B24CSA20 | Student dashboard page, Application form UI | ✅ Complete |
 | Safdil Arafath | B24CSA54 | Login & Registration page, Form validation UI | ✅ Complete |
-| Shan M A | B24CSA59 | Admin Panel UI, Application status tracking page | 🔧 In Progress |
+| Shan M A | B24CSA59 | Admin Panel UI, Application status tracking page | ✅ Complete |
 
 ## Course Details
 
