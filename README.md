@@ -137,8 +137,8 @@ The Express backend serves the static frontend alongside the REST API, meaning y
    ```env
    PORT=5000
    NODE_ENV=development
-   MONGO_URI=mongodb+srv://keam_admin:keamadmin123@keam-cluster.zhoq1sh.mongodb.net/keam_portal_db?retryWrites=true&w=majority&appName=keam-cluster
-   JWT_SECRET=4XN3zvSCb1NjySncnZRUsq8Z0sfK+68MrmAlR8Oo3EY=
+   MONGO_URI=your_mongodb_atlas_connection_string
+   JWT_SECRET=your_jwt_secret_key
    ```
 
 4. **Start the development server**:
