@@ -349,7 +349,7 @@
           return;
         }
 
-        // --- Simulate login (no backend in Phase 1) ---
+        // --- Process login (In Phase 2, posts to /api/auth/login) ---
         var submitBtn = qs('#login-submit');
         submitBtn.textContent = 'Signing In...';
         submitBtn.disabled = true;
@@ -358,14 +358,30 @@
           submitBtn.textContent = 'Sign In';
           submitBtn.disabled = false;
 
-          // Demo: show success and redirect
+          // Save current candidate session
+          try {
+            var existing = localStorage.getItem('keam_candidate');
+            var parsed = existing ? JSON.parse(existing) : null;
+            if (!parsed || (parsed.applicationNo !== appNoInput.value.trim() && parsed.appNo !== appNoInput.value.trim())) {
+              var loggedInCandidate = {
+                applicationNo: appNoInput.value.trim(),
+                appNo: appNoInput.value.trim(),
+                fullName: 'Candidate ' + appNoInput.value.trim(),
+                name: 'Candidate ' + appNoInput.value.trim(),
+                status: 'Active',
+                currentStep: 1
+              };
+              localStorage.setItem('keam_candidate', JSON.stringify(loggedInCandidate));
+            }
+          } catch (e) {}
+
           showAlert('login-alert', 'login-alert-text', 'success',
             'Login successful! Redirecting to dashboard...');
 
           setTimeout(function () {
             window.location.href = 'dashboard.html';
-          }, 1500);
-        }, 1200);
+          }, 1200);
+        }, 1000);
       });
     }
 
@@ -497,7 +513,7 @@
           return;
         }
 
-        // --- Simulate registration (no backend in Phase 1) ---
+        // --- Process registration (In Phase 2, posts to /api/auth/register) ---
         var submitBtn = qs('#register-submit');
         submitBtn.textContent = 'Creating Account...';
         submitBtn.disabled = true;
@@ -506,8 +522,27 @@
           submitBtn.textContent = 'Create Account';
           submitBtn.disabled = false;
 
-          // Generate a dummy application number
-          var appNumber = 'KEAM2026' + Math.floor(10000 + Math.random() * 90000);
+          // Generate sequential application number based on timestamp
+          var appNumber = 'KEAM' + Date.now().toString().slice(-6);
+
+          // Store actual candidate registration details
+          var newCandidate = {
+            fullName: fullName.value.trim(),
+            name: fullName.value.trim(),
+            dob: dob.value,
+            email: email.value.trim(),
+            phone: mobile.value.trim(),
+            mobile: mobile.value.trim(),
+            gender: (qs('#reg-gender') ? qs('#reg-gender').value : '-'),
+            category: (category ? category.value : '-'),
+            applicationNo: appNumber,
+            appNo: appNumber,
+            status: 'Registered',
+            currentStep: 1
+          };
+          try {
+            localStorage.setItem('keam_candidate', JSON.stringify(newCandidate));
+          } catch (e) {}
 
           showAlert('register-alert', 'register-alert-text', 'success',
             'Registration successful! Your Application Number is: ' + appNumber +
@@ -515,8 +550,8 @@
 
           setTimeout(function () {
             window.location.href = 'login.html';
-          }, 3000);
-        }, 1500);
+          }, 2000);
+        }, 1200);
       });
     }
 

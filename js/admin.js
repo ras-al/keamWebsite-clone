@@ -1,19 +1,12 @@
 /* ============================================================
    ADMIN.JS
-   Logic for Admin Panel (mock data & actions)
+   Logic for Admin Panel
    Author: Shan M A
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Mock Data for Applications
-  const mockApplications = [
-    { id: 'KEAM260012', name: 'Arjun K', course: 'Engineering', date: '2026-05-12', status: 'Pending' },
-    { id: 'KEAM260089', name: 'Meenakshi R', course: 'Medical', date: '2026-05-14', status: 'Approved' },
-    { id: 'KEAM260104', name: 'Rahul S', course: 'Architecture', date: '2026-05-15', status: 'Pending' },
-    { id: 'KEAM260233', name: 'Anjali V', course: 'LLB (5 Year)', date: '2026-05-18', status: 'Rejected' },
-    { id: 'KEAM260341', name: 'Vishnu P', course: 'Engineering', date: '2026-05-20', status: 'Approved' },
-    { id: 'KEAM260405', name: 'Devika M', course: 'PG Medical', date: '2026-05-21', status: 'Pending' }
-  ];
+  // Application Data (empty by default, to be populated from backend/API)
+  const applications = [];
 
   const tableBody = document.getElementById('admin-table-body');
   const searchInput = document.getElementById('admin-search-input');
@@ -21,10 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render Table function
   function renderTable(data) {
+    if (!tableBody) return;
     tableBody.innerHTML = ''; // clear existing rows
 
-    if (data.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="6" class="text-center" style="padding: 2rem;">No applications found.</td></tr>`;
+    if (!data || data.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="6" class="text-center" style="padding: 2rem; color: var(--color-gray-500, #666);">No applications found.</td></tr>`;
       return;
     }
 
@@ -43,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td><span class="status-badge ${badgeClass}">${app.status}</span></td>
         <td>
           <div class="action-buttons">
-            <button class="btn-icon btn-icon--view" title="View Details" onclick="alert('Viewing details for ${app.id}')">
+            <button class="btn-icon btn-icon--view" title="View Details" onclick="alert('Application ID: ' + '${app.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
             ${app.status === 'Pending' ? `
@@ -64,43 +58,49 @@ document.addEventListener('DOMContentLoaded', () => {
   // Make updateStatus available globally for inline onclick handlers
   window.updateStatus = function(id, newStatus) {
     if(confirm(`Are you sure you want to mark application ${id} as ${newStatus}?`)) {
-      const appIndex = mockApplications.findIndex(a => a.id === id);
+      const appIndex = applications.findIndex(a => a.id === id);
       if(appIndex > -1) {
-        mockApplications[appIndex].status = newStatus;
-        // Re-render and update stats
-        renderTable(mockApplications);
+        applications[appIndex].status = newStatus;
+        renderTable(applications);
         updateStats();
       }
     }
   };
 
   function updateStats() {
-    const total = mockApplications.length;
-    const pending = mockApplications.filter(a => a.status === 'Pending').length;
-    const approved = mockApplications.filter(a => a.status === 'Approved').length;
+    const total = applications.length;
+    const pending = applications.filter(a => a.status === 'Pending').length;
+    const approved = applications.filter(a => a.status === 'Approved').length;
 
-    // We keep a static base and add the mock array counts to it to simulate a larger DB
-    document.getElementById('stat-total').innerText = (1240 + total).toLocaleString();
-    document.getElementById('stat-pending').innerText = (310 + pending).toLocaleString();
-    document.getElementById('stat-approved').innerText = (888 + approved).toLocaleString();
+    const totalEl = document.getElementById('stat-total');
+    const pendingEl = document.getElementById('stat-pending');
+    const approvedEl = document.getElementById('stat-approved');
+
+    if (totalEl) totalEl.innerText = total.toLocaleString();
+    if (pendingEl) pendingEl.innerText = pending.toLocaleString();
+    if (approvedEl) approvedEl.innerText = approved.toLocaleString();
   }
 
   // Search Functionality
   function handleSearch() {
-    const query = searchInput.value.toLowerCase();
-    const filtered = mockApplications.filter(app => 
-      app.id.toLowerCase().includes(query) || 
-      app.name.toLowerCase().includes(query)
+    if (!searchInput) return;
+    const query = searchInput.value.toLowerCase().trim();
+    const filtered = applications.filter(app => 
+      (app.id && app.id.toLowerCase().includes(query)) || 
+      (app.name && app.name.toLowerCase().includes(query))
     );
     renderTable(filtered);
   }
 
-  searchBtn.addEventListener('click', handleSearch);
-  searchInput.addEventListener('keyup', (e) => {
-    if(e.key === 'Enter') handleSearch();
-  });
+  if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+  if (searchInput) {
+    searchInput.addEventListener('keyup', (e) => {
+      if(e.key === 'Enter') handleSearch();
+    });
+  }
 
   // Initial Render
-  renderTable(mockApplications);
+  renderTable(applications);
   updateStats();
 });
+

@@ -1,6 +1,6 @@
 /* ============================================================
    STATUS.JS
-   Logic for Application Status Tracking (mock data)
+   Logic for Application Status Tracking
    Author: Shan M A
    ============================================================ */
 
@@ -25,12 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('step-5')
   ];
 
-  // Mock Database
-  const mockDB = {
-    'KEAM260012': { name: 'Arjun K', course: 'Engineering', stage: 3, status: 'Pending', remark: 'Your documents are currently under review by the authority. Please check back later.' },
-    'KEAM260089': { name: 'Meenakshi R', course: 'Medical', stage: 5, status: 'Approved', remark: 'Application verified and approved. Admit card will be available for download shortly.' },
-    'KEAM260233': { name: 'Anjali V', course: 'LLB (5 Year)', stage: 3, status: 'Rejected', remark: 'Document verification failed. Nativity certificate uploaded is illegible. Please re-upload.' }
-  };
+  const notFoundBox = document.getElementById('status-not-found');
+  const notFoundMsg = document.getElementById('status-not-found-msg');
 
   statusForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -43,7 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Simulate API Call / Processing Delay
+    if (notFoundBox) notFoundBox.style.display = 'none';
+    if (statusResults) statusResults.style.display = 'none';
+
+    // Simulate API Call / Processing Delay (In Phase 2, connects to backend API)
     const btn = statusForm.querySelector('button');
     const originalText = btn.innerText;
     btn.innerText = 'Checking...';
@@ -53,21 +52,40 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.innerText = originalText;
       btn.disabled = false;
       
-      const data = mockDB[appNo];
+      // Check stored candidate application data if available
+      let data = null;
+      try {
+        const stored = localStorage.getItem('keam_application') || localStorage.getItem('keam_candidate');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && (parsed.applicationNo === appNo || parsed.appNo === appNo)) {
+            data = {
+              name: parsed.fullName || parsed.name || 'Candidate',
+              course: parsed.course || parsed.exam || 'KEAM 2026',
+              stage: parsed.stage || 2,
+              status: parsed.status || 'Pending',
+              remark: parsed.remark || 'Application received and currently under review by the examination authority.'
+            };
+          }
+        }
+      } catch (err) {
+        data = null;
+      }
       
-      if(data) {
+      if (data) {
+        if (notFoundBox) notFoundBox.style.display = 'none';
         displayResults(appNo, data);
       } else {
-        // Fallback for unknown application numbers
-        displayResults(appNo, { 
-          name: 'Candidate User', 
-          course: 'Engineering', 
-          stage: 2, 
-          status: 'Pending', 
-          remark: 'Application form submitted. Awaiting document upload and fee payment.' 
-        });
+        if (statusResults) statusResults.style.display = 'none';
+        if (notFoundBox) {
+          if (notFoundMsg) {
+            notFoundMsg.innerHTML = `No application records found for Application Number <strong>${appNo}</strong>. Please ensure the details entered are correct or complete your application.`;
+          }
+          notFoundBox.style.display = 'flex';
+          notFoundBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }
-    }, 800);
+    }, 600);
   });
 
   function displayResults(appNo, data) {
