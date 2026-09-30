@@ -6,16 +6,60 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ----- Notification Ticker -----
-     Duplicate the ticker items so the scroll animation
-     loops seamlessly without a visible jump.
-  */
+  /* ----- Live Notifications API & Ticker ----- */
   var track = qs('.notifications-ticker__track');
-  if (track) {
-    var items = track.innerHTML;
-    // Append a copy so the animation wraps around
-    track.innerHTML = items + items;
+  var notificationsList = qs('.latest-notifications__list');
+
+  // Initial fallback ticker duplicate for smooth CSS marquee
+  if (track && track.innerHTML) {
+    track.innerHTML = track.innerHTML + track.innerHTML;
   }
+
+  // Fetch live notifications from backend API
+  async function loadLiveNotifications() {
+    try {
+      var res = await fetch('/api/notifications');
+      if (!res.ok) return;
+      var result = await res.json();
+      if (!result.success || !Array.isArray(result.data) || result.data.length === 0) return;
+
+      var allNotifications = result.data;
+      var tickerItems = allNotifications.filter(function (n) { return n.isTicker; });
+      var listItems = allNotifications.filter(function (n) { return !n.isTicker; });
+
+      // Update scrolling ticker if items found
+      if (track && tickerItems.length > 0) {
+        var tickerHTML = '';
+        tickerItems.forEach(function (item) {
+          tickerHTML += '<div class="notifications-ticker__item">' +
+            '<a href="' + (item.link || '#') + '">' + item.title + '</a>' +
+            '</div>';
+        });
+        // Duplicate for seamless looping marquee
+        track.innerHTML = tickerHTML + tickerHTML;
+      }
+
+      // Update Latest Notifications list if items found
+      if (notificationsList && listItems.length > 0) {
+        var listHTML = '';
+        listItems.forEach(function (item) {
+          var badgeHTML = item.badge ? '<span class="latest-notifications__badge">' + item.badge + '</span>' : '';
+          listHTML += '<li class="latest-notifications__item">' +
+            '<span class="latest-notifications__bullet" aria-hidden="true"></span>' +
+            '<a href="' + (item.link || '#') + '" class="latest-notifications__link">' +
+            item.title + ' ' + badgeHTML +
+            '</a>' +
+            '</li>';
+        });
+        notificationsList.innerHTML = listHTML;
+      }
+    } catch (err) {
+      // In offline or static preview mode, gracefully retain default HTML
+      console.log('Notifications API offline, showing static notices.');
+    }
+  }
+
+  loadLiveNotifications();
 
   /* ----- Category Filtering for Portal Cards ----- */
   const courseLinks = document.querySelectorAll('.course-strip__link');

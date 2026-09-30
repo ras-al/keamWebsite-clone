@@ -6,147 +6,220 @@ This project is an academic clone of the KEAM (Kerala Engineering, Architecture 
 
 This project is developed purely for academic and educational purposes. It is not affiliated with, endorsed by, or connected to the Government of Kerala or the Commissioner for Entrance Examinations. Reference: [cee.kerala.gov.in](https://cee.kerala.gov.in/cee/index.php)
 
-## Status
+---
 
-**Phase 1 (Active):** Building the frontend UI using plain HTML, CSS, and JavaScript. The following pages are complete:
-- ✅ Landing / Home page (Rasal Musthafa) - government header, course category strip, scrolling notifications, candidate portal cards, and latest notifications list
-- ✅ Student Dashboard page (Faheem Shan) - profile card, application progress timeline, quick actions, important dates, and recent notifications
-- ✅ Application Form page (Faheem Shan) - 6-step multi-step form with personal, academic, communication, document upload, payment, and review sections
-- ✅ Shared components: Navbar & Footer, Button system, Input system (Ayman Riaz) - responsive navbar with mobile hamburger menu, multi-column footer, reusable `.btn` and `.form-*` CSS classes
-- ✅ Login & Registration pages (Safdil Arafath) - login form with captcha & password toggle, registration with strength meter & full validation
-- ✅ Admin Panel & Status Tracking pages (Shan M A) - complete (stats dashboard, datatable, and status progress tracker)
+## Project Status
 
-**Phase 2 (Planned):** Migrate the frontend to React (Vite) and integrate with the Express/MongoDB backend for a full MERN stack application.
+### **Phase 1: Frontend UI & Client Interactions (✅ Complete)**
+The static frontend is fully built using plain HTML5, CSS3, and modern JavaScript (ES6+):
+- ✅ **Landing / Home page** (*Rasal Musthafa*) - Government header, course category strip, scrolling ticker, portal cards, and latest notifications.
+- ✅ **Student Dashboard page** (*Faheem Shan*) - Profile card, application progress timeline (7-step), quick actions, calendar, and notices.
+- ✅ **Application Form page** (*Faheem Shan*) - 6-step multi-step form with personal, academic, communication, document upload, and payment sections.
+- ✅ **Shared components** (*Ayman Riaz*) - Responsive navbar with mobile hamburger menu, multi-column footer, reusable `.btn` and `.form-*` CSS classes.
+- ✅ **Login & Registration pages** (*Safdil Arafath*) - Login form with CAPTCHA & password toggle, registration with 4-bar strength meter & age validation.
+- ✅ **Admin Panel & Status Tracking pages** (*Shan M A*) - Searchable datatable for applications, status updates, and milestone tracking.
+
+### **Phase 2: Express Server, MongoDB Atlas & REST APIs (🚀 Active & Foundation Complete)**
+- ✅ **Backend Server Architecture & MongoDB Atlas Setup** (*Rasal Musthafa*) - Express server with CORS, JSON body parsers, static frontend serving, Mongoose database connection, and live `/api/notifications` & `/api/stats` endpoints connected with `index.html` and `js/home.js`.
+- 🔄 **Shared Auth & Error Middleware** (*Ayman Riaz*) - JWT authentication guard (`backend/middleware/auth.js`) and frontend API client (`js/api.js`).
+- 🔄 **Application Form & Document Upload API** (*Faheem Shan*) - `Application` schema, Multer storage, and submission endpoints.
+- 🔄 **Authentication & Security API** (*Safdil Arafath*) - `Candidate` schema, Bcrypt password hashing, JWT generation, and login integration.
+- 🔄 **Admin Management & Status Tracking API** (*Shan M A*) - `Admin` schema, application review endpoints, and public status tracking.
+
+---
 
 ## Tech Stack
 
+- **Backend:** Node.js, Express.js, Mongoose (MongoDB Atlas Cloud ODM)
 - **Frontend:** HTML5, CSS3, JavaScript (Vanilla ES6+)
+- **Security & Utilities:** JSON Web Tokens (JWT), Bcrypt.js, CORS, Dotenv, Multer
 - **Design:** Custom CSS Design System, Responsive Flexbox & Grid
-- **Version Control:** Git and GitHub
-- **Tools:** VS Code, Antigravity, Live server
+- **Version Control:** Git & GitHub
+
+---
 
 ## Project Structure
 
 ```text
 keam-clone/
-├── index.html          # Landing/Home page (Rasal)
+├── index.html                  # Landing/Home page (Rasal Musthafa)
 ├── pages/
-│   ├── login.html      # Safdil — login form, captcha, password toggle
-│   ├── register.html   # Safdil — registration form, strength meter
-│   ├── dashboard.html  # Faheem Shan 
-│   ├── application.html# Faheem Shan 
-│   ├── admin.html      # Shan M A
-│   └── status.html     # Shan M A
+│   ├── login.html              # Candidate login page (Safdil Arafath)
+│   ├── register.html           # Candidate registration page (Safdil Arafath)
+│   ├── dashboard.html          # Student dashboard page (Faheem Shan)
+│   ├── application.html        # Multi-step application form (Faheem Shan)
+│   ├── admin.html              # Admin management dashboard (Shan M A)
+│   └── status.html             # Application status tracking (Shan M A)
 ├── assets/
-│   └── logo.png        # CEE Kerala emblem
-├── components/         # Shared navbar/footer (Ayman Riaz)
+│   └── logo.png                # Official CEE Kerala emblem
+├── components/                 # Shared navbar & footer components (Ayman Riaz)
 │   ├── README.html
-│   ├── navbar.js       # JS injection for shared navbar
-│   └── footer.js       # JS injection for shared footer
+│   ├── navbar.js               # Auto-detecting navbar injection
+│   └── footer.js               # Auto-detecting footer injection
 ├── css/
-│   ├── style.css       # Shared base styles & design tokens
-│   ├── components.css  # Navbar, footer, button & input styles (Ayman Riaz)
-│   ├── home.css        # Landing page styles
-│   ├── dashboard.css   # Dashboard page styles (Faheem Shan)
-│   ├── application.css # Application form styles (Faheem Shan)
-│   ├── login.css       # Login & Register page styles (Safdil)
-│   ├── admin.css       # Admin dashboard styles (Shan M A)
-│   └── status.css      # Status tracking styles (Shan M A)
+│   ├── style.css               # Shared CSS reset & design tokens
+│   ├── components.css          # Navbar, footer, buttons & inputs (Ayman Riaz)
+│   ├── home.css                # Landing page styles (Rasal Musthafa)
+│   ├── dashboard.css           # Dashboard styles (Faheem Shan)
+│   ├── application.css         # Multi-step form styles (Faheem Shan)
+│   ├── login.css               # Auth styles (Safdil Arafath)
+│   ├── admin.css               # Admin table & badge styles (Shan M A)
+│   └── status.css              # Status tracker styles (Shan M A)
 ├── js/
-│   ├── main.js         # Shared JS utilities
-│   ├── home.js         # Landing page JS
-│   ├── dashboard.js    # Dashboard page JS (Faheem Shan)
-│   ├── application.js  # Application form JS (Faheem Shan)
-│   ├── login.js        # Login & Register JS (Safdil)
-│   ├── admin.js        # Admin page JS (Shan M A)
-│   └── status.js       # Status tracking JS (Shan M A)
+│   ├── main.js                 # Shared JS helper utilities (qs, qsa, dates)
+│   ├── home.js                 # Landing page JS & live notifications fetch
+│   ├── dashboard.js            # Dashboard JS (Faheem Shan)
+│   ├── application.js          # Application form JS (Faheem Shan)
+│   ├── login.js                # Login & register JS (Safdil Arafath)
+│   ├── admin.js                # Admin table JS (Shan M A)
+│   └── status.js               # Status tracking JS (Shan M A)
+├── backend/                    # Node.js & Express REST API Server
+│   ├── server.js               # Express entry point & static file server
+│   ├── package.json            # Node.js dependencies & scripts
+│   ├── .env                    # Environment variables (MongoDB URI, JWT secret)
+│   ├── .env.example            # Environment template
+│   ├── config/
+│   │   └── db.js               # MongoDB Atlas connection with Mongoose
+│   ├── controllers/
+│   │   ├── notificationController.js  # Notifications & public stats logic
+│   │   ├── authController.js          # Registration & login logic (Safdil)
+│   │   ├── applicationController.js   # Application submission logic (Faheem)
+│   │   └── adminController.js         # Admin & status tracking logic (Shan)
+│   ├── models/
+│   │   ├── Notification.js     # Notification schema (Rasal)
+│   │   ├── Candidate.js        # Candidate account schema (Safdil)
+│   │   ├── Application.js      # Multi-step application schema (Faheem)
+│   │   └── Admin.js            # Admin account schema (Shan)
+│   ├── routes/
+│   │   ├── notificationRoutes.js      # Announcements & stats routes
+│   │   ├── authRoutes.js              # Authentication routes (Safdil)
+│   │   ├── applicationRoutes.js       # Application routes (Faheem)
+│   │   └── adminRoutes.js             # Admin routes (Shan)
+│   └── middleware/
+│       ├── auth.js             # JWT authentication guard (Ayman)
+│       ├── errorMiddleware.js  # Standardized 404 & 500 error handlers
+│       └── upload.js           # Multer file upload configuration (Faheem)
 ├── .gitignore
-└── README.md
+├── Rasal_Musthafa_README.md    # Rasal's individual contribution & phase guide
+├── Ayman_Riaz_README.md        # Ayman's individual contribution & phase guide
+├── Faheem_Shan_README.md       # Faheem's individual contribution & phase guide
+├── Safdil_Arafath_README.md    # Safdil's individual contribution & phase guide
+├── Shan_MA_README.md           # Shan's individual contribution & phase guide
+└── README.md                   # Main Project Documentation
 ```
 
-## Development
-
-### Phase 1 - Static Frontend
-Plain HTML5, CSS3, and vanilla JavaScript. No frameworks, no libraries, no build tools.
-- **Pages** (`pages/`): Individual HTML pages for each feature (login, dashboard, admin, etc.).
-  - `index.html` (root) - *Rasal Musthafa*: Complete landing and home page featuring a government header, course category strip, scrolling notifications ticker, detailed candidate portal cards grouped by admission type, and a latest notifications list.
-  - `pages/dashboard.html` - *Faheem Shan*: Full student dashboard with profile card, application progress timeline (7-step), quick action cards (admit card, rank card, allotment, documents, option registration, fee payment), important dates calendar, and recent notifications feed.
-  - `pages/application.html` - *Faheem Shan*: Complete 6-step multi-step application form with step progress indicator, personal details, academic details, communication details, document upload (drag & drop with preview), fee payment (net banking / debit / credit / UPI), and review & submit sections.
-  - `pages/login.html` - *Safdil Arafath*: Candidate login page with Application Number field, Password field with show/hide toggle, client-generated CAPTCHA with noise-line overlay and refresh button, Remember Me checkbox, Forgot Password link, and form-level validation with styled error messages. Simulates login flow with loading state and redirect to dashboard.
-  - `pages/register.html` - *Safdil Arafath*: New candidate registration form with Full Name, Date of Birth, Email, Mobile Number (+91 addon), Gender and Category dropdowns, Password with real-time 4-bar strength meter (Weak/Fair/Good/Strong), Confirm Password match check, CAPTCHA verification, Terms & Conditions checkbox, and age validation (15–30). Generates a dummy application number on successful submission.
-  - `pages/admin.html` - *Shan M A*: Complete Admin Dashboard with stats overview cards (total, pending, approved), responsive datatable for application management, search/filter functionality, and action buttons to dynamically approve/reject candidates.
-  - `pages/status.html` - *Shan M A*: Application status tracking interface where candidates can enter their Application Number and DOB to view a visual timeline progress tracker (Registration -> Form -> Verification -> Payment -> Approval) and read specific remarks from the administration.
-- **Components** (`components/`): Shared navbar and footer JS-based includes that inject HTML into `#navbar` and `#footer` on every page via `DOMContentLoaded`. Auto-detects root vs. subpage paths.
-- **Shared Styles** (`css/style.css`): CSS reset, design tokens (colors, typography, spacing), and utility classes.
-- **Component Styles** (`css/components.css`): Navbar, footer, button system, and form input system styles. See [Shared CSS Classes](#shared-css-classes-ayman-riaz) below.
-- **Auth Styles** (`css/login.css`): Login and registration page-specific styles including auth card layout (Flexbox centering), card header with navy gradient and gold accent, CAPTCHA display widget with CSS noise lines, password strength meter bars, alert/notification boxes, responsive breakpoints, and two-column registration grid.
-- **Page Styles**: Each page has its own CSS file (`home.css`, `dashboard.css`, `application.css`, `login.css`, `admin.css`, `status.css`) for page-specific rules.
-- **Page Scripts**: Each page has its own JS file (`home.js`, `dashboard.js`, `application.js`, `login.js`, `admin.js`, `status.js`) for page-specific interactivity.
-- Open `index.html` directly in a browser to preview.
-
-#### Shared CSS Classes (Ayman Riaz)
-
-The `components.css` file provides reusable CSS classes for the entire team:
-
-**Buttons** - use the `.btn` base class with variant modifiers:
-| Class | Description |
-|-------|-------------|
-| `.btn--primary` | Navy background, white text |
-| `.btn--secondary` | Light background, navy text |
-| `.btn--gold` | Gold background, dark text |
-| `.btn--outline` | Transparent with navy border |
-| `.btn--outline-white` | Transparent with white border (for dark backgrounds) |
-| `.btn--danger` | Red background for destructive actions |
-| `.btn--success` | Green background for confirmations |
-| `.btn--sm` / `.btn--lg` | Size modifiers |
-| `.btn--block` | Full-width button |
-
-**Form Inputs** - consistent form styling:
-| Class | Description |
-|-------|-------------|
-| `.form-group` | Wrapper with bottom margin |
-| `.form-label` | Bold label, add `.form-label--required` for asterisk |
-| `.form-input` | Text input with focus ring |
-| `.form-select` | Dropdown select with custom arrow |
-| `.form-textarea` | Multi-line text area |
-| `.form-hint` | Helper text below input |
-| `.form-error` / `.form-success` | Validation messages |
-| `--error` / `--success` suffix | Validation border colors (e.g. `.form-input--error`) |
-| `.form-check` | Checkbox/radio wrapper |
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- Any modern web browser (Google Chrome, Mozilla Firefox, Microsoft Edge, Safari)
+- [Node.js](https://nodejs.org/) (v18.x or higher)
+- [npm](https://www.npmjs.com/) (v9.x or higher)
+- Modern web browser (Chrome, Firefox, Edge, Safari)
 
-### Viewing the Website
+### Running the Full-Stack Application
 
-No installation or build step needed. You can preview the project in two ways:
+The Express backend serves the static frontend alongside the REST API, meaning you only need to run one server:
 
-1. **Directly in Browser:**
-   Open `index.html` directly in your preferred web browser.
-
-2. **Using a Local Server (Recommended):**
-   Run any static local server from the project root:
+1. **Navigate to the backend directory**:
    ```bash
-   # Using Python
-   python3 -m http.server 3000
-
-   # Or using Node.js npx
-   npx serve .
+   cd backend
    ```
-   Then navigate to `http://localhost:3000` (or the port indicated).
 
-## Team
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-| Name | Roll Number | Role | Phase 1 Status |
-|------|-------------|------|----------------|
-| Rasal Musthafa | B24CSA49 | Project setup, Landing page, Home page | ✅ Complete |
-| Ayman Riaz | B24CSA17 | Shared components (Navbar, Footer, Button design, Input) | ✅ Complete |
-| Faheem Shan | B24CSA20 | Student dashboard page, Application form UI | ✅ Complete |
-| Safdil Arafath | B24CSA54 | Login & Registration page, Form validation UI | ✅ Complete |
-| Shan M A | B24CSA59 | Admin Panel UI, Application status tracking page | ✅ Complete |
+3. **Verify Environment Variables**:
+   Check `backend/.env` (or copy from `.env.example`). It is pre-configured with the MongoDB Atlas cloud connection:
+   ```env
+   PORT=5000
+   NODE_ENV=development
+   MONGO_URI=mongodb+srv://keam_admin:keamadmin123@keam-cluster.zhoq1sh.mongodb.net/keam_portal_db?retryWrites=true&w=majority&appName=keam-cluster
+   JWT_SECRET=4XN3zvSCb1NjySncnZRUsq8Z0sfK+68MrmAlR8Oo3EY=
+   ```
+
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   # or for standard execution:
+   npm start
+   ```
+
+5. **Access the Application**:
+   - Web Application: [http://localhost:5000](http://localhost:5000)
+   - API Health: [http://localhost:5000/api/health](http://localhost:5000/api/health)
+   - Notifications API: [http://localhost:5000/api/notifications](http://localhost:5000/api/notifications)
+   - Statistics API: [http://localhost:5000/api/stats](http://localhost:5000/api/stats)
+
+---
+
+## API Reference
+
+### Notifications & Statistics (Rasal Musthafa)
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| `GET` | `/api/health` | Service health status check | Public |
+| `GET` | `/api/notifications` | Get announcements (filter by `?type=ticker` or `?type=list`) | Public |
+| `GET` | `/api/stats` | Portal live statistics | Public |
+| `POST` | `/api/notifications` | Create announcement | Public / Admin |
+
+### Authentication (Safdil Arafath)
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| `POST` | `/api/auth/register` | Register new candidate & generate App No. | Public |
+| `POST` | `/api/auth/login` | Authenticate candidate & return JWT | Public |
+
+### Application Form & Uploads (Faheem Shan)
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| `POST` | `/api/application/submit` | Submit multi-step application & documents | Candidate (JWT) |
+| `GET` | `/api/application/my-application` | Get current candidate application & timeline | Candidate (JWT) |
+
+### Admin & Status Tracking (Shan M A)
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| `GET` | `/api/admin/applications` | List applications with filter & search | Admin |
+| `PUT` | `/api/admin/applications/:id/status` | Approve, reject, or mark defective with remarks | Admin |
+| `GET` | `/api/admin/status/:appNo` | Public application milestone tracker | Public |
+
+---
+
+## Shared CSS Classes (Ayman Riaz)
+
+The `css/components.css` stylesheet provides unified UI components:
+
+**Buttons** (`.btn`):
+- `.btn--primary`: Navy blue background, white text.
+- `.btn--secondary`: Light neutral background, navy text.
+- `.btn--gold`: Gold background, dark text for primary calls to action.
+- `.btn--outline`: Transparent with navy border.
+- `.btn--outline-white`: Transparent with white border (for dark hero/headers).
+- `.btn--danger`: Red accent for rejection or destructive actions.
+- `.btn--success`: Green accent for approvals and confirmations.
+
+**Form Inputs**:
+- `.form-group`: Standard vertical spacing wrapper.
+- `.form-label`: Semibold label (`.form-label--required` adds red asterisk).
+- `.form-input`: Styled text input with focus ring.
+- `.form-select`: Styled dropdown with chevron.
+- `.form-error` / `.form-success`: Validation feedback indicators.
+
+---
+
+## Team & Responsibilities
+
+| Name | Roll Number | Phase 1 Role | Phase 2 Role | Status |
+|------|-------------|--------------|--------------|--------|
+| **Rasal Musthafa** | B24CSA49 | Team Lead, Landing page, Home page | Express Server Architecture, MongoDB Atlas Setup & Notifications API | ✅ Complete |
+| **Ayman Riaz** | B24CSA17 | Shared Navbar, Footer & Button/Input CSS | JWT Auth Middleware, Error Handling & Frontend API Client | 🔄 In Progress |
+| **Faheem Shan** | B24CSA20 | Student Dashboard & Multi-step Application UI | Application Model, Controller, Multer Uploads & Dashboard API | 🔄 In Progress |
+| **Safdil Arafath** | B24CSA54 | Login & Registration Pages, Client Validation | Candidate Account Model, Bcrypt Auth & JWT Security | 🔄 In Progress |
+| **Shan M A** | B24CSA59 | Admin Panel & Status Tracker UI | Admin Management Controller, Verification & Status Tracking API | 🔄 In Progress |
+
+---
 
 ## Course Details
 
@@ -156,6 +229,8 @@ No installation or build step needed. You can preview the project in two ways:
 - **College:** TKM College of Engineering, Kollam
 - **Academic Year:** 2026 - 2027
 
+---
+
 ## License
 
-This project is intended for academic use only.
+This project is intended strictly for academic and educational purposes.
