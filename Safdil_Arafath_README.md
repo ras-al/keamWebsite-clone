@@ -65,3 +65,19 @@ main.js   --> login.js  ----------------------^
 navbar.js ---------------------------------->|
 footer.js ---------------------------------->|
 ```
+
+## Phase 2 - Backend & MongoDB Integration
+
+### Role: User Authentication, Security & Candidate Accounts
+
+- **Assigned Files**:
+  - `models/Candidate.js` (Candidate account schema)
+  - `controllers/authController.js` (Registration & login logic)
+  - `routes/authRoutes.js` (Authentication API routes)
+- **Key Responsibilities**:
+  1. Design the Mongoose `Candidate` schema with fields for application number, candidate name, date of birth, email, phone number, category, and hashed password.
+  2. Implement `POST /api/auth/register` to validate registration input, hash passwords using `bcryptjs`, generate a unique 7-digit Application Number, and persist candidate records in MongoDB Atlas.
+  3. Implement `POST /api/auth/login` to authenticate credentials, compare hashed passwords, and generate signed JSON Web Tokens (JWT) with expiration.
+  4. Connect `js/login.js` with `/api/auth/login` and `/api/auth/register` using asynchronous `fetch` requests.
+  5. Store the returned JWT token securely in `localStorage` upon successful authentication and redirect candidates to `dashboard.html`.
+

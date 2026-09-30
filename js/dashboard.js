@@ -6,22 +6,19 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ----- Mock Candidate Data -----
-     Simulated data to populate the dashboard.
-     In Phase 2, this will come from the backend API.
+  /* ----- Candidate Data -----
+     Populate dynamically from authenticated candidate session or storage.
+     In Phase 2, this is provided by GET /api/application/my-application.
   */
-  var candidateData = {
-    name: 'Arjun Krishnan S',
-    applicationNo: 'KEAM2026018374',
-    exam: 'KEAM 2026 - Engineering',
-    category: 'General',
-    dob: '15-03-2008',
-    gender: 'Male',
-    phone: '+91 94976 XXXXX',
-    email: 'arjun.k****@gmail.com',
-    status: 'active',
-    currentStep: 4  // 0-indexed: 0=Registration, 1=Application, 2=Payment, 3=Admit Card, 4=Exam, 5=Result, 6=Allotment
-  };
+  var candidateData = null;
+  try {
+    var stored = localStorage.getItem('keam_candidate') || localStorage.getItem('keam_application');
+    if (stored) {
+      candidateData = JSON.parse(stored);
+    }
+  } catch (e) {
+    candidateData = null;
+  }
 
   /* ----- Populate Profile Card ----- */
   var nameEl = qs('#profile-name');
@@ -32,25 +29,40 @@ document.addEventListener('DOMContentLoaded', function () {
   var genderEl = qs('#profile-gender');
   var phoneEl = qs('#profile-phone');
   var emailEl = qs('#profile-email');
+  var statusTagEl = qs('.profile-card__status-tag');
 
-  if (nameEl) nameEl.textContent = candidateData.name;
-  if (appNoEl) appNoEl.textContent = candidateData.applicationNo;
-  if (examEl) examEl.textContent = candidateData.exam;
-  if (categoryEl) categoryEl.textContent = candidateData.category;
-  if (dobEl) dobEl.textContent = candidateData.dob;
-  if (genderEl) genderEl.textContent = candidateData.gender;
-  if (phoneEl) phoneEl.textContent = candidateData.phone;
-  if (emailEl) emailEl.textContent = candidateData.email;
+  if (candidateData) {
+    if (nameEl) nameEl.textContent = candidateData.fullName || candidateData.name || '-';
+    if (appNoEl) appNoEl.textContent = candidateData.applicationNo || candidateData.appNo || '-';
+    if (examEl) examEl.textContent = candidateData.exam || candidateData.course || '-';
+    if (categoryEl) categoryEl.textContent = candidateData.category || '-';
+    if (dobEl) dobEl.textContent = candidateData.dob || '-';
+    if (genderEl) genderEl.textContent = candidateData.gender || '-';
+    if (phoneEl) phoneEl.textContent = candidateData.phone || candidateData.mobile || '-';
+    if (emailEl) emailEl.textContent = candidateData.email || '-';
+    if (statusTagEl) statusTagEl.textContent = candidateData.status || 'Active';
+  } else {
+    if (nameEl) nameEl.textContent = 'Candidate Profile';
+    if (appNoEl) appNoEl.textContent = '-';
+    if (examEl) examEl.textContent = '-';
+    if (categoryEl) categoryEl.textContent = '-';
+    if (dobEl) dobEl.textContent = '-';
+    if (genderEl) genderEl.textContent = '-';
+    if (phoneEl) phoneEl.textContent = '-';
+    if (emailEl) emailEl.textContent = '-';
+    if (statusTagEl) statusTagEl.textContent = 'Not Logged In';
+  }
 
   /* ----- Timeline Step Interaction -----
      Mark steps as completed/active based on candidateData.currentStep
   */
+  var currentStep = (candidateData && typeof candidateData.currentStep === 'number') ? candidateData.currentStep : -1;
   var timelineSteps = qsa('.timeline__step');
   timelineSteps.forEach(function (step, index) {
-    if (index < candidateData.currentStep) {
+    if (currentStep >= 0 && index < currentStep) {
       step.classList.add('timeline__step--completed');
       step.classList.remove('timeline__step--active');
-    } else if (index === candidateData.currentStep) {
+    } else if (currentStep >= 0 && index === currentStep) {
       step.classList.add('timeline__step--active');
       step.classList.remove('timeline__step--completed');
     } else {

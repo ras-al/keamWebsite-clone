@@ -62,3 +62,19 @@ style.css --> components.css --> All .html pages
 navbar.js ----------------------^
 footer.js ----------------------|
 ```
+
+## Phase 2 - Backend & MongoDB Integration
+
+### Role: Shared Middleware, Error Handling & Frontend API Client
+
+- **Assigned Files**:
+  - `middleware/auth.js` (JWT authentication guard)
+  - `middleware/errorMiddleware.js` (Centralized 404 & 500 error handlers)
+  - `js/api.js` (Shared frontend HTTP client wrapper)
+- **Key Responsibilities**:
+  1. Build the JWT authentication middleware (`middleware/auth.js`) that verifies tokens from the `Authorization: Bearer <token>` header and attaches the candidate object to `req.user`.
+  2. Implement global error handling middleware (`middleware/errorMiddleware.js`) providing standardized JSON error structures `{ success: false, message: ... }` for 404 and 500 status codes.
+  3. Create a reusable frontend API helper (`js/api.js`) featuring `API.get()`, `API.post()`, `API.put()`, and automatic injection of the stored JWT token.
+  4. Implement automatic token expiration handling in `js/api.js` (redirecting candidates to `login.html` upon 401 Unauthorized responses).
+  5. Coordinate with team members to integrate `js/api.js` into their frontend scripts for consistent API communication.
+
