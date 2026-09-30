@@ -66,3 +66,20 @@ main.js   --> home.js  ----------------------^
 navbar.js ---------------------------------->|
 footer.js ---------------------------------->|
 ```
+
+## Phase 2 - Backend & MongoDB Integration
+
+### Role: Team Leader, Express Server Architecture & MongoDB Atlas Setup
+
+- **Assigned Files**:
+  - `server.js` (Express entry point)
+  - `config/db.js` (MongoDB Atlas connection via Mongoose)
+  - `.env` / `.env.example` (Environment variables configuration)
+  - `package.json` (Scripts and dependency management)
+- **Key Responsibilities**:
+  1. Set up the MongoDB Atlas cloud cluster, database user credentials, and network access (IP whitelisting).
+  2. Build the Express server in `server.js` with core middleware (`cors`, `express.json()`, `express.urlencoded()`) and static file serving for the HTML/CSS/JS frontend.
+  3. Implement the database connection utility in `config/db.js` with error handling and reconnection logic.
+  4. Create the public statistics/notifications API endpoint (`GET /api/notifications` or `GET /api/stats`) and connect it with `js/home.js` on the landing page (`index.html`).
+  5. Provide project setup guidance for teammates, review Pull Requests, and manage Git merges into `main`.
+

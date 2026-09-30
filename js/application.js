@@ -368,6 +368,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Show success modal
       var modal = qs('#success-modal');
+      var appNoDisplay = qs('#modal-app-no');
+      if (appNoDisplay) {
+        var appNo = '-';
+        try {
+          var user = localStorage.getItem('keam_candidate');
+          if (user) {
+            var parsed = JSON.parse(user);
+            appNo = parsed.applicationNo || parsed.appNo || '-';
+          }
+        } catch(e) {}
+        appNoDisplay.textContent = appNo !== '-' ? appNo : 'Application Submitted';
+      }
       if (modal) {
         modal.classList.add('modal-overlay--visible');
       }

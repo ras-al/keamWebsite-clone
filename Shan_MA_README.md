@@ -66,3 +66,20 @@ main.js   --> admin.js  ---------------------------------->^
           --> status.js ----------------------------------->|
 navbar.js & footer.js ---------------------------------->|
 ```
+
+## Phase 2 - Backend & MongoDB Integration
+
+### Role: Admin Management & Application Status Tracking API
+
+- **Assigned Files**:
+  - `models/Admin.js` (Admin account schema)
+  - `controllers/adminController.js` (Admin management logic)
+  - `routes/adminRoutes.js` (Admin and status endpoints)
+- **Key Responsibilities**:
+  1. Define the Mongoose `Admin` schema with credentials and authorization roles for system administrators.
+  2. Implement `GET /api/admin/applications` to retrieve all candidate applications with search and category filtering support.
+  3. Implement `PUT /api/admin/applications/:id/status` to enable admins to approve or reject applications and attach administrative remarks.
+  4. Implement `GET /api/application/status/:appNo` as a public tracking endpoint taking an application number and date of birth to return current milestone progress.
+  5. Connect `js/admin.js` with `/api/admin/applications` to dynamically render candidate records and trigger status updates.
+  6. Connect `js/status.js` with `/api/application/status/:appNo` to replace simulated progress with actual database status updates and admin remarks.
+

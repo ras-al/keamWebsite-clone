@@ -86,3 +86,21 @@ main.js   --> dashboard.js  ----------------------> dashboard.html
           --> application.js ---------------------> application.html
 navbar.js & footer.js --------> both pages
 ```
+
+## Phase 2 - Backend & MongoDB Integration
+
+### Role: Application Form Submission, Document Upload & Dashboard API
+
+- **Assigned Files**:
+  - `models/Application.js` (Application data schema)
+  - `controllers/applicationController.js` (Application business logic)
+  - `routes/applicationRoutes.js` (Application endpoints)
+  - `middleware/upload.js` (Multer file upload configuration)
+- **Key Responsibilities**:
+  1. Define the Mongoose `Application` schema covering personal details, academic scores, course selections, uploaded file paths, fee payment status, and review state.
+  2. Configure `multer` storage middleware in `middleware/upload.js` to securely accept candidate photos, signatures, and certificates.
+  3. Implement `POST /api/application/submit` (protected by JWT auth) to validate and store multi-step form data in MongoDB Atlas.
+  4. Implement `GET /api/application/my-application` (protected by JWT auth) to retrieve the logged-in candidate's submitted application and status history.
+  5. Connect `js/application.js` with `/api/application/submit` to post form data with file uploads asynchronously.
+  6. Connect `js/dashboard.js` with `/api/application/my-application` to replace mock data with live profile info and dynamic timeline step progress.
+
