@@ -3,6 +3,7 @@
 // Handles: fetching all applications, updating status, and public status tracking
 
 const Application = require('../models/Application');
+const Candidate = require('../models/Candidate');
 
 /**
  * 1. GET ALL APPLICATIONS
@@ -161,27 +162,51 @@ const trackStatus = async (req, res) => {
     }
 
     // Step 3: Find the application by its application number
-    const application = await Application.findOne({ applicationNumber: appNo });
+    let application = await Application.findOne({ applicationNumber: appNo });
 
-    // If no application found, return 404
+    // Step 4: If application not found, check if Candidate is registered
     if (!application) {
-      return res.status(404).json({
-        success: false,
-        message: 'No application found with this Application Number'
+      const candidate = await Candidate.findOne({ applicationNumber: appNo });
+      if (!candidate) {
+        return res.status(404).json({
+          success: false,
+          message: 'No application or registration found with this Application Number'
+        });
+      }
+
+      // Verify date of birth for registered candidate
+      const candidateDob = (candidate.dob || '').trim();
+      if (dob.trim() !== candidateDob) {
+        return res.status(400).json({
+          success: false,
+          message: 'Date of Birth does not match our records'
+        });
+      }
+
+      // Candidate registered but hasn't submitted application form
+      return res.status(200).json({
+        success: true,
+        data: {
+          applicationNumber: candidate.applicationNumber,
+          candidateName: candidate.fullName,
+          status: 'Registered',
+          currentStep: 2,
+          remarks: 'Registration complete. Please sign in to fill and submit your application form.',
+          steps: [
+            { title: 'Registration', status: 'completed' },
+            { title: 'Form Filling', status: 'active' },
+            { title: 'Document Verification', status: 'pending' },
+            { title: 'Fee Payment', status: 'pending' },
+            { title: 'Approval', status: 'pending' }
+          ]
+        }
       });
     }
 
-    // Step 4: Verify date of birth matches (security check)
-    // This prevents random people from checking someone else's status
-    const storedDob = application.personalDetails.dob || '';
-
-    // Normalize both dates for comparison (handle different formats)
-    // Remove extra whitespace and compare as simple strings
-    const inputDob = dob.trim();
-    const dbDob = storedDob.trim();
-
-    if (inputDob !== dbDob) {
-      return res.status(401).json({
+    // Verify date of birth matches for application (security check)
+    const storedDob = (application.personalDetails && application.personalDetails.dob) || '';
+    if (dob.trim() !== storedDob.trim()) {
+      return res.status(400).json({
         success: false,
         message: 'Date of Birth does not match our records'
       });

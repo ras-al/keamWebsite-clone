@@ -5,6 +5,30 @@
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // ===== 0. AUTHENTICATION & ROLE GUARD =====
+  const token = localStorage.getItem('token');
+  let currentCandidate = null;
+  try {
+    const raw = localStorage.getItem('keam_candidate') || localStorage.getItem('candidate');
+    if (raw) currentCandidate = JSON.parse(raw);
+  } catch (e) {
+    currentCandidate = null;
+  }
+
+  // If not logged in at all, redirect to login page
+  if (!token) {
+    alert('Access restricted: Please log in as an administrator to access this page.');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // If logged in as a candidate without admin role, redirect to student dashboard
+  if (currentCandidate && currentCandidate.role && currentCandidate.role !== 'admin' && currentCandidate.role !== 'superadmin') {
+    alert('Access denied: Administrator privileges required.');
+    window.location.href = 'dashboard.html';
+    return;
+  }
+
   // DOM element references
   const tableBody = document.getElementById('admin-table-body');
   const searchInput = document.getElementById('admin-search-input');

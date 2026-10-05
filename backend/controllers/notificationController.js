@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Notification = require('../models/Notification');
+const Candidate = require('../models/Candidate');
+const Application = require('../models/Application');
 
 const SYSTEM_USER_ID = new mongoose.Types.ObjectId('000000000000000000000000');
 
@@ -45,12 +47,14 @@ const getNotifications = async (req, res) => {
 const getStats = async (req, res) => {
   try {
     const totalNotifications = await Notification.countDocuments();
+    const registeredCandidates = await Candidate.countDocuments();
+    const applicationsSubmitted = await Application.countDocuments();
     res.json({
       success: true,
       data: {
         activeCourses: 12,
-        registeredCandidates: 125430,
-        applicationsSubmitted: 98450,
+        registeredCandidates,
+        applicationsSubmitted,
         totalNotifications,
         currentPhase: 'Second Phase Allotment',
         helplineNumber: '0471-2525300'

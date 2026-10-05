@@ -18,8 +18,10 @@
  */
 
 const API = (() => {
-  // Base URL for all API calls (empty string means same origin)
-  const BASE_URL = '';
+  // Base URL for all API calls (targets port 5000 if opened on Live Server or alternate port)
+  const BASE_URL = (typeof window !== 'undefined' && window.location.port && window.location.port !== '5000' && window.location.protocol.startsWith('http'))
+    ? 'http://localhost:5000'
+    : '';
 
   /**
    * getToken - Retrieves the saved JWT token from browser localStorage.
@@ -46,6 +48,7 @@ const API = (() => {
   function handleUnauthorized() {
     localStorage.removeItem('token');
     localStorage.removeItem('candidate');
+    localStorage.removeItem('keam_candidate');
     // Redirect to login page (path depends on current page location)
     if (isSubpage()) {
       window.location.href = 'login.html';
@@ -56,20 +59,24 @@ const API = (() => {
 
   /**
    * handleResponse - Processes the fetch response.
-   * - If status is 401, triggers auto-logout
+   * - If status is 401 and user was logged in, triggers auto-logout
    * - Otherwise, parses and returns the JSON data
    *
    * @param {Response} response - The fetch Response object
    * @returns {Object} - The parsed JSON response body
    */
   async function handleResponse(response) {
-    if (response.status === 401) {
+    if (response.status === 401 && getToken()) {
       handleUnauthorized();
       return { success: false, message: 'Session expired. Please log in again.' };
     }
     // Parse JSON body from the response
-    const data = await response.json();
-    return data;
+    try {
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      return { success: false, message: 'Failed to parse server response.' };
+    }
   }
 
   /**
