@@ -1,14 +1,14 @@
 /* ============================================================
    STATUS.JS
-   Logic for Application Status Tracking
-   Author: Shan M A
+   Logic for Application Status Tracking — connects to backend API
+   Author: Shan M A (B24CSA59)
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
   const statusForm = document.getElementById('status-form');
   const statusResults = document.getElementById('status-results');
   
-  // Elements to update
+  // Elements to update with results
   const resName = document.getElementById('res-name');
   const resAppNo = document.getElementById('res-app-no');
   const resCourse = document.getElementById('res-course');
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resRemark = document.getElementById('res-remark');
   const alertBox = document.getElementById('status-alert');
 
-  // Timeline Steps
+  // Timeline Steps (5 steps in the status page)
   const steps = [
     document.getElementById('step-1'),
     document.getElementById('step-2'),
@@ -25,106 +25,119 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('step-5')
   ];
 
+  // Not found error box
   const notFoundBox = document.getElementById('status-not-found');
   const notFoundMsg = document.getElementById('status-not-found-msg');
 
-  statusForm.addEventListener('submit', (e) => {
+  // ===== FORM SUBMIT HANDLER =====
+  // When user clicks "Check Status", fetch data from backend API
+
+  statusForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    const appNo = document.getElementById('app-no').value.trim().toUpperCase();
+    // Step 1: Get input values
+    const appNo = document.getElementById('app-no').value.trim();
     const dob = document.getElementById('dob').value;
     
-    if(!appNo || !dob) {
-      alert("Please enter both Application Number and Date of Birth.");
+    // Step 2: Validate inputs
+    if (!appNo || !dob) {
+      alert('Please enter both Application Number and Date of Birth.');
       return;
     }
 
+    // Step 3: Hide previous results
     if (notFoundBox) notFoundBox.style.display = 'none';
     if (statusResults) statusResults.style.display = 'none';
 
-    // Simulate API Call / Processing Delay (In Phase 2, connects to backend API)
+    // Step 4: Show loading state on button
     const btn = statusForm.querySelector('button');
     const originalText = btn.innerText;
     btn.innerText = 'Checking...';
     btn.disabled = true;
 
-    setTimeout(() => {
+    try {
+      // Step 5: Call the backend API
+      // GET /api/admin/status/:appNo?dob=YYYY-MM-DD
+      const result = await API.get(
+        `/api/admin/status/${encodeURIComponent(appNo)}?dob=${encodeURIComponent(dob)}`
+      );
+
+      // Step 6: Reset button
       btn.innerText = originalText;
       btn.disabled = false;
-      
-      // Check stored candidate application data if available
-      let data = null;
-      try {
-        const stored = localStorage.getItem('keam_application') || localStorage.getItem('keam_candidate');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (parsed && (parsed.applicationNo === appNo || parsed.appNo === appNo)) {
-            data = {
-              name: parsed.fullName || parsed.name || 'Candidate',
-              course: parsed.course || parsed.exam || 'KEAM 2026',
-              stage: parsed.stage || 2,
-              status: parsed.status || 'Pending',
-              remark: parsed.remark || 'Application received and currently under review by the examination authority.'
-            };
-          }
-        }
-      } catch (err) {
-        data = null;
-      }
-      
-      if (data) {
+
+      // Step 7: Handle the response
+      if (result.success) {
+        // Hide error box and show results
         if (notFoundBox) notFoundBox.style.display = 'none';
-        displayResults(appNo, data);
+        displayResults(result.data);
       } else {
+        // Show error message
         if (statusResults) statusResults.style.display = 'none';
-        if (notFoundBox) {
-          if (notFoundMsg) {
-            notFoundMsg.innerHTML = `No application records found for Application Number <strong>${appNo}</strong>. Please ensure the details entered are correct or complete your application.`;
-          }
-          notFoundBox.style.display = 'flex';
-          notFoundBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        showNotFound(result.message || 'No application found with matching details.');
       }
-    }, 600);
+    } catch (error) {
+      // Network error — reset button and show error
+      btn.innerText = originalText;
+      btn.disabled = false;
+      console.error('Status check error:', error);
+      showNotFound('Unable to connect to the server. Please try again later.');
+    }
   });
 
-  function displayResults(appNo, data) {
-    // Update Profile Info
-    resName.innerText = data.name;
-    resAppNo.innerText = appNo;
-    resCourse.innerText = data.course;
-    resRemark.innerText = data.remark;
+  // ===== SHOW NOT FOUND ERROR =====
+  function showNotFound(message) {
+    if (notFoundBox) {
+      if (notFoundMsg) {
+        notFoundMsg.innerHTML = message;
+      }
+      notFoundBox.style.display = 'flex';
+      notFoundBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
 
-    // Reset Timeline
+  // ===== DISPLAY RESULTS =====
+  // Shows the tracking data returned from the API
+
+  function displayResults(data) {
+    // Update Profile Info
+    resName.innerText = data.candidateName || 'Candidate';
+    resAppNo.innerText = data.applicationNumber || '-';
+    resCourse.innerText = 'KEAM 2026';
+    resRemark.innerText = data.remarks || 'No remarks at this time.';
+
+    // Reset all timeline steps to default
     steps.forEach(step => {
+      if (!step) return;
       step.classList.remove('completed', 'active', 'rejected');
       step.querySelector('p').innerText = 'Pending';
     });
 
-    // Update Timeline Steps based on stage
-    for (let i = 0; i < data.stage; i++) {
-      if (i === data.stage - 1) {
-        // Current Stage
-        if (data.status === 'Rejected') {
-          steps[i].classList.add('rejected');
-          steps[i].querySelector('p').innerText = 'Failed/Rejected';
-        } else if (data.status === 'Approved') {
-          steps[i].classList.add('completed');
-          steps[i].querySelector('p').innerText = 'Completed';
-        } else {
-          steps[i].classList.add('active');
-          steps[i].querySelector('p').innerText = 'In Progress';
+    // Update timeline steps using the steps array from backend
+    if (data.steps && data.steps.length > 0) {
+      data.steps.forEach((stepData, index) => {
+        if (!steps[index]) return;
+
+        if (stepData.status === 'completed') {
+          steps[index].classList.add('completed');
+          steps[index].querySelector('p').innerText = 'Completed';
+        } else if (stepData.status === 'active') {
+          // If application is rejected/defective, show that on the active step
+          if (data.status === 'Rejected' || data.status === 'Defective') {
+            steps[index].classList.add('rejected');
+            steps[index].querySelector('p').innerText = 'Failed/Rejected';
+          } else {
+            steps[index].classList.add('active');
+            steps[index].querySelector('p').innerText = 'In Progress';
+          }
         }
-      } else {
-        // Past Stages
-        steps[i].classList.add('completed');
-        steps[i].querySelector('p').innerText = 'Completed';
-      }
+        // 'pending' steps stay as default (no class added)
+      });
     }
 
-    // Update Badge & Alert
-    resBadge.className = 'status-badge'; // reset
-    alertBox.className = 'status-alert'; // reset
+    // Update Status Badge & Alert Box based on overall status
+    resBadge.className = 'status-badge'; // reset classes
+    alertBox.className = 'status-alert'; // reset classes
 
     if (data.status === 'Approved') {
       resBadge.classList.add('status-badge--approved');
@@ -132,18 +145,18 @@ document.addEventListener('DOMContentLoaded', () => {
       alertBox.classList.add('status-alert--success');
       alertBox.innerHTML = `
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <div><strong>Status:</strong> <span id="res-remark">${data.remark}</span></div>
+        <div><strong>Status:</strong> <span id="res-remark">${data.remarks || 'Application approved successfully.'}</span></div>
       `;
-    } else if (data.status === 'Rejected') {
+    } else if (data.status === 'Rejected' || data.status === 'Defective') {
       resBadge.classList.add('status-badge--rejected');
       resBadge.innerText = 'Action Required';
-      alertBox.classList.add('status-alert--warning'); // or error style if you prefer
+      alertBox.classList.add('status-alert--warning');
       alertBox.style.backgroundColor = '#FFEBEE';
       alertBox.style.borderColor = '#FFCDD2';
       alertBox.style.color = 'var(--color-error)';
       alertBox.innerHTML = `
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        <div><strong>Issue Found:</strong> <span id="res-remark">${data.remark}</span></div>
+        <div><strong>Issue Found:</strong> <span id="res-remark">${data.remarks || 'Please contact the examination authority.'}</span></div>
       `;
     } else {
       resBadge.classList.add('status-badge--pending');
@@ -152,11 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
       alertBox.removeAttribute('style'); // reset to css class styles
       alertBox.innerHTML = `
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        <div><strong>Current Remark:</strong> <span id="res-remark">${data.remark}</span></div>
+        <div><strong>Current Remark:</strong> <span id="res-remark">${data.remarks || 'Your application is under review.'}</span></div>
       `;
     }
 
-    // Show Results
+    // Show results section and scroll to it
     statusResults.style.display = 'block';
     statusResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
