@@ -26,191 +26,95 @@ I built the Admin Panel (`pages/admin.html`) for managing applications and the S
 
 ---
 
-## Phase 2 - Backend & MongoDB Integration
+## Phase 2 - Backend & MongoDB Integration (✅ Completed)
 
-### Role: Admin Management & Application Status Tracking API
+### My Work
+I implemented the Admin panel backend API and connected it to the frontend, along with public status tracking:
+1. **Admin Model (`backend/models/Admin.js`)**: Designed a Mongoose schema for administrator credentials (`username`, `email`, `password`, `role`).
+2. **Admin Controller (`backend/controllers/adminController.js`)**: Created controller logic for fetching all applications with search/filter (`getAllApplications`), approving/rejecting applications (`updateApplicationStatus`), and public tracking with DOB validation (`trackStatus`).
+3. **Admin Routes (`backend/routes/adminRoutes.js`)**: Configured the endpoints for the admin actions and mounted them in `server.js`.
+4. **Frontend Integration (`js/admin.js`, `js/status.js`)**: Updated the admin panel to fetch live application data from the backend using the shared API helper, and updated the status page to securely query application progress.
 
-### Assigned Files
-- `backend/models/Admin.js` (Admin Account Mongoose Schema)
-- `backend/controllers/adminController.js` (Admin & Tracking Logic)
-- `backend/routes/adminRoutes.js` (Admin endpoints & public status tracking)
-- `js/admin.js` & `js/status.js` (Frontend Dynamic Data Binding)
+### Implemented & Assigned Files
 
----
-
-### Step-by-Step Implementation Instructions
-
-#### 1. Setup Backend Environment
-Ensure the backend is running with dependencies installed:
-```bash
-cd backend
-npm install
-npm run dev
-```
-
-#### 2. Create `backend/models/Admin.js`
-Define the schema for administrator credentials:
-- **Location**: `backend/models/Admin.js`
-- **Fields**:
-  - `username`: String, required: true, unique: true
-  - `email`: String, required: true, unique: true
-  - `password`: String, required: true (hashed with `bcryptjs`)
-  - `role`: String, enum: `['admin', 'superadmin']`, default: `'admin'`
-  - `timestamps`: true
-
-#### 3. Create `backend/controllers/adminController.js`
-Implement the following controller functions:
-
-**A. `getAllApplications(req, res)`**:
-- Query all candidate applications from MongoDB Atlas `Application` collection:
-  ```javascript
-  const { search, category, status } = req.query;
-  let query = {};
-  if (category && category !== 'all') query['courseSelections'] = category;
-  if (status && status !== 'all') query['status'] = status;
-  // Support searching by applicant name or application number
-  if (search) {
-    query.$or = [
-      { applicationNumber: { $regex: search, $options: 'i' } },
-      { 'personalDetails.candidateName': { $regex: search, $options: 'i' } }
-    ];
-  }
-  const applications = await Application.find(query).sort({ createdAt: -1 });
-  res.status(200).json({ success: true, count: applications.length, data: applications });
-  ```
-
-**B. `updateApplicationStatus(req, res)`**:
-- Update an application's verification status and remarks:
-  - Route: `PUT /api/admin/applications/:id/status`
-  - Body: `{ status: 'Approved' | 'Rejected' | 'Defective', remarks: '...' }`
-  - Update `status`, `remarks`, and update `currentStep` accordingly:
-    - If `'Approved'`, set `currentStep = 6`
-    - If `'Rejected'` or `'Defective'`, set `currentStep = 3` with remarks
-  - Save and return updated application document.
-
-**C. `trackStatus(req, res)`**:
-- Public status tracking:
-  - Route: `GET /api/admin/status/:appNo` (or `GET /api/application/status/:appNo`)
-  - Parameters: `appNo` in route, `dob` in query string (`?dob=YYYY-MM-DD`)
-  - Find matching `Application` and verify with candidate's date of birth.
-  - Return current step, milestone timeline status, and remarks:
-    ```json
-    {
-      "success": true,
-      "data": {
-        "applicationNumber": "2600124",
-        "candidateName": "Faheem Shan",
-        "status": "Under Verification",
-        "currentStep": 3,
-        "remarks": "Documents under verification by CEE officer.",
-        "steps": [
-          { "title": "Registration", "status": "completed" },
-          { "title": "Form Filling", "status": "completed" },
-          { "title": "Document Verification", "status": "active" },
-          { "title": "Fee Payment", "status": "pending" },
-          { "title": "Approval", "status": "pending" }
-        ]
-      }
-    }
-    ```
-
-#### 4. Create `backend/routes/adminRoutes.js`
-```javascript
-const express = require('express');
-const router = express.Router();
-const {
-  getAllApplications,
-  updateApplicationStatus,
-  trackStatus
-} = require('../controllers/adminController');
-
-// Admin endpoints
-router.get('/applications', getAllApplications);
-router.put('/applications/:id/status', updateApplicationStatus);
-
-// Public status tracking endpoint
-router.get('/status/:appNo', trackStatus);
-
-module.exports = router;
-```
-
-Uncomment the admin route mount in `backend/server.js`:
-```javascript
-app.use('/api/admin', require('./routes/adminRoutes'));
-```
-
-#### 5. Connect Frontend Pages
-
-**A. Admin Panel (`js/admin.js`)**:
-- Replace the mock data array with a live fetch:
-  ```javascript
-  async function loadApplications() {
-    const res = await fetch('/api/admin/applications');
-    const result = await res.json();
-    if (result.success) {
-      renderTable(result.data);
-      updateStatsCards(result.data);
-    }
-  }
-  ```
-- Update `updateStatus(id, newStatus)` function:
-  ```javascript
-  async function updateStatus(id, newStatus) {
-    const remarks = prompt(`Enter remarks for ${newStatus}:`);
-    const res = await fetch(`/api/admin/applications/${id}/status`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: newStatus, remarks })
-    });
-    const result = await res.json();
-    if (result.success) {
-      loadApplications(); // Refresh table
-    }
-  }
-  ```
-
-**B. Status Tracking Page (`js/status.js`)**:
-- Intercept the status lookup form submission:
-  ```javascript
-  const appNo = document.querySelector('#app-number').value.trim();
-  const dob = document.querySelector('#dob').value.trim();
-
-  const res = await fetch(`/api/admin/status/${appNo}?dob=${encodeURIComponent(dob)}`);
-  const result = await res.json();
-  if (result.success) {
-    displayTimeline(result.data);
-  } else {
-    showStatusError(result.message || 'No application found with matching details.');
-  }
-  ```
+| File | Type | Purpose |
+|------|------|---------|
+| `backend/models/Admin.js` | Mongoose Schema | Database schema for administrator accounts |
+| `backend/controllers/adminController.js` | Controller | Logic for fetching/updating applications and public tracking |
+| `backend/routes/adminRoutes.js` | Express Routes | Endpoints for admin panel and status lookups |
+| `backend/server.js` | Server Configuration | Route mounting for `/api/admin` |
+| `js/admin.js` | Frontend JS | Admin panel logic, live API calls, and status updates |
+| `js/status.js` | Frontend JS | Public application status timeline rendering via API |
 
 ---
 
-## Testing Your Implementation
+### Application Architecture & Data Flow
 
-```bash
-# 1. Test fetching all applications
-curl http://localhost:5000/api/admin/applications
-
-# 2. Test status update
-curl -X PUT http://localhost:5000/api/admin/applications/<APP_ID>/status \
-  -H "Content-Type: application/json" \
-  -d '{"status":"Approved","remarks":"All certificates verified successfully."}'
-
-# 3. Test public status tracking
-curl "http://localhost:5000/api/admin/status/2600124?dob=2005-06-15"
 ```
++-----------------------------------------------------------------------------------+
+|                                ADMIN WORKFLOW                                     |
++-----------------------------------------------------------------------------------+
+       |
+       | 1. Admin logs into Dashboard & Views Applications
+       v
++------------------------+
+|   js/admin.js          | ---> GET /api/admin/applications (with filters)
++------------------------+
+       |
+       v
++------------------------+
+| backend/controllers/   | ---> Fetches all candidate records from MongoDB
+| adminController        |      (Supports search by Name or App Number)
++------------------------+
+       |
+       | 2. Admin Reviews Application -> Approves / Rejects
+       v
++------------------------+
+|   js/admin.js          | ---> PUT /api/admin/applications/:id/status
++------------------------+
+       |
+       v
++------------------------+
+| backend/controllers/   | ---> Updates `status`, `remarks`, and `currentStep`
+| adminController        |      in MongoDB Atlas
++------------------------+
+       |
+       | 3. Candidate Checks Status (Public)
+       v
++------------------------+
+|   js/status.js         | ---> GET /api/admin/status/:appNo?dob=YYYY-MM-DD
++------------------------+
+       |
+       v
++------------------------+
+| backend/controllers/   | ---> Validates DOB and returns timeline data
+| adminController        |      to render visual progress steps
++------------------------+
+```
+
+---
+
+### Implemented API Endpoints
+
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| `GET` | `/api/admin/applications` | Admin | Fetches all applications with optional search and filters |
+| `PUT` | `/api/admin/applications/:id/status` | Admin | Updates verification status and adds remarks |
+| `GET` | `/api/admin/status/:appNo` | Public | Looks up application status securely using DOB |
 
 ---
 
 ## Git Workflow for Pull Requests
-1. Branch from `rasal` or `main`:
-   ```bash
-   git checkout -b feature/shan-admin-status-api
-   ```
-2. Commit your changes:
-   ```bash
-   git add backend/models/Admin.js backend/controllers/adminController.js backend/routes/adminRoutes.js js/admin.js js/status.js
-   git commit -m "feat(admin): applications datatable API, status verification, and live tracking"
-   ```
-3. Submit a Pull Request to Team Leader Rasal for code review.
+1. **Active Branch**: `feature/shan-admin-status-api`
+2. **Commit History**:
+   - `feat(admin): admin schema, controllers, and routes`
+   - `feat(frontend): connect admin and status pages to live API`
+3. **Files Committed**:
+   - `backend/models/Admin.js`
+   - `backend/controllers/adminController.js`
+   - `backend/routes/adminRoutes.js`
+   - `backend/server.js`
+   - `js/admin.js`
+   - `js/status.js`
+   - `Shan_MA_README.md`
+4. **Merge Compatibility**: Verified — **0 conflicts** with `main` and ready for Pull Request review.
