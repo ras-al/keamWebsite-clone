@@ -302,6 +302,24 @@
 
     var loginForm = qs('#login-form');
 
+    // Auto-fill Application Number if redirected from registration (?appNo=...)
+    if (loginForm) {
+      try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var prefillAppNo = urlParams.get('appNo');
+        var appNoInput = qs('#login-appno');
+        var passwordInput = qs('#login-password');
+        if (prefillAppNo && appNoInput) {
+          appNoInput.value = prefillAppNo;
+          showAlert('login-alert', 'login-alert-text', 'success',
+            'Registration successful! Your Application Number is ' + prefillAppNo + '. Please enter your password to sign in.');
+          if (passwordInput) passwordInput.focus();
+        }
+      } catch (err) {
+        console.error('Error reading appNo param:', err);
+      }
+    }
+
     if (loginForm) {
       loginForm.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -563,14 +581,21 @@
             if (data.success) {
               // Show the Application Number from the server response
               // data.data.applicationNumber = the real 7-digit number from MongoDB
+              var newAppNo = data.data.applicationNumber;
               showAlert('register-alert', 'register-alert-text', 'success',
                 'Registration successful! Your Application Number is: ' +
-                data.data.applicationNumber +
-                '. Please save this number for login. Redirecting...');
+                newAppNo +
+                '. Please save this number for login. Redirecting to login...');
+
+              // Scroll smoothly to alert so candidate sees it immediately
+              var alertEl = qs('#register-alert');
+              if (alertEl) {
+                alertEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
 
               setTimeout(function () {
-                window.location.href = 'login.html';
-              }, 2500);
+                window.location.href = 'login.html?appNo=' + encodeURIComponent(newAppNo);
+              }, 3000);
             } else {
               // Server returned an error (e.g., email already registered)
               showAlert('register-alert', 'register-alert-text', 'error', data.message);

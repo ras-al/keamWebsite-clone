@@ -27,11 +27,11 @@
 
       <!-- Status Search Form -->
       <div class="status-card">
-        <form id="status-form" class="status-form">
+        <form id="status-form" class="status-form" novalidate>
           <div class="form-group">
             <label for="app-no" class="form-label form-label--required">Application Number</label>
-            <input type="text" id="app-no" class="form-input" placeholder="e.g. KEAM2026XXXXX" required>
-            <span class="form-hint">Format: Application Number</span>
+            <input type="text" id="app-no" class="form-input" placeholder="e.g. 2600001" required>
+            <span class="form-hint">7-digit Application Number</span>
           </div>
           <div class="form-group">
             <label for="dob" class="form-label form-label--required">Date of Birth</label>
@@ -40,10 +40,11 @@
           </div>
           <div class="form-group">
             <label class="form-label" aria-hidden="true">&nbsp;</label>
-            <button type="submit" class="btn btn--primary btn--block">Check Status</button>
+            <button type="submit" class="btn btn--primary btn--block" id="status-submit-btn">Check Status</button>
             <span class="form-hint" aria-hidden="true">&nbsp;</span>
           </div>
         </form>
+
       </div>
 
       <!-- Not Found Alert -->

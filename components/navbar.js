@@ -37,6 +37,21 @@
 
     // --- Check if user is logged in (token exists in localStorage) ---
     var isLoggedIn = !!localStorage.getItem('token');
+    var isAdmin = false;
+
+    if (isLoggedIn) {
+      try {
+        var rawCandidate = localStorage.getItem('keam_candidate') || localStorage.getItem('candidate');
+        if (rawCandidate) {
+          var candObj = JSON.parse(rawCandidate);
+          if (candObj && (candObj.role === 'admin' || candObj.role === 'superadmin')) {
+            isAdmin = true;
+          }
+        }
+      } catch (e) {
+        isAdmin = false;
+      }
+    }
 
     // --- Navigation items ---
     // Public links: always visible to everyone
@@ -48,9 +63,14 @@
     if (isLoggedIn) {
       navItems.push(
         { label: 'Dashboard',   page: 'dashboard',   href: pagesPrefix + 'dashboard.html' },
-        { label: 'Application', page: 'application', href: pagesPrefix + 'application.html' },
-        { label: 'Admin',       page: 'admin',       href: pagesPrefix + 'admin.html' }
+        { label: 'Application', page: 'application', href: pagesPrefix + 'application.html' }
       );
+      // Admin link is strictly restricted to admin accounts
+      if (isAdmin) {
+        navItems.push(
+          { label: 'Admin',     page: 'admin',       href: pagesPrefix + 'admin.html' }
+        );
+      }
     }
 
     // Status is public (anyone can track application status)
@@ -159,6 +179,7 @@
       e.preventDefault();
       localStorage.removeItem('token');
       localStorage.removeItem('candidate');
+      localStorage.removeItem('keam_candidate');
       window.location.href = rootPrefix + 'index.html';
     }
 

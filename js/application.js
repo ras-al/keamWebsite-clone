@@ -6,6 +6,14 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  /* ===== AUTH GUARD ===== */
+  var token = localStorage.getItem('token');
+  if (!token) {
+    alert('Please sign in to access the KEAM Application form.');
+    window.location.href = 'login.html';
+    return;
+  }
+
   /* ===== STEP NAVIGATION ===== */
   var currentStep = 0;
   var totalSteps = 6;

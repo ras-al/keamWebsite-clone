@@ -234,7 +234,7 @@ const applicationSchema = new mongoose.Schema(
     // Defective: Defect flagged by admin for candidate correction
     status: {
       type: String,
-      enum: ['Draft', 'Submitted', 'Under Verification', 'Approved', 'Defective'],
+      enum: ['Draft', 'Submitted', 'Under Verification', 'Approved', 'Defective', 'Rejected'],
       default: 'Submitted'
     },
 
