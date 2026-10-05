@@ -28,7 +28,7 @@ app.get('/api/health', (req, res) => res.json({ success: true, message: 'Server 
 // Teammates' Routes:
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/application', require('./routes/applicationRoutes'));
-// app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
 
 // 5. Root page
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '..', 'index.html')));
