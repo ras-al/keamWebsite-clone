@@ -1,0 +1,527 @@
+/* ============================================================
+   LOGIN.CSS — Login & Registration page styles
+   Author: Safdil Arafath (B24CSA54)
+   Dependencies: css/style.css and css/components.css must be loaded first.
+
+   Contains styles for:
+   1. Auth page layout (centered card)
+   2. Login form card
+   3. Registration form card
+   4. Captcha widget
+   5. Password strength indicator
+   6. Form toggle (login ↔ register links)
+   7. Responsive adjustments
+   ============================================================ */
+
+
+/* =============================================================
+   1. AUTH PAGE LAYOUT
+   ============================================================= */
+
+/* Make body a flex column so footer stays at the bottom */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-md);
+  background-color: var(--color-off-white);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(27, 54, 93, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(197, 150, 12, 0.06) 0%, transparent 50%);
+}
+
+
+/* =============================================================
+   2. AUTH CARD
+   ============================================================= */
+
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  animation: authFadeIn 0.4s ease-out;
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Card header with navy gradient --- */
+.auth-card__header {
+  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle diagonal accent line */
+.auth-card__header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light), var(--color-gold));
+}
+
+.auth-card__icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto var(--space-md);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.auth-card__icon svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-gold-light);
+}
+
+.auth-card__title {
+  color: var(--color-white);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-xs);
+}
+
+.auth-card__subtitle {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-normal);
+}
+
+/* --- Card body (form area) --- */
+.auth-card__body {
+  padding: var(--space-xl);
+}
+
+
+/* =============================================================
+   3. CAPTCHA WIDGET
+   ============================================================= */
+
+.captcha-group {
+  margin-bottom: var(--space-lg);
+}
+
+.captcha-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.captcha-display {
+  flex-shrink: 0;
+  width: 150px;
+  height: 48px;
+  background-color: var(--color-off-white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  letter-spacing: 6px;
+  color: var(--color-navy);
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Noise lines over captcha text */
+.captcha-display::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 8px,
+      rgba(27, 54, 93, 0.08) 8px,
+      rgba(27, 54, 93, 0.08) 9px
+    ),
+    repeating-linear-gradient(
+      -30deg,
+      transparent 0px,
+      transparent 12px,
+      rgba(197, 150, 12, 0.06) 12px,
+      rgba(197, 150, 12, 0.06) 13px
+    );
+  pointer-events: none;
+}
+
+.captcha-refresh {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-off-white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-navy);
+}
+
+.captcha-refresh:hover {
+  background-color: var(--color-navy);
+  color: var(--color-white);
+  border-color: var(--color-navy);
+}
+
+.captcha-refresh svg {
+  width: 20px;
+  height: 20px;
+}
+
+.captcha-refresh.is-spinning svg {
+  animation: captchaSpin 0.5s ease-in-out;
+}
+
+@keyframes captchaSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.captcha-input {
+  flex: 1;
+}
+
+
+/* =============================================================
+   4. PASSWORD STRENGTH INDICATOR
+   ============================================================= */
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-mid-gray);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.password-toggle:hover {
+  color: var(--color-navy);
+}
+
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.password-wrapper .form-input {
+  padding-right: 44px;
+}
+
+.password-strength {
+  display: flex;
+  gap: 4px;
+  margin-top: var(--space-sm);
+  height: 4px;
+}
+
+.password-strength__bar {
+  flex: 1;
+  height: 100%;
+  background-color: var(--color-light-gray);
+  border-radius: 2px;
+  transition: background-color var(--transition-base);
+}
+
+.password-strength__bar.is-active.strength-weak {
+  background-color: var(--color-error);
+}
+
+.password-strength__bar.is-active.strength-fair {
+  background-color: var(--color-warning);
+}
+
+.password-strength__bar.is-active.strength-good {
+  background-color: #f9a825;
+}
+
+.password-strength__bar.is-active.strength-strong {
+  background-color: var(--color-success);
+}
+
+.password-strength-text {
+  font-size: var(--fs-xs);
+  margin-top: 4px;
+  font-weight: var(--fw-medium);
+}
+
+.password-strength-text.strength-weak   { color: var(--color-error); }
+.password-strength-text.strength-fair    { color: var(--color-warning); }
+.password-strength-text.strength-good    { color: #f9a825; }
+.password-strength-text.strength-strong  { color: var(--color-success); }
+
+
+/* =============================================================
+   5. FORM EXTRAS
+   ============================================================= */
+
+/* Remember me + Forgot password row */
+.auth-form__options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.auth-form__forgot {
+  font-size: var(--fs-sm);
+  color: var(--color-navy);
+  font-weight: var(--fw-medium);
+  transition: color var(--transition-fast);
+}
+
+.auth-form__forgot:hover {
+  color: var(--color-navy-light);
+  text-decoration: underline;
+}
+
+/* --- Alert / notification box --- */
+.auth-alert {
+  display: none;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  margin-bottom: var(--space-lg);
+  border: 1px solid transparent;
+}
+
+.auth-alert.is-visible {
+  display: flex;
+}
+
+.auth-alert--error {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: var(--color-error);
+}
+
+.auth-alert--success {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+  color: var(--color-success);
+}
+
+.auth-alert--info {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: var(--color-info);
+}
+
+.auth-alert__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+}
+
+.auth-alert__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Divider --- */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+  color: var(--color-mid-gray);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-light-gray);
+}
+
+/* --- Card footer (login ↔ register toggle) --- */
+.auth-card__footer {
+  padding: var(--space-lg) var(--space-xl);
+  text-align: center;
+  background-color: var(--color-off-white);
+  border-top: 1px solid var(--color-light-gray);
+  font-size: var(--fs-sm);
+  color: var(--color-mid-gray);
+}
+
+.auth-card__footer a {
+  color: var(--color-navy);
+  font-weight: var(--fw-semibold);
+  transition: color var(--transition-fast);
+}
+
+.auth-card__footer a:hover {
+  color: var(--color-navy-light);
+}
+
+/* --- Important notice box --- */
+.auth-notice {
+  max-width: 480px;
+  margin: var(--space-lg) auto 0;
+  padding: var(--space-md);
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-xs);
+  color: var(--color-dark-gray);
+  line-height: var(--lh-relaxed);
+  text-align: center;
+}
+
+.auth-notice strong {
+  color: var(--color-warning);
+}
+
+
+/* =============================================================
+   6. REGISTRATION-SPECIFIC
+   ============================================================= */
+
+/* Wider card for registration (more fields) */
+.auth-card--register {
+  max-width: 560px;
+}
+
+/* Two-column layout for registration fields */
+.auth-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 var(--space-lg);
+}
+
+/* Terms checkbox */
+.auth-form__terms {
+  margin-bottom: var(--space-lg);
+}
+
+.auth-form__terms .form-check__label {
+  font-size: var(--fs-sm);
+  color: var(--color-mid-gray);
+}
+
+.auth-form__terms a {
+  color: var(--color-navy);
+  font-weight: var(--fw-medium);
+  text-decoration: underline;
+}
+
+
+/* =============================================================
+   7. RESPONSIVE
+   ============================================================= */
+
+@media (max-width: 767px) {
+  .auth-page {
+    padding: var(--space-md);
+    align-items: flex-start;
+    padding-top: var(--space-xl);
+  }
+
+  .auth-card__body {
+    padding: var(--space-lg);
+  }
+
+  .auth-card__header {
+    padding: var(--space-lg) var(--space-lg) var(--space-md);
+  }
+
+  .auth-card__footer {
+    padding: var(--space-md) var(--space-lg);
+  }
+}
+
+@media (max-width: 479px) {
+  .auth-card__title {
+    font-size: var(--fs-lg);
+  }
+
+  .auth-card__icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .auth-card__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .captcha-box {
+    flex-wrap: wrap;
+  }
+
+  .captcha-display {
+    width: 100%;
+  }
+
+  .captcha-input {
+    width: 100%;
+  }
+
+  .auth-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-form__options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

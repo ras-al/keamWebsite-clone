@@ -1,33 +1,41 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+const connectDB = require('./config/db');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
-// Load environment variables
+// 1. Config & Database
 dotenv.config();
+connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware
+// 2. Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Basic Route
-app.get('/', (req, res) => {
-  res.send('KEAM Clone API is running...');
-});
+// 3. Serve Frontend Static Files
+app.use(express.static(path.join(__dirname, '..')));
 
-// Database Connection
-mongoose
-  .connect(process.env.MONGO_URI || 'mongodb://localhost:27017/keam-clone')
-  .then(() => {
-    console.log('Connected to MongoDB');
-    // Start Server
-    app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
+// 4. API Routes
+app.use('/api/notifications', require('./routes/notificationRoutes'));
+app.get('/api/stats', (req, res) => require('./controllers/notificationController').getStats(req, res));
+app.get('/api/health', (req, res) => res.json({ success: true, message: 'Server is running' }));
+
+// Teammates' Routes (uncomment when ready):
+// app.use('/api/auth', require('./routes/authRoutes'));
+// app.use('/api/application', require('./routes/applicationRoutes'));
+// app.use('/api/admin', require('./routes/adminRoutes'));
+
+// 5. Root page
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '..', 'index.html')));
+
+// 6. Error Handlers
+app.use(notFound);
+app.use(errorHandler);
+
+// 7. Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
