@@ -25,7 +25,7 @@ app.get('/api/stats', (req, res) => require('./controllers/notificationControlle
 app.get('/api/health', (req, res) => res.json({ success: true, message: 'Server is running' }));
 
 // Teammates' Routes (uncomment when ready):
-// app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/auth', require('./routes/authRoutes'));
 // app.use('/api/application', require('./routes/applicationRoutes'));
 // app.use('/api/admin', require('./routes/adminRoutes'));
 
