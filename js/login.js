@@ -349,39 +349,61 @@
           return;
         }
 
-        // --- Process login (In Phase 2, posts to /api/auth/login) ---
+        // --- Send login request to the backend API ---
         var submitBtn = qs('#login-submit');
         submitBtn.textContent = 'Signing In...';
         submitBtn.disabled = true;
 
-        setTimeout(function () {
-          submitBtn.textContent = 'Sign In';
-          submitBtn.disabled = false;
+        // fetch() sends an HTTP request from the browser to our Express server
+        // method: 'POST' = we're sending data TO the server
+        // headers: tells the server we're sending JSON
+        // body: the actual data (application number + password)
+        fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            applicationNumber: appNo.value.trim(),
+            password: password.value
+          })
+        })
+          .then(function (res) { return res.json(); })  // parse JSON response
+          .then(function (data) {
+            submitBtn.textContent = 'Sign In';
+            submitBtn.disabled = false;
 
-          // Save current candidate session
-          try {
-            var existing = localStorage.getItem('keam_candidate');
-            var parsed = existing ? JSON.parse(existing) : null;
-            if (!parsed || (parsed.applicationNo !== appNoInput.value.trim() && parsed.appNo !== appNoInput.value.trim())) {
-              var loggedInCandidate = {
-                applicationNo: appNoInput.value.trim(),
-                appNo: appNoInput.value.trim(),
-                fullName: 'Candidate ' + appNoInput.value.trim(),
-                name: 'Candidate ' + appNoInput.value.trim(),
-                status: 'Active',
-                currentStep: 1
-              };
-              localStorage.setItem('keam_candidate', JSON.stringify(loggedInCandidate));
+            if (data.success) {
+              // Store the JWT token in localStorage for future authenticated requests
+              // localStorage persists even after closing the browser tab
+              localStorage.setItem('token', data.token);
+
+              // Store candidate profile info for the dashboard to use
+              var candidateInfo = data.candidate;
+              candidateInfo.applicationNo = candidateInfo.applicationNumber;
+              candidateInfo.appNo = candidateInfo.applicationNumber;
+              candidateInfo.name = candidateInfo.fullName;
+              candidateInfo.status = 'Active';
+              candidateInfo.currentStep = 1;
+              localStorage.setItem('keam_candidate', JSON.stringify(candidateInfo));
+
+              showAlert('login-alert', 'login-alert-text', 'success',
+                'Login successful! Redirecting to dashboard...');
+
+              setTimeout(function () {
+                window.location.href = 'dashboard.html';
+              }, 1200);
+            } else {
+              // Server returned an error (wrong credentials, etc.)
+              showAlert('login-alert', 'login-alert-text', 'error', data.message);
+              renderCaptcha(loginCaptchaDisplay);  // refresh captcha on failed attempt
             }
-          } catch (e) {}
-
-          showAlert('login-alert', 'login-alert-text', 'success',
-            'Login successful! Redirecting to dashboard...');
-
-          setTimeout(function () {
-            window.location.href = 'dashboard.html';
-          }, 1200);
-        }, 1000);
+          })
+          .catch(function (err) {
+            // Network error (server down, no internet, etc.)
+            submitBtn.textContent = 'Sign In';
+            submitBtn.disabled = false;
+            showAlert('login-alert', 'login-alert-text', 'error',
+              'Network error. Please check your connection.');
+          });
       });
     }
 
@@ -513,45 +535,55 @@
           return;
         }
 
-        // --- Process registration (In Phase 2, posts to /api/auth/register) ---
+        // --- Send registration request to the backend API ---
         var submitBtn = qs('#register-submit');
         submitBtn.textContent = 'Creating Account...';
         submitBtn.disabled = true;
 
-        setTimeout(function () {
-          submitBtn.textContent = 'Create Account';
-          submitBtn.disabled = false;
-
-          // Generate sequential application number based on timestamp
-          var appNumber = 'KEAM' + Date.now().toString().slice(-6);
-
-          // Store actual candidate registration details
-          var newCandidate = {
-            fullName: fullName.value.trim(),
-            name: fullName.value.trim(),
+        // fetch() sends form data to our Express server as a POST request
+        // JSON.stringify() converts the JavaScript object into a JSON string
+        fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: fullname.value.trim(),
             dob: dob.value,
             email: email.value.trim(),
-            phone: mobile.value.trim(),
-            mobile: mobile.value.trim(),
-            gender: (qs('#reg-gender') ? qs('#reg-gender').value : '-'),
-            category: (category ? category.value : '-'),
-            applicationNo: appNumber,
-            appNo: appNumber,
-            status: 'Registered',
-            currentStep: 1
-          };
-          try {
-            localStorage.setItem('keam_candidate', JSON.stringify(newCandidate));
-          } catch (e) {}
+            mobileNumber: mobile.value.trim(),
+            gender: gender.value,
+            category: category.value,
+            password: password.value
+          })
+        })
+          .then(function (res) { return res.json(); })  // parse the JSON response
+          .then(function (data) {
+            submitBtn.textContent = 'Create Account';
+            submitBtn.disabled = false;
 
-          showAlert('register-alert', 'register-alert-text', 'success',
-            'Registration successful! Your Application Number is: ' + appNumber +
-            '. Redirecting to login...');
+            if (data.success) {
+              // Show the Application Number from the server response
+              // data.data.applicationNumber = the real 7-digit number from MongoDB
+              showAlert('register-alert', 'register-alert-text', 'success',
+                'Registration successful! Your Application Number is: ' +
+                data.data.applicationNumber +
+                '. Please save this number for login. Redirecting...');
 
-          setTimeout(function () {
-            window.location.href = 'login.html';
-          }, 2000);
-        }, 1200);
+              setTimeout(function () {
+                window.location.href = 'login.html';
+              }, 2500);
+            } else {
+              // Server returned an error (e.g., email already registered)
+              showAlert('register-alert', 'register-alert-text', 'error', data.message);
+              renderCaptcha(regCaptchaDisplay);  // refresh captcha
+            }
+          })
+          .catch(function (err) {
+            // Network error (server down, no internet, etc.)
+            submitBtn.textContent = 'Create Account';
+            submitBtn.disabled = false;
+            showAlert('register-alert', 'register-alert-text', 'error',
+              'Network error. Please check your connection.');
+          });
       });
     }
 
