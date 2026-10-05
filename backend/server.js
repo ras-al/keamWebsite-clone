@@ -16,17 +16,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 3. Serve Frontend Static Files
+// 3. Serve Frontend Static Files & Uploads
 app.use(express.static(path.join(__dirname, '..')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 4. API Routes
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.get('/api/stats', (req, res) => require('./controllers/notificationController').getStats(req, res));
 app.get('/api/health', (req, res) => res.json({ success: true, message: 'Server is running' }));
 
-// Teammates' Routes (uncomment when ready):
+// Teammates' Routes:
 app.use('/api/auth', require('./routes/authRoutes'));
-// app.use('/api/application', require('./routes/applicationRoutes'));
+app.use('/api/application', require('./routes/applicationRoutes'));
 // app.use('/api/admin', require('./routes/adminRoutes'));
 
 // 5. Root page
