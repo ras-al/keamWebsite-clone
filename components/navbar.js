@@ -35,30 +35,54 @@
       return isActive(page) ? 'navbar__mobile-link--active' : '';
     }
 
+    // --- Check if user is logged in (token exists in localStorage) ---
+    var isLoggedIn = !!localStorage.getItem('token');
+
     // --- Navigation items ---
+    // Public links: always visible to everyone
     var navItems = [
-      { label: 'Home',        page: 'index',       href: rootPrefix + 'index.html' },
-      { label: 'Dashboard',   page: 'dashboard',   href: pagesPrefix + 'dashboard.html' },
-      { label: 'Application', page: 'application', href: pagesPrefix + 'application.html' },
-      { label: 'Admin',       page: 'admin',       href: pagesPrefix + 'admin.html' },
-      { label: 'Status',      page: 'status',      href: pagesPrefix + 'status.html' }
+      { label: 'Home', page: 'index', href: rootPrefix + 'index.html' }
     ];
 
-    var ctaItem = { label: 'Login / Register', page: 'login', href: pagesPrefix + 'login.html' };
+    // Protected links: only visible after login
+    if (isLoggedIn) {
+      navItems.push(
+        { label: 'Dashboard',   page: 'dashboard',   href: pagesPrefix + 'dashboard.html' },
+        { label: 'Application', page: 'application', href: pagesPrefix + 'application.html' },
+        { label: 'Admin',       page: 'admin',       href: pagesPrefix + 'admin.html' }
+      );
+    }
+
+    // Status is public (anyone can track application status)
+    navItems.push(
+      { label: 'Status', page: 'status', href: pagesPrefix + 'status.html' }
+    );
+
+    // --- CTA button: Login/Register when logged out, Logout when logged in ---
+    var ctaItem;
+    if (isLoggedIn) {
+      ctaItem = { label: 'Logout', page: 'logout', href: '#', isLogout: true };
+    } else {
+      ctaItem = { label: 'Login / Register', page: 'login', href: pagesPrefix + 'login.html', isLogout: false };
+    }
 
     // --- Build desktop nav links ---
     var desktopLinks = '';
     navItems.forEach(function (item) {
       desktopLinks += '<li><a href="' + item.href + '" class="navbar__link ' + activeClass(item.page) + '">' + item.label + '</a></li>';
     });
-    desktopLinks += '<li><a href="' + ctaItem.href + '" class="navbar__link navbar__link--cta ' + activeClass(ctaItem.page) + '">' + ctaItem.label + '</a></li>';
+    desktopLinks += '<li><a href="' + ctaItem.href + '" class="navbar__link navbar__link--cta ' + activeClass(ctaItem.page) + '"' + (ctaItem.isLogout ? ' id="logout-btn"' : '') + '>' + ctaItem.label + '</a></li>';
 
     // --- Build mobile menu links ---
     var mobileLinks = '';
     navItems.forEach(function (item) {
       mobileLinks += '<a href="' + item.href + '" class="navbar__mobile-link ' + mobileActiveClass(item.page) + '">' + item.label + '</a>';
     });
-    mobileLinks += '<a href="' + ctaItem.href + '" class="navbar__mobile-link navbar__mobile-link--cta ' + mobileActiveClass(ctaItem.page) + '">&#x1F512; ' + ctaItem.label + '</a>';
+    if (ctaItem.isLogout) {
+      mobileLinks += '<a href="' + ctaItem.href + '" class="navbar__mobile-link navbar__mobile-link--cta ' + mobileActiveClass(ctaItem.page) + '" id="mobile-logout-btn">&#x1F513; ' + ctaItem.label + '</a>';
+    } else {
+      mobileLinks += '<a href="' + ctaItem.href + '" class="navbar__mobile-link navbar__mobile-link--cta ' + mobileActiveClass(ctaItem.page) + '">&#x1F512; ' + ctaItem.label + '</a>';
+    }
 
     // --- Inject navbar HTML ---
     navbar.innerHTML =
@@ -127,6 +151,25 @@
             '</svg>';
         }
       });
+    }
+
+    // --- Logout button handler ---
+    // Clears token and candidate data from localStorage, then redirects to home
+    function handleLogout(e) {
+      e.preventDefault();
+      localStorage.removeItem('token');
+      localStorage.removeItem('candidate');
+      window.location.href = rootPrefix + 'index.html';
+    }
+
+    var logoutBtn = document.getElementById('logout-btn');
+    var mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', handleLogout);
+    }
+    if (mobileLogoutBtn) {
+      mobileLogoutBtn.addEventListener('click', handleLogout);
     }
   });
 })();
