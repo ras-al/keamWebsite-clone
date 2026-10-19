@@ -3,7 +3,7 @@
 ## Profile
 - **Name:** Rasal Musthafa
 - **Roll Number:** B24CSA49
-- **Role:** Team Leader | Landing Page / Home Page | Express Server Architecture & MongoDB Atlas Setup
+- **Role:** Team Leader | Landing Page / Home Page | Express Server & MongoDB Atlas | React App Architecture & Home Components
 
 ---
 
@@ -167,7 +167,7 @@ footer.js ---------------------------------->|
 
 ---
 
-## Instructions for Teammates
+## Instructions for Teammates (Backend)
 
 As Team Leader, I have set up the core backend foundation, MongoDB Atlas connection, and static serving. Please follow these guidelines:
 
@@ -188,3 +188,114 @@ As Team Leader, I have set up the core backend foundation, MongoDB Atlas connect
    - Branch from `rasal` or `main`: `git checkout -b feature/<your-name>-backend`
    - Commit cleanly: `git commit -m "feat(backend): implement auth controller and routes"`
    - Open a Pull Request for review before merging into `main`.
+
+---
+
+## Phase 3 - React SPA Architecture & Home / Landing Page (🚀 Next Phase)
+
+### Role: Team Leader, React Setup, Application Routing & Landing Page Components
+
+In Phase 3, we transition the KEAM Portal into a component-driven React Single Page Application (SPA). Following the course study material, our codebase will prioritize simple, clean, and readable functional components with modern React hooks.
+
+### My Phase 3 Assigned Components & Files
+
+| Component / File | Purpose & Responsibilities | Study Reference |
+|---|---|---|
+| `frontend/src/index.js` | Entry point binding React to the DOM using `ReactDOM.createRoot` and wrapping `<App />` with `<BrowserRouter>`. | Slides 8, 83 |
+| `frontend/src/App.js` | Top-level application layout: mounts `Navbar`, declares `<Routes>` with `<Route>` for all pages, and mounts `Footer`. | Slides 14, 84–85 |
+| `frontend/src/pages/HomePage.jsx` | Landing page coordinating header, announcement ticker, category tabs, portal cards, and live notifications. | Slide 14 |
+| `frontend/src/components/home/Header.jsx` | Official Government of Kerala header banner with CEE emblem and title. | Slides 10–13 |
+| `frontend/src/components/home/Ticker.jsx` | Dynamic announcement ticker fetching live updates from `/api/notifications?type=ticker` via `useEffect`. | Slides 36, 67, 71 |
+| `frontend/src/components/home/CourseTabs.jsx` | Interactive course category selector (`Engineering`, `Medical`, `Architecture`, etc.) managing active tab state with `useState`. | Slides 31–32 |
+| `frontend/src/components/home/PortalCards.jsx` | Grid container filtering and displaying portal cards based on selected category props. | Slides 48–49 |
+| `frontend/src/components/home/PortalCard.jsx` | Reusable card receiving `title`, `desc`, `tag`, and `link` as props with destructuring. | Slides 50–51 |
+| `frontend/src/components/home/NotificationList.jsx` | Live announcement board fetching notices via `useEffect` with clean conditional loading states. | Slides 56–62, 71–72 |
+
+---
+
+### React Concepts Used (from Study Material)
+
+1. **Declarative Functional Components (Slides 10–15)**:
+   - Writing UI with pure functional components returning clean JSX.
+   - Using React Fragments (`<>...</>`) or single container tags to adhere to JSX rules.
+2. **Client-Side Routing with `react-router-dom` (Slides 82–85)**:
+   - Setting up `BrowserRouter`, `<Routes>`, `<Route path="..." element={<Component />} />`.
+   - Replaces traditional multi-page navigation without reloading the browser.
+3. **State Management with `useState` (Slides 31–35)**:
+   - Managing active course tab: `const [activeCategory, setActiveCategory] = useState('All');`
+   - Managing notifications array: `const [notifications, setNotifications] = useState([]);`
+4. **Side Effects with `useEffect` (Slides 36, 65–72)**:
+   - Fetching announcements from `/api/notifications` on component mount using an empty dependency array `[]`.
+5. **Component Composition & Props (Slides 14, 42–51)**:
+   - Passing data and handler functions to child components (`<PortalCard key={card.id} {...card} />`).
+   - Destructuring props cleanly in function arguments: `function PortalCard({ title, tag, link }) { ... }`.
+6. **Conditional Rendering (Slides 56–64)**:
+   - Rendering loading indicators while fetching: `{loading ? <p>Loading notices...</p> : <NoticeList items={notices} />}`.
+
+---
+
+### Educational Code Style Reference for Home Components
+
+```jsx
+// Example of simple, readable structure matching course slides:
+import React, { useState, useEffect } from 'react';
+
+function Ticker() {
+  const [notices, setNotices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simple fetch on component mount (Slide 71)
+    fetch('/api/notifications?type=ticker')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) setNotices(data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Failed to fetch ticker:', err);
+        setLoading(false);
+      });
+  }, []); // Empty array runs once on mount
+
+  if (loading) return <div className="ticker-bar">Loading announcements...</div>;
+
+  return (
+    <div className="ticker-bar">
+      <span className="ticker-badge">LATEST</span>
+      <div className="ticker-content">
+        {notices.map((notice) => (
+          <span key={notice._id} className="ticker-item">
+            📢 {notice.title}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default Ticker;
+```
+
+---
+
+### Phase 3 Instructions for Teammates
+
+1. **Coding Style**:
+   - Keep code simple, readable, and consistent with the classroom study material.
+   - Use **functional components** and **React Hooks** (`useState`, `useEffect`, `useContext`, `useRef`). Avoid class components.
+   - Destructure props cleanly: `function Component({ propA, propB })`.
+   - Prefer external CSS or CSS Modules (`ComponentName.module.css`).
+2. **Directory Conventions**:
+   - Shared/Common components (`Navbar`, `Footer`, `Button`, `InputField`) go in `src/components/common/` (Ayman).
+   - Domain-specific components go in `src/components/<domain>/` (e.g. `src/components/dashboard/`, `src/components/auth/`).
+   - Page containers go in `src/pages/`.
+3. **Route Declaration in `App.js`**:
+   - Home: `/` (`HomePage.jsx`)
+   - Login: `/login` (`LoginPage.jsx`)
+   - Register: `/register` (`RegisterPage.jsx`)
+   - Dashboard: `/dashboard` (`DashboardPage.jsx` - protected)
+   - Application: `/application` (`ApplicationPage.jsx` - protected)
+   - Admin Panel: `/admin` (`AdminPage.jsx` - protected)
+   - Public Status: `/status` (`StatusPage.jsx`)
+
