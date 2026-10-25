@@ -89,6 +89,7 @@ const submitApplication = async (req, res) => {
         'Plus Two (HSE Kerala)',
       board: parsedAcademic.board || req.body.board || 'DHSE Kerala',
       passYear: parsedAcademic.passYear || req.body.passYear || req.body['pass-year'] || '2026',
+      rollNumber: parsedAcademic.rollNumber || req.body.rollNumber || req.body['roll-number'] || '',
       totalMarks: parsedAcademic.totalMarks || req.body.totalMarks || req.body['total-marks'] || '',
       percentage: parsedAcademic.percentage || req.body.percentage || '',
       schoolName: parsedAcademic.schoolName || req.body.schoolName || req.body['school-name'] || '',
