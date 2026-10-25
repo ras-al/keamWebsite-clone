@@ -3,7 +3,7 @@
 ## Profile
 - **Name:** Faheem Shan
 - **Roll Number:** B24CSA20
-- **Role:** Dashboard & Application Form | Backend Application & Upload Controller
+- **Role:** Dashboard & Application Form | Backend Application & Upload Controller | React Student Dashboard & Multi-Step Wizard
 
 ---
 
@@ -193,3 +193,151 @@ curl -X GET http://localhost:5000/api/application/my-application \
    - `js/dashboard.js`
    - `Faheem_Shan_README.md`
 4. **Merge Compatibility**: Verified with `git merge-tree` — **0 conflicts** with `main` and ready for Pull Request review.
+
+---
+
+## Phase 3 - Student Dashboard & Multi-Step Application Wizard (🚀 Next Phase)
+
+### Role: Student Dashboard & 6-Step Multi-Step Application Wizard
+
+In Phase 3, my responsibility is to transform the student dashboard and multi-step application form into React components following the clean and understandable patterns from the study material.
+
+### My Phase 3 Assigned Components & Files
+
+| Component / File | Purpose & Responsibilities | Study Reference |
+|---|---|---|
+| `frontend/src/pages/DashboardPage.jsx` | Authenticated student dashboard. Uses `useEffect` to fetch application status from `/api/application/my-application` and renders candidate profile, timeline, and quick actions. | Slides 14, 71–72 |
+| `frontend/src/components/dashboard/ProfileCard.jsx` | Candidate profile card displaying candidate name, application number, photo, course category, and payment status via props. | Slides 42–44, 50 |
+| `frontend/src/components/dashboard/ProgressTimeline.jsx` | 7-stage application pipeline visualizer (Registration -> Submitted -> Fee Paid -> Admit Card -> Defect Verification) styled dynamically based on active status. | Slides 23–24 |
+| `frontend/src/components/dashboard/DigitalClock.jsx` | Real-time digital clock using `useState` and `useEffect` with `setInterval` + cleanup `clearInterval` to prevent memory leaks on unmount. | Slides 69–70 |
+| `frontend/src/pages/ApplicationPage.jsx` | Top-level wizard container managing `currentStep` (1 to 6) and centralized `formData` using **Lifting State Up**. | Slides 52–55, 61 |
+| `frontend/src/components/application/StepPersonal.jsx` | Step 1: Controlled inputs for candidate name, gender, DOB, father's/mother's name, category. | Slides 86–88 |
+| `frontend/src/components/application/StepAcademic.jsx` | Step 2: Controlled inputs for qualifying examination, board, roll number, and marks. | Slides 86–88 |
+| `frontend/src/components/application/StepCommunication.jsx` | Step 3: Controlled inputs for permanent address, district, PIN code, and contact numbers. | Slides 86–88 |
+| `frontend/src/components/application/StepUploads.jsx` | Step 4: Uncontrolled file inputs using `useRef(null)` for candidate photograph, signature, and certificates. | Slides 89–90 |
+| `frontend/src/components/application/StepPayment.jsx` | Step 5: Application fee breakdown, payment mode selector, and simulated payment confirmation. | Slides 31–32 |
+| `frontend/src/components/application/StepReview.jsx` | Step 6: Full application preview, confirmation checklist, and multipart `FormData` submission to `/api/application/submit`. | Slides 86–87 |
+
+---
+
+### React Concepts Used (from Study Material)
+
+1. **Lifting State Up (Slides 52–55)**:
+   - In `ApplicationPage.jsx`, state lives in the parent component:
+     ```jsx
+     const [currentStep, setCurrentStep] = useState(1);
+     const [formData, setFormData] = useState({ ...initialData });
+     ```
+   - Parent passes `formData` and updater functions (`updateFormData`, `nextStep`, `prevStep`) down to each step child component via props.
+2. **Conditional Rendering with Switch Case (Slide 61)**:
+   - Rendering active wizard step dynamically:
+     ```jsx
+     function renderStep() {
+       switch (currentStep) {
+         case 1: return <StepPersonal data={formData} onUpdate={updateFormData} onNext={nextStep} />;
+         case 2: return <StepAcademic data={formData} onUpdate={updateFormData} onNext={nextStep} onPrev={prevStep} />;
+         case 3: return <StepCommunication data={formData} onUpdate={updateFormData} onNext={nextStep} onPrev={prevStep} />;
+         case 4: return <StepUploads onNext={nextStep} onPrev={prevStep} />;
+         case 5: return <StepPayment onNext={nextStep} onPrev={prevStep} />;
+         case 6: return <StepReview data={formData} onSubmit={handleSubmit} onPrev={prevStep} />;
+         default: return <StepPersonal />;
+       }
+     }
+     ```
+3. **Controlled Components (Slides 86–88)**:
+   - For all text and select inputs, input value is bound to state with `onChange`:
+     ```jsx
+     <input
+       type="text"
+       value={data.fatherName}
+       onChange={(e) => onUpdate({ fatherName: e.target.value })}
+     />
+     ```
+4. **Uncontrolled Components with `useRef` (Slides 89–90)**:
+   - For document uploads, accessing file objects directly from DOM using `useRef`:
+     ```jsx
+     const photoInput = useRef(null);
+     // In submit handler:
+     const photoFile = photoInput.current.files[0];
+     ```
+5. **`useEffect` with Cleanup Function (Slides 69–70)**:
+   - In `DigitalClock.jsx`, starting interval on mount and cleaning it up on unmount:
+     ```jsx
+     useEffect(() => {
+       const timer = setInterval(() => setTime(new Date()), 1000);
+       return () => clearInterval(timer); // Avoids memory leak
+     }, []);
+     ```
+
+---
+
+### Educational Code Style Reference
+
+#### 1. Live Digital Clock with Cleanup (`DigitalClock.jsx`) - Slides 69–70 Pattern:
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function DigitalClock() {
+  const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date().toLocaleTimeString());
+    }, 1000);
+
+    // Cleanup function when component unmounts
+    return () => {
+      clearInterval(timer);
+    };
+  }, []); // Empty dependency array -> runs once on mount
+
+  return <span className="live-clock">🕒 {time}</span>;
+}
+
+export default DigitalClock;
+```
+
+#### 2. Uncontrolled Document Upload Step (`StepUploads.jsx`) - Slide 90 Pattern:
+```jsx
+import React, { useRef } from 'react';
+
+function StepUploads({ onNext, onPrev, onSaveFiles }) {
+  const photoRef = useRef(null);
+  const signatureRef = useRef(null);
+
+  const handleContinue = (e) => {
+    e.preventDefault();
+    const photo = photoRef.current?.files[0];
+    const signature = signatureRef.current?.files[0];
+
+    if (!photo) {
+      alert('Please select candidate photograph');
+      return;
+    }
+
+    onSaveFiles({ photo, signature });
+    onNext();
+  };
+
+  return (
+    <form onSubmit={handleContinue} className="step-container">
+      <h3>Step 4: Document Uploads</h3>
+      <div className="form-group">
+        <label>Candidate Photograph (JPG/PNG, max 2MB):</label>
+        <input type="file" ref={photoRef} accept="image/*" required />
+      </div>
+      <div className="form-group">
+        <label>Candidate Signature (JPG/PNG, max 2MB):</label>
+        <input type="file" ref={signatureRef} accept="image/*" required />
+      </div>
+      <div className="button-group">
+        <button type="button" onClick={onPrev}>Back</button>
+        <button type="submit">Continue to Payment</button>
+      </div>
+    </form>
+  );
+}
+
+export default StepUploads;
+```
+

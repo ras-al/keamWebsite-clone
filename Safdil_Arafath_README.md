@@ -3,7 +3,7 @@
 ## Profile
 - **Name:** Safdil Arafath
 - **Roll Number:** B24CSA54
-- **Role:** Login & Registration Pages | Candidate Authentication & Security
+- **Role:** Login & Registration Pages | Candidate Authentication & Security | React Controlled Auth Forms, CAPTCHA & Security
 
 ---
 
@@ -271,3 +271,138 @@ curl http://localhost:5000/api/auth/me \
    git commit -m "feat(auth): candidate registration, bcrypt hashing, JWT login, auth middleware, and client API integration"
    ```
 3. Submit a Pull Request to Team Leader Rasal for code review.
+
+---
+
+## Phase 3 - Candidate Authentication & Security (🚀 Next Phase)
+
+### Role: Candidate Authentication, Security & Form Validation
+
+In Phase 3, my responsibility is to rebuild the Login and Registration workflows into pure React controlled components, incorporating live password validation, CAPTCHA verification, and seamless integration with the global `AuthContext`.
+
+### My Phase 3 Assigned Components & Files
+
+| Component / File | Purpose & Responsibilities | Study Reference |
+|---|---|---|
+| `frontend/src/pages/LoginPage.jsx` | Candidate login page with controlled inputs for `applicationNumber`, `password`, and CAPTCHA answer. | Slides 86–88 |
+| `frontend/src/pages/RegisterPage.jsx` | 8-field candidate registration form with client-side regex checks, age validation, and API dispatch. | Slides 86–88 |
+| `frontend/src/components/auth/CaptchaBox.jsx` | Custom alphanumeric CAPTCHA component storing randomized challenge string and providing a refresh action. | Slides 31–32, 38–41 |
+| `frontend/src/components/auth/PasswordStrength.jsx` | Real-time 4-tier password strength visualizer (Weak, Fair, Good, Strong) styled dynamically based on score state. | Slides 23–24 |
+| `frontend/src/components/auth/SuccessModal.jsx` | Confirmation modal displaying the newly generated KEAM Application Number upon successful registration. | Slides 56–57 |
+
+---
+
+### React Concepts Used (from Study Material)
+
+1. **Controlled Components (Slides 86–88)**:
+   - Form inputs where React state acts as the single source of truth:
+     ```jsx
+     const [applicationNumber, setApplicationNumber] = useState('');
+     const [password, setPassword] = useState('');
+
+     <input
+       type="text"
+       value={applicationNumber}
+       onChange={(e) => setApplicationNumber(e.target.value)}
+       required
+     />
+     ```
+2. **Form Event Handling with `preventDefault` (Slides 86–88)**:
+   - Preventing standard browser full-page reload on submit:
+     ```jsx
+     const handleSubmit = (e) => {
+       e.preventDefault();
+       // Validate and send API request
+     };
+     ```
+3. **Dynamic Styling Based on State (Slides 23–24)**:
+   - Updating password meter colors and bar widths based on evaluated score (0 to 4):
+     ```jsx
+     <div
+       style={{
+         backgroundColor: score > 2 ? 'green' : 'orange',
+         width: `${score * 25}%`
+       }}
+     />
+     ```
+4. **Conditional Rendering (Slides 56–64)**:
+   - Toggling password field between `type="text"` and `type="password"` with `{showPassword ? "Hide" : "Show"}` button.
+   - Displaying inline field errors using Logical AND: `{errors.email && <span className="field-error">{errors.email}</span>}`.
+5. **Context API Consumption via `useContext` (Slides 73–81)**:
+   - Calling `login(data.token, data.candidate)` from `AuthContext` once the Express backend authenticates the user.
+6. **Programmatic Navigation with `useNavigate` (Slide 82)**:
+   - Redirecting the candidate to `/dashboard` immediately following a successful login.
+
+---
+
+### Educational Code Style Reference
+
+#### Controlled Login Form (`LoginPage.jsx`) - Slides 87–88 Pattern:
+```jsx
+import React, { useState, useContext } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+
+function LoginPage() {
+  const [appNo, setAppNo] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ applicationNumber: appNo, password })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          login(data.token, data.candidate);
+          navigate('/dashboard');
+        } else {
+          setError(data.message || 'Invalid credentials');
+        }
+      })
+      .catch((err) => {
+        setError('Server communication failed');
+      });
+  };
+
+  return (
+    <div className="auth-card">
+      <h2>Candidate Login</h2>
+      {error && <div className="alert-error">{error}</div>}
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Application Number:</label>
+          <input
+            type="text"
+            value={appNo}
+            onChange={(e) => setAppNo(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn--primary">Login</button>
+      </form>
+      <p>New candidate? <Link to="/register">Register here</Link></p>
+    </div>
+  );
+}
+
+export default LoginPage;
+```
+

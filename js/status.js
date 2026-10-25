@@ -29,6 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const notFoundBox = document.getElementById('status-not-found');
   const notFoundMsg = document.getElementById('status-not-found-msg');
 
+  // ===== SHOW NOT FOUND ERROR =====
+  function showNotFound(message) {
+    if (notFoundBox) {
+      if (notFoundMsg) {
+        notFoundMsg.innerHTML = message;
+      }
+      notFoundBox.style.display = 'flex';
+      notFoundBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
   // ===== FORM SUBMIT HANDLER =====
   // When user clicks "Check Status", fetch data from backend API
 
@@ -36,12 +47,21 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     
     // Step 1: Get input values
-    const appNo = document.getElementById('app-no').value.trim();
-    const dob = document.getElementById('dob').value;
+    const appNoInput = document.getElementById('app-no');
+    const dobInput = document.getElementById('dob');
+    let appNo = appNoInput ? appNoInput.value.trim() : '';
+    const dob = dobInput ? dobInput.value : '';
     
+    // Auto-extract 7 digits if user typed with prefix e.g. KEAM2600001
+    const match = appNo.match(/26\d{5}/);
+    if (match) {
+      appNo = match[0];
+      if (appNoInput) appNoInput.value = appNo;
+    }
+
     // Step 2: Validate inputs
     if (!appNo || !dob) {
-      alert('Please enter both Application Number and Date of Birth.');
+      showNotFound('Please enter both Application Number and Date of Birth.');
       return;
     }
 
@@ -50,10 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statusResults) statusResults.style.display = 'none';
 
     // Step 4: Show loading state on button
-    const btn = statusForm.querySelector('button');
-    const originalText = btn.innerText;
-    btn.innerText = 'Checking...';
-    btn.disabled = true;
+    const btn = statusForm.querySelector('button[type="submit"]') || document.getElementById('status-submit-btn');
+    const originalText = btn ? btn.innerText : 'Check Status';
+    if (btn) {
+      btn.innerText = 'Checking...';
+      btn.disabled = true;
+    }
 
     try {
       // Step 5: Call the backend API
@@ -63,11 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
       );
 
       // Step 6: Reset button
-      btn.innerText = originalText;
-      btn.disabled = false;
+      if (btn) {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
 
       // Step 7: Handle the response
-      if (result.success) {
+      if (result.success && result.data) {
         // Hide error box and show results
         if (notFoundBox) notFoundBox.style.display = 'none';
         displayResults(result.data);
@@ -78,22 +102,46 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (error) {
       // Network error — reset button and show error
-      btn.innerText = originalText;
-      btn.disabled = false;
+      if (btn) {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
       console.error('Status check error:', error);
       showNotFound('Unable to connect to the server. Please try again later.');
     }
   });
 
-  // ===== SHOW NOT FOUND ERROR =====
-  function showNotFound(message) {
-    if (notFoundBox) {
-      if (notFoundMsg) {
-        notFoundMsg.innerHTML = message;
-      }
-      notFoundBox.style.display = 'flex';
-      notFoundBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // ===== AUTO-PREFILL FROM URL OR SAVED CANDIDATE =====
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlApp = urlParams.get('appNo') || urlParams.get('appno');
+    const urlDob = urlParams.get('dob');
+    const appNoInput = document.getElementById('app-no');
+    const dobInput = document.getElementById('dob');
+
+    if (urlApp && appNoInput) {
+      appNoInput.value = urlApp;
     }
+    if (urlDob && dobInput) {
+      dobInput.value = urlDob;
+    }
+
+    // Auto submit if both provided via URL
+    if (urlApp && urlDob) {
+      statusForm.dispatchEvent(new Event('submit', { cancelable: true }));
+    } else if (!urlApp) {
+      // Check saved candidate in localStorage
+      const saved = localStorage.getItem('keam_candidate');
+      if (saved) {
+        const cand = JSON.parse(saved);
+        if (cand && (cand.applicationNo || cand.applicationNumber) && appNoInput) {
+          appNoInput.value = cand.applicationNo || cand.applicationNumber;
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Prefill error:', e);
   }
 
   // ===== DISPLAY RESULTS =====

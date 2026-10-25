@@ -3,7 +3,7 @@
 ## Profile
 - **Name:** Ayman Riaz
 - **Roll Number:** B24CSA17
-- **Role:** Shared Components (Navbar & Footer) | Backend Middleware & Shared API Client
+- **Role:** Shared Components (Navbar & Footer) | Backend Middleware & Shared API Client | Shared UI Library & Global AuthContext
 
 ---
 
@@ -271,3 +271,135 @@ git commit -m "feat(middleware): add JWT auth guard, enhanced error handling and
 git push origin feature/ayman-middleware
 # Then create Pull Request to Team Leader Rasal for code review
 ```
+
+---
+
+## Phase 3 - Shared UI Design System & Global Authentication Context (🚀 Next Phase)
+
+### Role: Shared Reusable UI Components & Global Authentication Context (`AuthContext`)
+
+In Phase 3, my responsibility is to build the central UI component foundation and provide a seamless authentication context so the entire team can build their pages with consistent design and zero prop-drilling for authentication.
+
+### My Phase 3 Assigned Components & Files
+
+| Component / File | Purpose & Responsibilities | Study Reference |
+|---|---|---|
+| `frontend/src/context/AuthContext.jsx` | Authentication Context created with `createContext()`. Provides `user`, `token`, `isAuthenticated`, `login(token, user)`, and `logout()` to all components via `useContext(AuthContext)`. | Slides 73–81 |
+| `frontend/src/components/common/Navbar.jsx` | Shared top navigation with logo, active link indicators, responsive mobile hamburger toggle, and conditional display of candidate name or Login/Register links. | Slides 14, 56–59 |
+| `frontend/src/components/common/Footer.jsx` | Standardized government footer with important links, helpline numbers, and copyright. | Slides 10–14 |
+| `frontend/src/components/common/Button.jsx` | Reusable button receiving props (`text`, `onClick`, `variant`, `disabled`, `type`) with clean styling. | Slides 50–51 |
+| `frontend/src/components/common/InputField.jsx` | Standardized controlled text/number/date input with label, error display, and focus styles. | Slides 86–88 |
+| `frontend/src/components/common/SelectField.jsx` | Standardized dropdown selector with label and error messages. | Slides 86–88 |
+| `frontend/src/components/common/ProtectedRoute.jsx` | Route guard component that checks `isAuthenticated` from `AuthContext` and redirects to `/login` if not logged in. | Slides 73, 85 |
+
+---
+
+### React Concepts Used (from Study Material)
+
+1. **Context API (`createContext`, `Provider`, `useContext`) (Slides 73–81)**:
+   - Creating a centralized container for authentication state without prop-drilling through layers of components.
+   - Using `useContext(AuthContext)` in any child component to check if a user is logged in or to trigger logout.
+2. **Reusable Component Design with Props (Slides 50–51)**:
+   - Designing modular components that accept configurable properties:
+     `function Button({ text, onClick, color, variant }) { ... }`
+3. **CSS Modules for Scoped Styling (Slides 27–29)**:
+   - Using scoped stylesheets (`Navbar.module.css`, `Button.module.css`) to ensure styles do not clash across different teammates' pages.
+4. **Conditional Rendering (Slides 56–64)**:
+   - Displaying "Candidate Portal (Faheem)" vs "Login" buttons based on `isAuthenticated` state using the ternary operator.
+5. **State Management (`useState`) (Slides 31–35)**:
+   - Managing hamburger menu open/close boolean state: `const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);`
+
+---
+
+### Educational Code Style Reference
+
+#### 1. Global AuthContext (`AuthContext.jsx`) - Slides 74–79 Pattern:
+```jsx
+import React, { createContext, useState, useEffect } from 'react';
+
+export const AuthContext = createContext();
+
+export function AuthProvider({ children }) {
+  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('keam_user');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const login = (newToken, userData) => {
+    setToken(newToken);
+    setUser(userData);
+    localStorage.setItem('token', newToken);
+    localStorage.setItem('keam_user', JSON.stringify(userData));
+  };
+
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('keam_user');
+  };
+
+  return (
+    <AuthContext.Provider value={{ token, user, isAuthenticated: !!token, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+```
+
+#### 2. Reusable Button Component (`Button.jsx`) - Slides 50–51 Pattern:
+```jsx
+import React from 'react';
+
+function Button({ text, onClick, variant = 'primary', type = 'button', disabled = false }) {
+  // Configurable styling classes based on variant prop
+  const className = `btn btn--${variant}`;
+
+  return (
+    <button type={type} className={className} onClick={onClick} disabled={disabled}>
+      {text}
+    </button>
+  );
+}
+
+export default Button;
+```
+
+---
+
+### How Teammates Will Consume My Code in Phase 3
+
+#### 1. Consuming Authentication in Any Component:
+```jsx
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+
+function MyComponent() {
+  const { user, isAuthenticated, logout } = useContext(AuthContext);
+
+  return (
+    <div>
+      {isAuthenticated ? (
+        <button onClick={logout}>Logout ({user?.fullName})</button>
+      ) : (
+        <p>Please log in</p>
+      )}
+    </div>
+  );
+}
+```
+
+#### 2. Protecting Candidate or Admin Routes:
+```jsx
+// In App.js
+<Route
+  path="/dashboard"
+  element={
+    <ProtectedRoute>
+      <DashboardPage />
+    </ProtectedRoute>
+  }
+/>
+```
+
