@@ -1,5 +1,5 @@
 /* ============================================================
-   HOME.JS — Page-specific JavaScript for index.html
+   HOME.JS - Page-specific JavaScript for index.html
    Author: Rasal Musthafa
    Dependencies: js/main.js must be loaded first.
    ============================================================ */
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
           // Duplicate for seamless looping marquee
           track.innerHTML = tickerHTML + tickerHTML;
         } else {
-          track.innerHTML = '<div class="notifications-ticker__item"><span>Official Entrance Examinations Centralized Portal — Real-time Allotment &amp; Notification Updates</span></div>';
+          track.innerHTML = '<div class="notifications-ticker__item"><span>Official Entrance Examinations Centralized Portal - Real-time Allotment &amp; Notification Updates</span></div>';
         }
       }
 

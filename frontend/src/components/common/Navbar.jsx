@@ -119,11 +119,11 @@ function Navbar() {
         </NavLink>
         {isAuthenticated ? (
           <a href="#logout" onClick={handleLogout} className="navbar__mobile-link navbar__mobile-link--cta">
-            🔓 Logout
+            Logout
           </a>
         ) : (
           <Link to="/login" className="navbar__mobile-link navbar__mobile-link--cta" onClick={() => setMobileOpen(false)}>
-            🔒 Login / Register
+            Login / Register
           </Link>
         )}
       </div>

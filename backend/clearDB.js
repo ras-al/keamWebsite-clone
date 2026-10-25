@@ -16,13 +16,13 @@ async function clearDatabase() {
   try {
     const mongoUri = process.env.MONGO_URI;
     if (!mongoUri) {
-      console.error('❌ MONGO_URI is not defined in backend/.env');
+      console.error('Error: MONGO_URI is not defined in backend/.env');
       process.exit(1);
     }
 
     console.log('Connecting to MongoDB Atlas...');
     await mongoose.connect(mongoUri);
-    console.log('✅ Connected to MongoDB Atlas successfully.');
+    console.log('Success: Connected to MongoDB Atlas successfully.');
 
     // Count before deletion
     const candidateCount = await Candidate.countDocuments();
@@ -48,7 +48,7 @@ async function clearDatabase() {
     const verifyNotification = await Notification.countDocuments();
     const verifyAdmin = await Admin.countDocuments();
 
-    console.log('\n✅ Database wiped successfully and is now completely clean & fresh:');
+    console.log('\nSuccess: Database wiped successfully and is now completely clean & fresh:');
     console.log(`- Candidates: ${verifyCandidate}`);
     console.log(`- Applications: ${verifyApplication}`);
     console.log(`- Notifications: ${verifyNotification}`);
@@ -58,7 +58,7 @@ async function clearDatabase() {
     console.log('\nDisconnected from MongoDB. Done.');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error wiping database:', error);
+    console.error('Error: Error wiping database:', error);
     process.exit(1);
   }
 }

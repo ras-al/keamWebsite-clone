@@ -1,7 +1,7 @@
 // frontend/src/pages/AdminPage.jsx
 // Complete Admin Management Portal
 // Author: Shan M A (B24CSA59) & Rasal Musthafa (B24CSA49)
-// Study Reference: Slides 14, 71–72 (Lifecycle, Fetching, List Management)
+// Study Reference: Slides 14, 71-72 (Lifecycle, Fetching, List Management)
 
 import React, { useState, useEffect } from 'react';
 import SearchFilter from '../components/admin/SearchFilter';
@@ -141,7 +141,7 @@ function AdminPage() {
             cursor: 'pointer'
           }}
         >
-          📋 Applications Verification ({totalApps})
+          Applications Verification ({totalApps})
         </button>
 
         <button
@@ -158,7 +158,7 @@ function AdminPage() {
             cursor: 'pointer'
           }}
         >
-          📢 Announcements & Live Ticker
+          Announcements & Live Ticker
         </button>
       </div>
 

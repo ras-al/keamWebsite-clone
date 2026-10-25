@@ -1,7 +1,7 @@
 // frontend/src/components/admin/TableRow.jsx
 // Admin Applications Table Single Row Component
 // Author: Shan M A (B24CSA59)
-// Study Reference: Slides 50–51 (Reusable Components & Props)
+// Study Reference: Slides 50-51 (Reusable Components & Props)
 
 import React from 'react';
 

@@ -1,5 +1,5 @@
 /* ============================================================
-   NAVBAR.JS — Shared navigation component
+   NAVBAR.JS - Shared navigation component
    Author: Ayman Riaz (B24CSA17)
 
    Injects a fully styled, responsive navbar into #navbar

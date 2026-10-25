@@ -309,12 +309,12 @@ async function seed() {
   try {
     // 1. Connect to MongoDB Atlas
     await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅ Connected to MongoDB Atlas');
+    console.log('Success: Connected to MongoDB Atlas');
 
     // 2. Clear existing data
     await Candidate.deleteMany({});
     await Application.deleteMany({});
-    console.log('🗑️  Cleared existing candidates and applications');
+    console.log('Delete  Cleared existing candidates and applications');
 
     // 3. Hash passwords and insert candidates
     const salt = await bcrypt.genSalt(10);
@@ -327,12 +327,12 @@ async function seed() {
 
     const insertedCandidates = await Candidate.insertMany(candidateDocs);
     const candidateIds = insertedCandidates.map(c => c._id);
-    console.log(`👤 Inserted ${insertedCandidates.length} candidates`);
+    console.log(`Inserted ${insertedCandidates.length} candidates`);
 
     // 4. Insert applications
     const applications = buildApplications(candidateIds);
     const insertedApps = await Application.insertMany(applications);
-    console.log(`📝 Inserted ${insertedApps.length} applications`);
+    console.log(`Inserted ${insertedApps.length} applications`);
 
     // 5. Print login credentials
     console.log('\n════════════════════════════════════════════');
@@ -347,13 +347,13 @@ async function seed() {
       console.log('');
     });
     console.log('════════════════════════════════════════════');
-    console.log('✅ Seeding complete! Start the server with: npm run dev');
+    console.log('Success: Seeding complete! Start the server with: npm run dev');
 
   } catch (error) {
-    console.error('❌ Seeding failed:', error.message);
+    console.error('Error: Seeding failed:', error.message);
   } finally {
     await mongoose.disconnect();
-    console.log('🔌 Disconnected from MongoDB');
+    console.log('Disconnected from MongoDB');
     process.exit(0);
   }
 }

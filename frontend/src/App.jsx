@@ -1,7 +1,7 @@
 // frontend/src/App.jsx
 // Top-Level Application Layout, AuthProvider & Client-Side Routing
 // Author: Rasal Musthafa (B24CSA49) & Ayman Riaz (B24CSA17)
-// Study Reference: Slides 14, 73–81, 84–85 (BrowserRouter, Routes, AuthContext, ProtectedRoute)
+// Study Reference: Slides 14, 73-81, 84-85 (BrowserRouter, Routes, AuthContext, ProtectedRoute)
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';

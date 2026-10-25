@@ -1,7 +1,7 @@
 // frontend/src/pages/LoginPage.jsx
 // Candidate Authentication & Login Component
 // Author: Safdil Arafath (B24CSA50)
-// Study Reference: Slides 86–88 (Controlled Components, Form Handling)
+// Study Reference: Slides 86-88 (Controlled Components, Form Handling)
 
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -106,7 +106,7 @@ function LoginPage() {
               border: '1px solid #FCA5A5'
             }}
           >
-            ⚠️ {error}
+            {error}
           </div>
         )}
 

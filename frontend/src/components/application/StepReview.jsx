@@ -40,7 +40,7 @@ function StepReview({ data, files = {}, onSubmit, onPrev, isSubmitting, submitEr
               fontSize: 'var(--fs-sm)'
             }}
           >
-            ⚠️ {submitError || error}
+            {submitError || error}
           </div>
         )}
 
@@ -143,15 +143,15 @@ function StepReview({ data, files = {}, onSubmit, onPrev, isSubmitting, submitEr
               <tr style={{ borderBottom: '1px solid #E2E8F0' }}>
                 <td style={{ padding: '0.65rem 1rem', width: '35%', color: 'var(--color-mid-gray)' }}>Attached Documents</td>
                 <td style={{ padding: '0.65rem 1rem' }}>
-                  {files.photo ? '✓ Photograph Attached' : '— No photo selected'},{' '}
-                  {files.signature ? '✓ Signature Attached' : '— No signature'}
+                  {files.photo ? 'Photograph Attached' : '- No photo selected'},{' '}
+                  {files.signature ? 'Signature Attached' : '- No signature'}
                 </td>
               </tr>
               <tr>
                 <td style={{ padding: '0.65rem 1rem', color: 'var(--color-mid-gray)' }}>Payment Status</td>
                 <td style={{ padding: '0.65rem 1rem' }}>
                   <span style={{ color: 'var(--color-success)', fontWeight: 'bold' }}>
-                    {data.paymentStatus === 'Paid' ? '✓ Fee Paid' : 'Pending'}
+                    {data.paymentStatus === 'Paid' ? 'Fee Paid' : 'Pending'}
                   </span>{' '}
                   (₹{data.paymentAmount || 800} via {data.paymentMode || 'UPI'} - Ref: {data.transactionId || 'N/A'})
                 </td>
@@ -198,7 +198,7 @@ function StepReview({ data, files = {}, onSubmit, onPrev, isSubmitting, submitEr
           disabled={isSubmitting}
           style={{ minWidth: '180px' }}
         >
-          {isSubmitting ? 'Submitting Application...' : 'Submit Application 🚀'}
+          {isSubmitting ? 'Submitting Application...' : 'Submit Application'}
         </button>
       </div>
     </div>

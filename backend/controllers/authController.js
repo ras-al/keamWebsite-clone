@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');   // for creating login tokens
 const Candidate = require('../models/Candidate');  // our database model
 
 // ──────────────────────────────────────────────────────────
-// A. REGISTER — Create a new candidate account
+// A. REGISTER - Create a new candidate account
 // ──────────────────────────────────────────────────────────
 // Called when: POST /api/auth/register
 // What it does:
@@ -75,7 +75,7 @@ const register = async (req, res) => {
 
 
 // ──────────────────────────────────────────────────────────
-// B. LOGIN — Authenticate candidate and return JWT token
+// B. LOGIN - Authenticate candidate and return JWT token
 // ──────────────────────────────────────────────────────────
 // Called when: POST /api/auth/login
 // What it does:
@@ -149,9 +149,9 @@ const login = async (req, res) => {
 
 
 // ──────────────────────────────────────────────────────────
-// C. GET PROFILE — Return logged-in candidate's data
+// C. GET PROFILE - Return logged-in candidate's data
 // ──────────────────────────────────────────────────────────
-// Called when: GET /api/auth/me  (protected route — needs JWT)
+// Called when: GET /api/auth/me  (protected route - needs JWT)
 // The auth middleware (protect) already verified the token and
 // attached the candidate to req.candidate, so we just return it.
 // ──────────────────────────────────────────────────────────

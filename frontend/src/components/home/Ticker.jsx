@@ -54,13 +54,13 @@ function Ticker() {
               [...notices, ...notices].map((notice, index) => (
                 <div key={`${notice._id || index}-${index}`} className="notifications-ticker__item">
                   <a href={notice.link || '#'}>
-                    📢 {notice.title}
+                    {notice.title}
                   </a>
                 </div>
               ))
             ) : (
               <div className="notifications-ticker__item">
-                <span>Official Entrance Examinations Centralized Portal — Real-time Allotment &amp; Notification Updates</span>
+                <span>Official Entrance Examinations Centralized Portal - Real-time Allotment &amp; Notification Updates</span>
               </div>
             )}
           </div>

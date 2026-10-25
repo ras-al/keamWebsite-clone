@@ -1,7 +1,7 @@
 // frontend/src/components/admin/StatusModal.jsx
 // Admin Application Verification & Status Update Modal Component
 // Author: Shan M A (B24CSA59)
-// Study Reference: Slides 56–57 (Modals & State Callbacks)
+// Study Reference: Slides 56-57 (Modals & State Callbacks)
 
 import React, { useState } from 'react';
 
@@ -121,7 +121,7 @@ function StatusModal({ application, onClose, onStatusUpdated }) {
         <div style={{ padding: '1.5rem', overflowY: 'auto', flex: 1 }}>
           {error && (
             <div style={{ backgroundColor: '#FEE2E2', color: '#B91C1C', padding: '0.75rem', borderRadius: '4px', fontSize: 'var(--fs-sm)', marginBottom: '1rem' }}>
-              ⚠️ {error}
+              {error}
             </div>
           )}
 
@@ -159,7 +159,7 @@ function StatusModal({ application, onClose, onStatusUpdated }) {
                   className="btn btn--secondary"
                   style={{ fontSize: 'var(--fs-xs)', padding: '0.35rem 0.65rem' }}
                 >
-                  🖼️ View Photograph
+                  View Photograph
                 </a>
               ) : (
                 <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-mid-gray)' }}>Photograph: Default Attached</span>
@@ -173,7 +173,7 @@ function StatusModal({ application, onClose, onStatusUpdated }) {
                   className="btn btn--secondary"
                   style={{ fontSize: 'var(--fs-xs)', padding: '0.35rem 0.65rem' }}
                 >
-                  ✍️ View Signature
+                  View Signature
                 </a>
               )}
             </div>

@@ -23,7 +23,7 @@ async function createAdmin() {
   try {
     const mongoUri = process.env.MONGO_URI;
     if (!mongoUri) {
-      console.error('❌ MONGO_URI is missing in backend/.env');
+      console.error('Error: MONGO_URI is missing in backend/.env');
       process.exit(1);
     }
 
@@ -35,7 +35,7 @@ async function createAdmin() {
 
     console.log('Connecting to MongoDB Atlas...');
     await mongoose.connect(mongoUri);
-    console.log('✅ Connected to MongoDB.');
+    console.log('Success: Connected to MongoDB.');
 
     // Hash password with bcrypt
     const salt = await bcrypt.genSalt(10);
@@ -65,7 +65,7 @@ async function createAdmin() {
     });
 
     console.log('\n=========================================');
-    console.log('🎉 Administrator Account Created Successfully!');
+    console.log('Administrator Account Created Successfully!');
     console.log('=========================================');
     console.log(`Username / App No : ${username}`);
     console.log(`Password          : ${password}`);
@@ -80,7 +80,7 @@ async function createAdmin() {
     await mongoose.disconnect();
     process.exit(0);
   } catch (error) {
-    console.error('❌ Failed to create admin account:', error.message);
+    console.error('Error: Failed to create admin account:', error.message);
     process.exit(1);
   }
 }

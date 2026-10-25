@@ -1,7 +1,7 @@
 // frontend/src/context/AuthContext.jsx
 // Global Authentication Context Provider
 // Author: Ayman Riaz (B24CSA17)
-// Study Reference: Slides 73–81 (Context API: createContext, Provider, useContext)
+// Study Reference: Slides 73-81 (Context API: createContext, Provider, useContext)
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
 

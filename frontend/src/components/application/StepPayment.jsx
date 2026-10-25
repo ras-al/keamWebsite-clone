@@ -61,7 +61,7 @@ function StepPayment({ data, onUpdate, onNext, onPrev }) {
               fontSize: 'var(--fs-sm)'
             }}
           >
-            ⚠️ {errorMsg}
+            {errorMsg}
           </div>
         )}
 
@@ -120,7 +120,7 @@ function StepPayment({ data, onUpdate, onNext, onPrev }) {
                 checked={paymentMode === 'upi'}
                 onChange={() => setPaymentMode('upi')}
               />
-              <span>📱 <strong>UPI / QR Code</strong> (Google Pay, PhonePe, Paytm, BHIM)</span>
+              <span><strong>UPI / QR Code</strong> (Google Pay, PhonePe, Paytm, BHIM)</span>
             </label>
 
             <label
@@ -142,7 +142,7 @@ function StepPayment({ data, onUpdate, onNext, onPrev }) {
                 checked={paymentMode === 'netbanking'}
                 onChange={() => setPaymentMode('netbanking')}
               />
-              <span>🏦 <strong>Internet Banking</strong> (SBI, Federal Bank, Canara Bank, HDFC, etc.)</span>
+              <span><strong>Internet Banking</strong> (SBI, Federal Bank, Canara Bank, HDFC, etc.)</span>
             </label>
 
             <label
@@ -164,7 +164,7 @@ function StepPayment({ data, onUpdate, onNext, onPrev }) {
                 checked={paymentMode === 'card'}
                 onChange={() => setPaymentMode('card')}
               />
-              <span>💳 <strong>Debit / Credit Card</strong> (Visa, RuPay, MasterCard)</span>
+              <span><strong>Debit / Credit Card</strong> (Visa, RuPay, MasterCard)</span>
             </label>
           </div>
         </div>
@@ -182,7 +182,7 @@ function StepPayment({ data, onUpdate, onNext, onPrev }) {
           {isSimulatedPaid ? (
             <div>
               <div style={{ color: '#065F46', fontSize: 'var(--fs-md)', fontWeight: 'bold', marginBottom: '4px' }}>
-                ✓ Payment Simulation Successful!
+                Payment Simulation Successful!
               </div>
               <p style={{ color: '#047857', fontSize: 'var(--fs-sm)' }}>
                 Amount: <strong>₹{feeAmount}</strong> | Transaction ID: <strong>{transactionId}</strong>
@@ -199,7 +199,7 @@ function StepPayment({ data, onUpdate, onNext, onPrev }) {
                 className="btn btn--primary"
                 style={{ backgroundColor: 'var(--color-navy)' }}
               >
-                🔒 Authorize &amp; Simulate Payment (₹{feeAmount})
+                Authorize &amp; Simulate Payment (₹{feeAmount})
               </button>
             </div>
           )}

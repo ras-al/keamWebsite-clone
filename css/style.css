@@ -1,12 +1,12 @@
 /* ============================================================
-   STYLE.CSS — Shared base styles for KEAM Portal Clone
+   STYLE.CSS - Shared base styles for KEAM Portal Clone
    Includes: CSS Reset, Custom Properties, Typography, Utilities
    All team members should import this file in their pages.
    ============================================================ */
 
 /* ----- CSS Custom Properties (Design Tokens) ----- */
 :root {
-  /* Primary palette — government/education feel */
+  /* Primary palette - government/education feel */
   --color-navy:        #1B365D;
   --color-navy-dark:   #122443;
   --color-navy-light:  #2A4A7A;
@@ -206,7 +206,7 @@ table {
 
 /* ----- Responsive Breakpoints (reference) -----
    Mobile-first. Override in page-specific CSS files.
-   @media (min-width: 480px)  — large phones
-   @media (min-width: 768px)  — tablets
-   @media (min-width: 1024px) — desktops
+   @media (min-width: 480px)  - large phones
+   @media (min-width: 768px)  - tablets
+   @media (min-width: 1024px) - desktops
    ----------------------------------------------- */

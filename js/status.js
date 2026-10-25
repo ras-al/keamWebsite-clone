@@ -1,6 +1,6 @@
 /* ============================================================
    STATUS.JS
-   Logic for Application Status Tracking — connects to backend API
+   Logic for Application Status Tracking - connects to backend API
    Author: Shan M A (B24CSA59)
    ============================================================ */
 
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showNotFound(result.message || 'No application found with matching details.');
       }
     } catch (error) {
-      // Network error — reset button and show error
+      // Network error - reset button and show error
       if (btn) {
         btn.innerText = originalText;
         btn.disabled = false;

@@ -1,6 +1,6 @@
 /* ============================================================
    ADMIN.JS
-   Logic for Admin Panel — connects to backend API
+   Logic for Admin Panel - connects to backend API
    Author: Shan M A (B24CSA59)
    ============================================================ */
 
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      // Send search query to backend — server does the filtering
+      // Send search query to backend - server does the filtering
       const result = await API.get(`/api/admin/applications?search=${encodeURIComponent(query)}`);
 
       if (result.success) {
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const row = document.createElement('tr');
       const isTicker = Boolean(notice.isTicker);
       const placementClass = isTicker ? 'badge-placement--ticker' : 'badge-placement--board';
-      const placementText = isTicker ? '📢 Ticker' : '📋 Notice Board';
+      const placementText = isTicker ? 'Ticker' : 'Notice Board';
       const nextPlacementText = isTicker ? 'Switch to Notice Board' : 'Switch to Ticker';
       const badgeHTML = notice.badge
         ? `<span class="badge-tag">${notice.badge}</span>`

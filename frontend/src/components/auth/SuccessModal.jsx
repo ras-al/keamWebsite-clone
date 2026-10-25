@@ -1,7 +1,7 @@
 // frontend/src/components/auth/SuccessModal.jsx
 // Candidate Registration Success Confirmation Modal
 // Author: Safdil Arafath (B24CSA50)
-// Study Reference: Slides 56–57 (Conditional Rendering & Modals)
+// Study Reference: Slides 56-57 (Conditional Rendering & Modals)
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -57,8 +57,7 @@ function SuccessModal({ candidateData, onClose }) {
             margin: '0 auto 1rem'
           }}
         >
-          ✓
-        </div>
+          </div>
 
         <h2 style={{ color: 'var(--color-navy)', marginBottom: '0.5rem' }}>Registration Successful!</h2>
         <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-dark-gray)', marginBottom: '1.5rem' }}>
@@ -94,7 +93,7 @@ function SuccessModal({ candidateData, onClose }) {
         </div>
 
         <p style={{ fontSize: 'var(--fs-xs)', color: '#DC2626', marginBottom: '1.5rem', fontWeight: '500' }}>
-          ⚠️ Please take a screenshot or write this down. You will need it to login and complete your application.
+          Please take a screenshot or write this down. You will need it to login and complete your application.
         </p>
 
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
@@ -103,7 +102,7 @@ function SuccessModal({ candidateData, onClose }) {
             className="btn btn--secondary"
             onClick={() => window.print()}
           >
-            🖨️ Print / Save
+            Print / Save
           </button>
           <button
             type="button"

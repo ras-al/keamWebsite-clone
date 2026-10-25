@@ -312,7 +312,7 @@ function ApplicationPage() {
                   }}
                   style={{ cursor: item.step <= currentStep ? 'pointer' : 'default' }}
                 >
-                  <span className="step-progress__circle">{item.step < currentStep ? '✓' : item.step}</span>
+                  <span className="step-progress__circle">{item.step < currentStep ? '' : item.step}</span>
                   <span className="step-progress__label">{item.label}</span>
                 </button>
               </li>
@@ -367,8 +367,7 @@ function ApplicationPage() {
                 margin: '0 auto 1.25rem'
               }}
             >
-              ✓
-            </div>
+              </div>
             <h2 style={{ color: 'var(--color-navy)', marginBottom: '0.5rem' }}>Application Submitted!</h2>
             <p style={{ color: 'var(--color-dark-gray)', fontSize: 'var(--fs-sm)', marginBottom: '1.25rem' }}>
               Your application for <strong>KEAM 2026</strong> has been officially recorded with the Commissioner for Entrance Examinations.

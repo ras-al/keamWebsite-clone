@@ -1,7 +1,7 @@
 // frontend/src/components/admin/SearchFilter.jsx
 // Admin Search and Filter Controls Component
 // Author: Shan M A (B24CSA59)
-// Study Reference: Slides 86–88 (Controlled Inputs & Form Handling)
+// Study Reference: Slides 86-88 (Controlled Inputs & Form Handling)
 
 import React from 'react';
 

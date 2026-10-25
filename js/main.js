@@ -1,5 +1,5 @@
 /* ============================================================
-   MAIN.JS — Shared JavaScript utilities
+   MAIN.JS - Shared JavaScript utilities
    All team members can use these helpers in their pages.
    ============================================================ */
 

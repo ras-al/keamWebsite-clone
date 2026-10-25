@@ -22,7 +22,7 @@ function DigitalClock() {
 
   return (
     <span className="live-clock" style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-gold-light)', fontWeight: 600 }}>
-      🕒 {time}
+      {time}
     </span>
   );
 }

@@ -1,5 +1,5 @@
 /* ============================================================
-   APPLICATION.JS — Page-specific JavaScript for application.html
+   APPLICATION.JS - Page-specific JavaScript for application.html
    Author: Faheem Shan
    Dependencies: js/main.js must be loaded first.
    ============================================================ */
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
     preview.classList.add('file-upload__preview--visible');
 
     if (previewName) {
-      previewName.textContent = '✓ ' + file.name + ' (' + formatFileSize(file.size) + ')';
+      previewName.textContent = '' + file.name + ' (' + formatFileSize(file.size) + ')';
     }
 
     // Show image preview for image files
@@ -326,18 +326,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function getFieldValue(selector) {
     var el = qs(selector);
-    return el ? (el.value.trim() || '—') : '—';
+    return el ? (el.value.trim() || '-') : '-';
   }
 
   function getSelectText(selector) {
     var el = qs(selector);
-    if (!el) return '—';
-    return el.selectedIndex > 0 ? el.options[el.selectedIndex].text : '—';
+    if (!el) return '-';
+    return el.selectedIndex > 0 ? el.options[el.selectedIndex].text : '-';
   }
 
   function getSelectedRadio(name) {
     var checked = qs('input[name="' + name + '"]:checked');
-    return checked ? checked.parentElement.textContent.trim() : '—';
+    return checked ? checked.parentElement.textContent.trim() : '-';
   }
 
   function setReviewValue(id, value) {
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (el) el.textContent = value;
   }
 
-  // Review section edit links — go to specific step
+  // Review section edit links - go to specific step
   var editLinks = qsa('.review-section__edit');
   editLinks.forEach(function (link) {
     link.addEventListener('click', function (e) {

@@ -1,5 +1,5 @@
 /* ============================================================
-   LOGIN.JS — Login & Registration page interactivity
+   LOGIN.JS - Login & Registration page interactivity
    Author: Safdil Arafath (B24CSA54)
    Dependencies: js/main.js must be loaded first.
 

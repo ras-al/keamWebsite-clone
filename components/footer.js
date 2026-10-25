@@ -93,7 +93,7 @@
       'Built with the MERN stack (MongoDB, Express.js, React.js, Node.js).' +
       '</p>' +
       '<span class="footer__disclaimer">' +
-      '⚠ Academic use only - Not affiliated with the Government of Kerala.' +
+      'Academic use only - Not affiliated with the Government of Kerala.' +
       '</span>' +
       '</div>' +
 

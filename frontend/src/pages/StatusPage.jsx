@@ -1,7 +1,7 @@
 // frontend/src/pages/StatusPage.jsx
 // Public Application Milestone Tracker Page
 // Author: Shan M A (B24CSA59)
-// Study Reference: Slides 14, 86–88 (Public Status Tracking View)
+// Study Reference: Slides 14, 86-88 (Public Status Tracking View)
 
 import React, { useState } from 'react';
 import StatusForm from '../components/status/StatusForm';
@@ -66,7 +66,7 @@ function StatusPage() {
               border: '1px solid #FCA5A5'
             }}
           >
-            ⚠️ {error}
+            {error}
           </div>
         )}
       </div>

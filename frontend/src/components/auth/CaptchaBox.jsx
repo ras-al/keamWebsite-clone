@@ -1,7 +1,7 @@
 // frontend/src/components/auth/CaptchaBox.jsx
 // Alphanumeric CAPTCHA Generator Component
 // Author: Safdil Arafath (B24CSA50)
-// Study Reference: Slides 31–32, 38–41 (State & Event Handling)
+// Study Reference: Slides 31-32, 38-41 (State & Event Handling)
 
 import React, { useState, useEffect } from 'react';
 
@@ -65,7 +65,7 @@ function CaptchaBox({ onCaptchaChange }) {
         className="btn btn--secondary"
         style={{ padding: '0.6rem 0.85rem' }}
       >
-        🔄 Refresh
+        Refresh
       </button>
     </div>
   );

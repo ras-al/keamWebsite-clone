@@ -1,5 +1,5 @@
 /* ============================================================
-   APPLICATION.CSS — Page-specific styles for application.html
+   APPLICATION.CSS - Page-specific styles for application.html
    Author: Faheem Shan
    Dependencies: css/style.css must be loaded first.
    ============================================================ */
@@ -175,7 +175,7 @@
 }
 
 .step-progress__item--completed .step-progress__circle::before {
-  content: '✓';
+  content: '';
 }
 
 .step-progress__label {

@@ -1,7 +1,7 @@
 // frontend/src/components/status/MilestoneTracker.jsx
 // Milestone Progress Tracker Visualizer Component
 // Author: Shan M A (B24CSA59)
-// Study Reference: Slides 23–24, 60 (Dynamic Styling & Conditional Rendering)
+// Study Reference: Slides 23-24, 60 (Dynamic Styling & Conditional Rendering)
 
 import React from 'react';
 
@@ -116,7 +116,7 @@ function MilestoneTracker({ data }) {
                     boxShadow: isActive ? '0 0 0 4px rgba(27, 54, 93, 0.15)' : 'none'
                   }}
                 >
-                  {isCompleted ? '✓' : idx + 1}
+                  {isCompleted ? '' : idx + 1}
                 </div>
                 <span
                   style={{
@@ -145,7 +145,7 @@ function MilestoneTracker({ data }) {
             }}
           >
             <div style={{ fontWeight: '600', color: isDefective ? '#B45309' : 'var(--color-navy)', marginBottom: '4px' }}>
-              {isDefective ? '⚠️ Defect Remarks from Verification Officer:' : 'Official Verification Remarks:'}
+              {isDefective ? 'Defect Remarks from Verification Officer:' : 'Official Verification Remarks:'}
             </div>
             <div style={{ color: 'var(--color-dark-gray)' }}>{remarks}</div>
           </div>

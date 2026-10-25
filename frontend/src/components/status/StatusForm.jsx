@@ -1,7 +1,7 @@
 // frontend/src/components/status/StatusForm.jsx
 // Public Application Tracking Form Component
 // Author: Shan M A (B24CSA59)
-// Study Reference: Slides 86–88 (Controlled Components)
+// Study Reference: Slides 86-88 (Controlled Components)
 
 import React, { useState } from 'react';
 
@@ -60,7 +60,7 @@ function StatusForm({ onSearch, loading = false }) {
         style={{ width: '100%', marginTop: '0.5rem', padding: '0.75rem' }}
         disabled={loading}
       >
-        {loading ? 'Checking Application Database...' : '🔍 Track Application Status'}
+        {loading ? 'Checking Application Database...' : 'Track Application Status'}
       </button>
     </form>
   );

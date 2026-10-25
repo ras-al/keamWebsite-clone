@@ -1,7 +1,7 @@
 // frontend/src/components/common/Button.jsx
 // Reusable UI Button Component
 // Author: Ayman Riaz (B24CSA17)
-// Study Reference: Slides 50–51 (Component Props & Reusability)
+// Study Reference: Slides 50-51 (Component Props & Reusability)
 
 import React from 'react';
 

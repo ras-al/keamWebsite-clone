@@ -95,7 +95,7 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
               fontSize: 'var(--fs-sm)'
             }}
           >
-            ⚠️ {errorMsg}
+            {errorMsg}
           </div>
         )}
 
@@ -116,7 +116,7 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
           />
           {fileNames.photo && (
             <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-success)', marginTop: '4px' }}>
-              ✓ Selected: {fileNames.photo}
+              Selected: {fileNames.photo}
             </p>
           )}
           {photoPreview && (
@@ -147,7 +147,7 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
           />
           {fileNames.signature && (
             <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-success)', marginTop: '4px' }}>
-              ✓ Selected: {fileNames.signature}
+              Selected: {fileNames.signature}
             </p>
           )}
         </div>
@@ -169,7 +169,7 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
           />
           {fileNames.sslc && (
             <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-success)', marginTop: '4px' }}>
-              ✓ Selected: {fileNames.sslc}
+              Selected: {fileNames.sslc}
             </p>
           )}
         </div>
@@ -191,7 +191,7 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
           />
           {fileNames.certificate && (
             <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-success)', marginTop: '4px' }}>
-              ✓ Selected: {fileNames.certificate}
+              Selected: {fileNames.certificate}
             </p>
           )}
         </div>

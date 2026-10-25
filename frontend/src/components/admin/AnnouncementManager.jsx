@@ -120,13 +120,13 @@ function AnnouncementManager() {
 
         {error && (
           <div style={{ backgroundColor: '#FEE2E2', color: '#B91C1C', padding: '0.6rem', borderRadius: '4px', fontSize: 'var(--fs-sm)', marginBottom: '1rem' }}>
-            ⚠️ {error}
+            {error}
           </div>
         )}
 
         {success && (
           <div style={{ backgroundColor: '#DCFCE7', color: '#16A34A', padding: '0.6rem', borderRadius: '4px', fontSize: 'var(--fs-sm)', marginBottom: '1rem' }}>
-            ✓ {success}
+            {success}
           </div>
         )}
 
@@ -219,7 +219,7 @@ function AnnouncementManager() {
             style={{ marginTop: '0.5rem', padding: '0.65rem' }}
             disabled={submitting}
           >
-            {submitting ? 'Publishing...' : '📢 Publish Announcement Live'}
+            {submitting ? 'Publishing...' : 'Publish Announcement Live'}
           </button>
         </form>
       </div>
@@ -246,7 +246,7 @@ function AnnouncementManager() {
             className="btn btn--secondary"
             style={{ fontSize: 'var(--fs-xs)', padding: '0.25rem 0.5rem' }}
           >
-            🔄 Refresh
+            Refresh
           </button>
         </div>
 
@@ -311,7 +311,7 @@ function AnnouncementManager() {
                   }}
                   title="Delete Announcement"
                 >
-                  🗑️
+                  Delete
                 </button>
               </div>
             ))}

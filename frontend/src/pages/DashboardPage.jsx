@@ -191,13 +191,13 @@ function DashboardPage() {
                 alignItems: 'center'
               }}
             >
-              <span>ℹ️ {actionAlert}</span>
+              <span>ℹ {actionAlert}</span>
               <button
                 type="button"
                 onClick={() => setActionAlert('')}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
               >
-                ✕
+                x
               </button>
             </div>
           )}

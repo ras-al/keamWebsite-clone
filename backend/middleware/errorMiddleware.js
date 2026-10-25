@@ -28,7 +28,7 @@ const notFound = (req, res, next) => {
  * 3. Sends a standardized JSON response with the error message
  * 4. In development mode, includes the stack trace for debugging
  *
- * Parameters: (err, req, res, next) — Express recognizes 4-param functions as error handlers
+ * Parameters: (err, req, res, next) - Express recognizes 4-param functions as error handlers
  */
 const errorHandler = (err, req, res, next) => {
   // Use the status code from the response if it was set, otherwise 500

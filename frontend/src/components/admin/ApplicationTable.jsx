@@ -1,7 +1,7 @@
 // frontend/src/components/admin/ApplicationTable.jsx
 // Admin Applications Data Table Component
 // Author: Shan M A (B24CSA59)
-// Study Reference: Slides 48–51 (Lists, Keys & Reusable Table)
+// Study Reference: Slides 48-51 (Lists, Keys & Reusable Table)
 
 import React from 'react';
 import TableRow from './TableRow';
@@ -27,7 +27,7 @@ function ApplicationTable({ applications = [], onReview, loading = false }) {
           color: 'var(--color-mid-gray)'
         }}
       >
-        <p style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>📭</p>
+        <p style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}></p>
         <p style={{ fontWeight: '600', color: 'var(--color-navy)', marginBottom: '0.25rem' }}>
           No applications found
         </p>

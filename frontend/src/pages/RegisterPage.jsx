@@ -1,7 +1,7 @@
 // frontend/src/pages/RegisterPage.jsx
 // Candidate Registration Component
 // Author: Safdil Arafath (B24CSA50)
-// Study Reference: Slides 86–88 (Controlled Components, Event Handling, Validation)
+// Study Reference: Slides 86-88 (Controlled Components, Event Handling, Validation)
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -124,7 +124,7 @@ function RegisterPage() {
               border: '1px solid #FCA5A5'
             }}
           >
-            ⚠️ {error}
+            {error}
           </div>
         )}
 

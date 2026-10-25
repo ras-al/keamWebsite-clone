@@ -1,7 +1,7 @@
 // frontend/src/components/auth/PasswordStrength.jsx
 // Live Password Strength Visualizer Component
 // Author: Safdil Arafath (B24CSA50)
-// Study Reference: Slides 23–24 (Dynamic Styling Based on State)
+// Study Reference: Slides 23-24 (Dynamic Styling Based on State)
 
 import React from 'react';
 

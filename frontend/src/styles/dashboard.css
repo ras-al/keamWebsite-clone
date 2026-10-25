@@ -1,5 +1,5 @@
 /* ============================================================
-   DASHBOARD.CSS — Page-specific styles for dashboard.html
+   DASHBOARD.CSS - Page-specific styles for dashboard.html
    Author: Faheem Shan
    Dependencies: css/style.css must be loaded first.
    ============================================================ */
@@ -409,7 +409,7 @@
 }
 
 .timeline__step--completed .timeline__dot::after {
-  content: '✓';
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;

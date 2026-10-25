@@ -1,7 +1,7 @@
 // frontend/src/components/common/SelectField.jsx
 // Reusable Controlled Select/Dropdown Component
 // Author: Ayman Riaz (B24CSA17)
-// Study Reference: Slides 86–88 (Controlled Components)
+// Study Reference: Slides 86-88 (Controlled Components)
 
 import React from 'react';
 
