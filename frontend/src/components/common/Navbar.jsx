@@ -4,32 +4,16 @@
 
 import React, { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 function Navbar() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const token = localStorage.getItem('token');
-  const isLoggedIn = Boolean(token);
-
-  let isAdmin = false;
-  try {
-    const raw = localStorage.getItem('keam_candidate') || localStorage.getItem('candidate');
-    if (raw) {
-      const user = JSON.parse(raw);
-      if (user && (user.role === 'admin' || user.role === 'superadmin')) {
-        isAdmin = true;
-      }
-    }
-  } catch (e) {
-    isAdmin = false;
-  }
+  const { isAuthenticated, isAdmin, user, logout } = useAuth();
 
   const handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem('token');
-    localStorage.removeItem('candidate');
-    localStorage.removeItem('keam_candidate');
+    logout();
     navigate('/login');
   };
 
@@ -53,7 +37,7 @@ function Navbar() {
             </NavLink>
           </li>
 
-          {isLoggedIn && (
+          {isAuthenticated && (
             <>
               <li>
                 <NavLink to="/dashboard" className={({ isActive }) => `navbar__link ${isActive ? 'navbar__link--active' : ''}`}>
@@ -82,7 +66,7 @@ function Navbar() {
           </li>
 
           <li>
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <a href="#logout" onClick={handleLogout} className="navbar__link navbar__link--cta" id="logout-btn">
                 Logout
               </a>
@@ -115,7 +99,7 @@ function Navbar() {
         <NavLink to="/" className={({ isActive }) => `navbar__mobile-link ${isActive ? 'navbar__mobile-link--active' : ''}`} onClick={() => setMobileOpen(false)}>
           Home
         </NavLink>
-        {isLoggedIn && (
+        {isAuthenticated && (
           <>
             <NavLink to="/dashboard" className={({ isActive }) => `navbar__mobile-link ${isActive ? 'navbar__mobile-link--active' : ''}`} onClick={() => setMobileOpen(false)}>
               Dashboard
@@ -133,13 +117,13 @@ function Navbar() {
         <NavLink to="/status" className={({ isActive }) => `navbar__mobile-link ${isActive ? 'navbar__mobile-link--active' : ''}`} onClick={() => setMobileOpen(false)}>
           Status
         </NavLink>
-        {isLoggedIn ? (
+        {isAuthenticated ? (
           <a href="#logout" onClick={handleLogout} className="navbar__mobile-link navbar__mobile-link--cta">
-            &#x1F513; Logout
+            🔓 Logout
           </a>
         ) : (
           <Link to="/login" className="navbar__mobile-link navbar__mobile-link--cta" onClick={() => setMobileOpen(false)}>
-            &#x1F512; Login / Register
+            🔒 Login / Register
           </Link>
         )}
       </div>

@@ -89,36 +89,38 @@ const login = async (req, res) => {
     // 1. Get login credentials from the request body
     const { applicationNumber, password } = req.body;
 
-    // 2. Find the candidate by their Application Number
-    //    findOne() returns null if not found
-    const candidate = await Candidate.findOne({ applicationNumber });
+    // 2. Find the candidate by Application Number OR Email
+    const identifier = (applicationNumber || req.body.email || req.body.username || '').trim();
+    const candidate = await Candidate.findOne({
+      $or: [
+        { applicationNumber: identifier },
+        { email: identifier.toLowerCase() }
+      ]
+    });
+
     if (!candidate) {
-      // Security tip: Don't reveal WHETHER the app number or password was wrong
-      // Just say "invalid credentials" so attackers can't guess valid app numbers
       return res.status(401).json({
         success: false,
-        message: 'Invalid Application Number or Password.'
+        message: 'Invalid Application Number/Email or Password.'
       });
     }
 
     // 3. Compare the typed password against the stored hash
-    //    bcrypt.compare("Password@123", "$2a$10$X7jK...") → true/false
-    //    It hashes the input the same way and checks if the result matches
     const isMatch = await bcrypt.compare(password, candidate.password);
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid Application Number or Password.'
+        message: 'Invalid Application Number/Email or Password.'
       });
     }
 
-    // 4. Create a JWT (JSON Web Token)
-    //    jwt.sign(payload, secretKey, options)
-    //    payload = data to encode inside the token (who is this user?)
-    //    secretKey = our secret from .env (used to sign & verify the token)
-    //    expiresIn = how long the token is valid ('7d' = 7 days)
+    // 4. Create a JWT (JSON Web Token) with id, applicationNumber, and role
     const token = jwt.sign(
-      { id: candidate._id, applicationNumber: candidate.applicationNumber },
+      {
+        id: candidate._id,
+        applicationNumber: candidate.applicationNumber,
+        role: candidate.role || 'candidate'
+      },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -136,7 +138,7 @@ const login = async (req, res) => {
         mobileNumber: candidate.mobileNumber,
         gender: candidate.gender,
         category: candidate.category,
-        role: candidate.role
+        role: candidate.role || 'candidate'
       }
     });
 
