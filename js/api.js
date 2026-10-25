@@ -181,6 +181,29 @@ const API = (() => {
     }
   }
 
+  /**
+   * del - Sends a DELETE request to the given URL.
+   * Used for deleting records (e.g. notifications)
+   *
+   * @param {string} url - The API endpoint (e.g. '/api/notifications/123')
+   * @returns {Object} - The server's JSON response
+   */
+  async function del(url) {
+    try {
+      const response = await fetch(BASE_URL + url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getToken() ? 'Bearer ' + getToken() : '',
+        },
+      });
+      return await handleResponse(response);
+    } catch (error) {
+      console.error('API DELETE Error:', error);
+      return { success: false, message: 'Network error. Please try again.' };
+    }
+  }
+
   // Expose the public methods
-  return { get, post, put, upload };
+  return { get, post, put, upload, delete: del, del };
 })();

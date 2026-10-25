@@ -21,37 +21,45 @@ document.addEventListener('DOMContentLoaded', function () {
       var res = await fetch('/api/notifications');
       if (!res.ok) return;
       var result = await res.json();
-      if (!result.success || !Array.isArray(result.data) || result.data.length === 0) return;
+      if (!result.success || !Array.isArray(result.data)) return;
 
       var allNotifications = result.data;
       var tickerItems = allNotifications.filter(function (n) { return n.isTicker; });
       var listItems = allNotifications.filter(function (n) { return !n.isTicker; });
 
-      // Update scrolling ticker if items found
-      if (track && tickerItems.length > 0) {
-        var tickerHTML = '';
-        tickerItems.forEach(function (item) {
-          tickerHTML += '<div class="notifications-ticker__item">' +
-            '<a href="' + (item.link || '#') + '">' + item.title + '</a>' +
-            '</div>';
-        });
-        // Duplicate for seamless looping marquee
-        track.innerHTML = tickerHTML + tickerHTML;
+      // Update scrolling ticker
+      if (track) {
+        if (tickerItems.length > 0) {
+          var tickerHTML = '';
+          tickerItems.forEach(function (item) {
+            tickerHTML += '<div class="notifications-ticker__item">' +
+              '<a href="' + (item.link || '#') + '">' + item.title + '</a>' +
+              '</div>';
+          });
+          // Duplicate for seamless looping marquee
+          track.innerHTML = tickerHTML + tickerHTML;
+        } else {
+          track.innerHTML = '<div class="notifications-ticker__item"><span>Official Entrance Examinations Centralized Portal — Real-time Allotment &amp; Notification Updates</span></div>';
+        }
       }
 
-      // Update Latest Notifications list if items found
-      if (notificationsList && listItems.length > 0) {
-        var listHTML = '';
-        listItems.forEach(function (item) {
-          var badgeHTML = item.badge ? '<span class="latest-notifications__badge">' + item.badge + '</span>' : '';
-          listHTML += '<li class="latest-notifications__item">' +
-            '<span class="latest-notifications__bullet" aria-hidden="true"></span>' +
-            '<a href="' + (item.link || '#') + '" class="latest-notifications__link">' +
-            item.title + ' ' + badgeHTML +
-            '</a>' +
-            '</li>';
-        });
-        notificationsList.innerHTML = listHTML;
+      // Update Latest Notifications list
+      if (notificationsList) {
+        if (listItems.length > 0) {
+          var listHTML = '';
+          listItems.forEach(function (item) {
+            var badgeHTML = item.badge ? '<span class="latest-notifications__badge">' + item.badge + '</span>' : '';
+            listHTML += '<li class="latest-notifications__item">' +
+              '<span class="latest-notifications__bullet" aria-hidden="true"></span>' +
+              '<a href="' + (item.link || '#') + '" class="latest-notifications__link">' +
+              item.title + ' ' + badgeHTML +
+              '</a>' +
+              '</li>';
+          });
+          notificationsList.innerHTML = listHTML;
+        } else {
+          notificationsList.innerHTML = '<li class="latest-notifications__item"><span class="latest-notifications__bullet" aria-hidden="true"></span><span>No recent notifications published at this moment.</span></li>';
+        }
       }
     } catch (err) {
       // In offline or static preview mode, gracefully retain default HTML
