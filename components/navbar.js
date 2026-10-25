@@ -61,14 +61,14 @@
 
     // Protected links: only visible after login
     if (isLoggedIn) {
-      navItems.push(
-        { label: 'Dashboard',   page: 'dashboard',   href: pagesPrefix + 'dashboard.html' },
-        { label: 'Application', page: 'application', href: pagesPrefix + 'application.html' }
-      );
-      // Admin link is strictly restricted to admin accounts
       if (isAdmin) {
         navItems.push(
           { label: 'Admin',     page: 'admin',       href: pagesPrefix + 'admin.html' }
+        );
+      } else {
+        navItems.push(
+          { label: 'Dashboard',   page: 'dashboard',   href: pagesPrefix + 'dashboard.html' },
+          { label: 'Application', page: 'application', href: pagesPrefix + 'application.html' }
         );
       }
     }

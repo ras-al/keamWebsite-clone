@@ -24,9 +24,14 @@ function ProtectedRoute({ children, requireAdmin = false }) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // If route requires admin role and user is not an admin, redirect to dashboard
+  // If route requires admin role and user is not an admin, redirect to candidate dashboard
   if (requireAdmin && !isAdmin) {
     return <Navigate to="/dashboard" replace />;
+  }
+
+  // If user is an administrator accessing candidate-only routes (Dashboard or Application form), redirect to admin portal
+  if (!requireAdmin && isAdmin) {
+    return <Navigate to="/admin" replace />;
   }
 
   return children;

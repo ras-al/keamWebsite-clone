@@ -39,22 +39,25 @@ function Navbar() {
 
           {isAuthenticated && (
             <>
-              <li>
-                <NavLink to="/dashboard" className={({ isActive }) => `navbar__link ${isActive ? 'navbar__link--active' : ''}`}>
-                  Dashboard
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/application" className={({ isActive }) => `navbar__link ${isActive ? 'navbar__link--active' : ''}`}>
-                  Application
-                </NavLink>
-              </li>
-              {isAdmin && (
+              {isAdmin ? (
                 <li>
                   <NavLink to="/admin" className={({ isActive }) => `navbar__link ${isActive ? 'navbar__link--active' : ''}`}>
                     Admin
                   </NavLink>
                 </li>
+              ) : (
+                <>
+                  <li>
+                    <NavLink to="/dashboard" className={({ isActive }) => `navbar__link ${isActive ? 'navbar__link--active' : ''}`}>
+                      Dashboard
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/application" className={({ isActive }) => `navbar__link ${isActive ? 'navbar__link--active' : ''}`}>
+                      Application
+                    </NavLink>
+                  </li>
+                </>
               )}
             </>
           )}
@@ -101,16 +104,19 @@ function Navbar() {
         </NavLink>
         {isAuthenticated && (
           <>
-            <NavLink to="/dashboard" className={({ isActive }) => `navbar__mobile-link ${isActive ? 'navbar__mobile-link--active' : ''}`} onClick={() => setMobileOpen(false)}>
-              Dashboard
-            </NavLink>
-            <NavLink to="/application" className={({ isActive }) => `navbar__mobile-link ${isActive ? 'navbar__mobile-link--active' : ''}`} onClick={() => setMobileOpen(false)}>
-              Application
-            </NavLink>
-            {isAdmin && (
+            {isAdmin ? (
               <NavLink to="/admin" className={({ isActive }) => `navbar__mobile-link ${isActive ? 'navbar__mobile-link--active' : ''}`} onClick={() => setMobileOpen(false)}>
                 Admin
               </NavLink>
+            ) : (
+              <>
+                <NavLink to="/dashboard" className={({ isActive }) => `navbar__mobile-link ${isActive ? 'navbar__mobile-link--active' : ''}`} onClick={() => setMobileOpen(false)}>
+                  Dashboard
+                </NavLink>
+                <NavLink to="/application" className={({ isActive }) => `navbar__mobile-link ${isActive ? 'navbar__mobile-link--active' : ''}`} onClick={() => setMobileOpen(false)}>
+                  Application
+                </NavLink>
+              </>
             )}
           </>
         )}
