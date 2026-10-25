@@ -101,21 +101,33 @@ footer.js ---------------------------------->|
      - `npm run dev`: Runs development server with `nodemon server.js`
 
 5. **`backend/models/Notification.js`**
-   - Mongoose schema for notices: `title`, `link`, `badge`, `category`, `isTicker`, and timestamps.
+   - Mongoose schema for notices: `title`, `link`, `badge`, `category`, `isTicker`, `message`, `isRead`, and timestamps.
 
 6. **`backend/controllers/notificationController.js`**
-   - `getNotifications`: Retrieves notifications with optional filtering (`?type=ticker` or `?type=list`). Automatically seeds 12 default notices from the KEAM portal if collection is empty.
-   - `getStats`: Returns portal public statistics (active courses, total registrations, application counts, helpline details).
-   - `createNotification`: Adds a new announcement.
+   - Full CRUD controller without hardcoded or predefined seed dependencies:
+     - `getNotifications`: Retrieves real-time notifications with optional filtering (`?type=ticker`, `?type=list`, `?category=`, `?search=`).
+     - `getNotificationById`: Retrieves announcement details by MongoDB ID.
+     - `createNotification`: Adds a new announcement/ticker update published via the Admin Dashboard.
+     - `updateNotification`: Modifies existing announcement title, link, category, badge, or toggles ticker placement.
+     - `deleteNotification`: Permanently deletes an announcement from MongoDB Atlas.
+     - `getStats`: Returns portal public statistics (active courses, total registrations, application counts, ticker and notice counts, helpline details).
 
 7. **`backend/routes/notificationRoutes.js`**
-   - Routes mounted at `/api/notifications` and `/api/notifications/stats`.
+   - Routes mounted at `/api/notifications` (`GET`, `POST`), `/api/notifications/:id` (`GET`, `PUT`, `DELETE`), and `/api/notifications/stats` (`GET`).
+   - Also mounted under `/api/admin/notifications` for unified admin management.
 
 8. **`backend/middleware/errorMiddleware.js`**
    - Standardized 404 Not Found and 500 Global Error JSON responses.
 
-9. **`js/home.js` Integration**
-   - Integrated live `fetch('/api/notifications')` to dynamically populate the scrolling announcement ticker and the Latest Notifications list.
+9. **`pages/admin.html` & `js/admin.js` Admin Notification Management**
+   - Dedicated "Announcements & Live Ticker" management panel within the Admin Dashboard.
+   - Live creation form for publishing new announcements with category and badge selection.
+   - Interactive table with quick placement toggle between Scrolling Ticker and Notice Board.
+   - Instant edit and delete actions connected directly to MongoDB Atlas via `API.put()` and `API.delete()`.
+
+10. **`js/home.js` Integration**
+   - Integrated live `fetch('/api/notifications')` to dynamically populate the scrolling announcement ticker and the Latest Notifications list directly from database records managed by the Admin.
+   - Smooth infinite marquee looping and informative empty states when no notices are active.
    - Preserves offline/static fallback so the site works seamlessly both with and without the backend running.
 
 ---
@@ -125,9 +137,12 @@ footer.js ---------------------------------->|
 | Method | Endpoint | Description | Access |
 |--------|----------|-------------|--------|
 | `GET` | `/api/health` | Backend server health status & timestamp | Public |
-| `GET` | `/api/notifications` | Get all announcements (supports `?type=ticker` / `?type=list`) | Public |
-| `GET` | `/api/stats` | Get portal live statistics | Public |
-| `POST` | `/api/notifications` | Add a new announcement | Public / Admin |
+| `GET` | `/api/notifications` | Get all announcements (supports `?type=ticker` / `?type=list`, `?category=`, `?search=`) | Public |
+| `GET` | `/api/notifications/:id` | Get announcement details by ID | Public / Admin |
+| `POST` | `/api/notifications` | Add a new announcement or ticker update | Admin |
+| `PUT` | `/api/notifications/:id` | Update announcement details or toggle ticker placement | Admin |
+| `DELETE` | `/api/notifications/:id` | Permanently delete an announcement | Admin |
+| `GET` | `/api/stats` | Get portal live statistics and announcement counters | Public |
 | `GET` | `/` | Serves `index.html` frontend landing page | Public |
 
 ---
@@ -191,11 +206,11 @@ As Team Leader, I have set up the core backend foundation, MongoDB Atlas connect
 
 ---
 
-## Phase 3 - React SPA Architecture & Home / Landing Page (🚀 Next Phase)
+## Phase 3 - React SPA Architecture & Home / Landing Page (✅ Completed)
 
 ### Role: Team Leader, React Setup, Application Routing & Landing Page Components
 
-In Phase 3, we transition the KEAM Portal into a component-driven React Single Page Application (SPA). Following the course study material, our codebase will prioritize simple, clean, and readable functional components with modern React hooks.
+In Phase 3, we transitioned the KEAM Portal into a component-driven React Single Page Application (SPA). Following the course study material, our codebase prioritizes simple, clean, and readable functional components with modern React hooks. All of my assigned architecture, routing, and home components are fully implemented and structured.
 
 ### My Phase 3 Assigned Components & Files
 

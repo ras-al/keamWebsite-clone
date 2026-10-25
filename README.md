@@ -225,9 +225,12 @@ The Express backend serves the static frontend alongside the REST API, meaning y
 | Method | Endpoint | Description | Access |
 |--------|----------|-------------|--------|
 | `GET` | `/api/health` | Service health status check | Public |
-| `GET` | `/api/notifications` | Get announcements (filter by `?type=ticker` or `?type=list`) | Public |
-| `GET` | `/api/stats` | Portal live statistics | Public |
-| `POST` | `/api/notifications` | Create announcement | Public / Admin |
+| `GET` | `/api/notifications` | Get announcements (supports `?type=ticker` / `?type=list`, `?category=`, `?search=`) | Public |
+| `GET` | `/api/notifications/:id` | Get single announcement by ID | Public / Admin |
+| `POST` | `/api/notifications` | Publish announcement or ticker update | Admin |
+| `PUT` | `/api/notifications/:id` | Update announcement or toggle ticker placement | Admin |
+| `DELETE` | `/api/notifications/:id` | Permanently delete announcement | Admin |
+| `GET` | `/api/stats` | Portal live statistics and announcement counters | Public |
 
 ### Authentication (Safdil Arafath)
 | Method | Endpoint | Description | Access |

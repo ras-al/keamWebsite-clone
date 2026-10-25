@@ -1,6 +1,6 @@
 // backend/routes/adminRoutes.js
-// Admin Routes - Shan M A (B24CSA59)
-// Defines the API endpoints for admin panel and public status tracking
+// Admin Routes - Shan M A (B24CSA59) & Rasal Musthafa (B24CSA49)
+// Defines the API endpoints for admin panel, notification management, and public status tracking
 
 const express = require('express');
 const router = express.Router();
@@ -12,7 +12,15 @@ const {
   trackStatus
 } = require('../controllers/adminController');
 
-// ===== Admin Endpoints =====
+const {
+  getNotifications,
+  getNotificationById,
+  createNotification,
+  updateNotification,
+  deleteNotification
+} = require('../controllers/notificationController');
+
+// ===== Admin Applications Endpoints =====
 
 // GET /api/admin/applications
 // Fetches all applications (with optional search/filter)
@@ -23,6 +31,16 @@ router.get('/applications', getAllApplications);
 // Updates an application's status and remarks
 // Body: { status: 'Approved', remarks: 'All docs verified.' }
 router.put('/applications/:id/status', updateApplicationStatus);
+
+// ===== Admin Notification Endpoints =====
+router.route('/notifications')
+  .get(getNotifications)
+  .post(createNotification);
+
+router.route('/notifications/:id')
+  .get(getNotificationById)
+  .put(updateNotification)
+  .delete(deleteNotification);
 
 // ===== Public Status Tracking =====
 

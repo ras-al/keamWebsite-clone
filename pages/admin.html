@@ -23,11 +23,9 @@
     <aside class="admin-sidebar">
       <h2 class="admin-sidebar__title">Admin Menu</h2>
       <nav class="admin-nav">
-        <a href="#" class="admin-nav__link admin-nav__link--active">Dashboard</a>
-        <a href="#" class="admin-nav__link">Applications</a>
-        <a href="#" class="admin-nav__link">Approve/Reject</a>
-        <a href="#" class="admin-nav__link">Reports</a>
-        <a href="#" class="admin-nav__link">Settings</a>
+        <a href="#applications-panel" class="admin-nav__link admin-nav__link--active" id="nav-applications-link">Applications</a>
+        <a href="#notifications-panel" class="admin-nav__link" id="nav-notifications-link">Announcements &amp; Ticker</a>
+        <a href="../index.html" class="admin-nav__link" target="_blank">View Live Portal &rarr;</a>
       </nav>
     </aside>
 
@@ -76,10 +74,21 @@
           <div class="stat-card__value" id="stat-approved">0</div>
           <div class="stat-card__label">Approved</div>
         </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon" style="color: #6d28d9;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+          </div>
+          <div class="stat-card__value" id="stat-notifications">0</div>
+          <div class="stat-card__label">Live Announcements</div>
+        </div>
       </div>
 
       <!-- Applications Table -->
-      <div class="admin-panel-card">
+      <div class="admin-panel-card" id="applications-panel">
         <div class="admin-panel-card__header">
           <h2 class="admin-panel-card__title">Recent Applications</h2>
           <div class="admin-search">
@@ -102,6 +111,120 @@
             </thead>
             <tbody id="admin-table-body">
               <!-- Rows will be populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Notifications & Live Ticker Management Panel -->
+      <div class="admin-panel-card" id="notifications-panel" style="margin-top: var(--space-xl);">
+        <div class="admin-panel-card__header">
+          <div>
+            <h2 class="admin-panel-card__title">Announcements &amp; Live Ticker</h2>
+            <p style="font-size: var(--fs-sm); color: var(--color-gray-500, #666); margin-top: 4px;">
+              Manage scrolling ticker announcements and portal notices displayed on the home page.
+            </p>
+          </div>
+          <div class="admin-card-actions">
+            <div class="filter-pills" id="notice-filter-pills">
+              <button class="filter-pill filter-pill--active" data-filter="all">All</button>
+              <button class="filter-pill" data-filter="ticker">Ticker</button>
+              <button class="filter-pill" data-filter="list">Notice Board</button>
+            </div>
+            <button class="btn btn--primary" id="btn-toggle-notice-form">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; margin-right: 4px; vertical-align: text-bottom;">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              New Announcement
+            </button>
+          </div>
+        </div>
+
+        <!-- Add / Edit Notification Form (Hidden by default) -->
+        <div class="notification-form-wrapper" id="notice-form-container" style="display: none;">
+          <div class="notification-form-title">
+            <span id="notice-form-mode-title">Create Announcement</span>
+            <button type="button" class="btn-icon" id="btn-close-notice-form" title="Close Form">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <form id="notice-form">
+            <input type="hidden" id="notice-id" value="">
+            
+            <div class="form-grid form-grid--2">
+              <div class="form-group form-grid--span2">
+                <label for="notice-title">Announcement Title / Headline *</label>
+                <input type="text" class="form-input" id="notice-title" placeholder="e.g. KEAM 2026: Engineering Second Phase Allotment Results Published" required>
+              </div>
+
+              <div class="form-group">
+                <label for="notice-category">Discipline / Category</label>
+                <select class="form-input" id="notice-category">
+                  <option value="General">General</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Architecture">Architecture</option>
+                  <option value="Medical">Medical</option>
+                  <option value="Law">Law</option>
+                  <option value="Pharmacy">Pharmacy</option>
+                  <option value="PG Medical">PG Medical</option>
+                  <option value="PG Dental">PG Dental</option>
+                  <option value="PG Nursing">PG Nursing</option>
+                  <option value="PG Ayurveda">PG Ayurveda</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="notice-type">Display Placement *</label>
+                <select class="form-input" id="notice-type">
+                  <option value="ticker">Scrolling Ticker (Top Bar)</option>
+                  <option value="list">Notice Board (Latest Notifications)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="notice-link">Target Link / URL</label>
+                <input type="text" class="form-input" id="notice-link" placeholder="# or /pages/status.html" value="#">
+              </div>
+
+              <div class="form-group">
+                <label for="notice-badge">Highlight Badge</label>
+                <select class="form-input" id="notice-badge">
+                  <option value="">None</option>
+                  <option value="New">New</option>
+                  <option value="Urgent">Urgent</option>
+                  <option value="Final">Final</option>
+                  <option value="Extended">Extended</option>
+                  <option value="Important">Important</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn--outline" id="btn-cancel-notice">Cancel</button>
+              <button type="submit" class="btn btn--primary" id="btn-save-notice">Publish Announcement</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Notifications Table -->
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 140px;">Placement</th>
+                <th>Title / Headline</th>
+                <th style="width: 130px;">Category</th>
+                <th style="width: 90px;">Badge</th>
+                <th style="width: 110px;">Date Added</th>
+                <th style="width: 120px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-notifications-body">
+              <!-- Populated dynamically via JS -->
             </tbody>
           </table>
         </div>
