@@ -90,6 +90,10 @@ const applicationSchema = new mongoose.Schema(
         type: String,
         default: '2026'
       },
+      rollNumber: {
+        type: String,
+        default: ''
+      },
       totalMarks: {
         type: String,
         default: ''

@@ -1,3 +1,6 @@
+@import './styles/dashboard.css';
+@import './styles/application.css';
+
 /* ============================================================
    STYLE.CSS — Shared base styles for KEAM Portal Clone
    Includes: CSS Reset, Custom Properties, Typography, Utilities
