@@ -23,6 +23,7 @@ import DashboardPage from './pages/DashboardPage';
 import ApplicationPage from './pages/ApplicationPage';
 import AdminPage from './pages/AdminPage';
 import StatusPage from './pages/StatusPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -73,7 +74,7 @@ function App() {
             <Route path="/status" element={<StatusPage />} />
 
             {/* Catch-all 404 fallback */}
-            <Route path="*" element={<HomePage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
 
