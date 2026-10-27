@@ -4,6 +4,8 @@
 // Study Reference: Slides 86-88 (Controlled Components)
 
 import React, { useState } from 'react';
+import InputField from '../common/InputField';
+import Button from '../common/Button';
 
 function StatusForm({ onSearch, loading = false }) {
   const [appNo, setAppNo] = useState('');
@@ -16,52 +18,36 @@ function StatusForm({ onSearch, loading = false }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <div>
-        <label
-          htmlFor="status-appNo"
-          style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}
-        >
-          Application Number <span style={{ color: '#DC2626' }}>*</span>
-        </label>
-        <input
-          id="status-appNo"
-          type="text"
-          placeholder="e.g. 2648219"
-          value={appNo}
-          onChange={(e) => setAppNo(e.target.value)}
-          required
-          className="form-input"
-          style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px', fontSize: 'var(--fs-sm)' }}
-        />
-      </div>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <InputField
+        id="status-appNo"
+        name="status-appNo"
+        label="Application Number"
+        type="text"
+        placeholder="e.g. 2648219"
+        value={appNo}
+        onChange={(e) => setAppNo(e.target.value)}
+        required
+      />
 
-      <div>
-        <label
-          htmlFor="status-dob"
-          style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}
-        >
-          Date of Birth <span style={{ color: '#DC2626' }}>*</span>
-        </label>
-        <input
-          id="status-dob"
-          type="date"
-          value={dob}
-          onChange={(e) => setDob(e.target.value)}
-          required
-          className="form-input"
-          style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px', fontSize: 'var(--fs-sm)' }}
-        />
-      </div>
+      <InputField
+        id="status-dob"
+        name="status-dob"
+        label="Date of Birth"
+        type="date"
+        value={dob}
+        onChange={(e) => setDob(e.target.value)}
+        required
+      />
 
-      <button
+      <Button
         type="submit"
-        className="btn btn--primary"
-        style={{ width: '100%', marginTop: '0.5rem', padding: '0.75rem' }}
+        variant="primary"
         disabled={loading}
+        style={{ width: '100%', marginTop: '0.75rem', padding: '0.75rem' }}
       >
         {loading ? 'Checking Application Database...' : 'Track Application Status'}
-      </button>
+      </Button>
     </form>
   );
 }
