@@ -7,6 +7,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PasswordStrength from '../components/auth/PasswordStrength';
 import SuccessModal from '../components/auth/SuccessModal';
+import InputField from '../components/common/InputField';
+import SelectField from '../components/common/SelectField';
+import Button from '../components/common/Button';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -128,151 +131,115 @@ function RegisterPage() {
           </div>
         )}
 
-        <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
-              Full Name (as in Class 10 Certificate) <span style={{ color: '#DC2626' }}>*</span>
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              placeholder="e.g. Rahul Krishnan"
-              value={formData.fullName}
+        <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {/* Reusable InputField for Full Name */}
+          <InputField
+            id="fullName"
+            name="fullName"
+            label="Full Name (as in Class 10 Certificate)"
+            type="text"
+            placeholder="e.g. Rahul Krishnan"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+          />
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <InputField
+              id="dob"
+              name="dob"
+              label="Date of Birth"
+              type="date"
+              value={formData.dob}
               onChange={handleChange}
               required
-              className="form-input"
-              style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px' }}
+            />
+
+            <SelectField
+              id="gender"
+              name="gender"
+              label="Gender"
+              value={formData.gender}
+              onChange={handleChange}
+              options={['Male', 'Female', 'Transgender']}
+              required
             />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
-                Date of Birth <span style={{ color: '#DC2626' }}>*</span>
-              </label>
-              <input
-                type="date"
-                name="dob"
-                value={formData.dob}
-                onChange={handleChange}
-                required
-                className="form-input"
-                style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
-                Gender <span style={{ color: '#DC2626' }}>*</span>
-              </label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                className="form-select"
-                style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px' }}
-              >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Transgender">Transgender</option>
-              </select>
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
-                Email Address <span style={{ color: '#DC2626' }}>*</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                placeholder="candidate@gmail.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="form-input"
-                style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
-                Mobile Number <span style={{ color: '#DC2626' }}>*</span>
-              </label>
-              <input
-                type="tel"
-                name="mobileNumber"
-                placeholder="10-digit mobile"
-                maxLength="10"
-                value={formData.mobileNumber}
-                onChange={handleChange}
-                required
-                className="form-input"
-                style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px' }}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
-              Reservation Category <span style={{ color: '#DC2626' }}>*</span>
-            </label>
-            <select
-              name="category"
-              value={formData.category}
+            <InputField
+              id="email"
+              name="email"
+              label="Email Address"
+              type="email"
+              placeholder="candidate@gmail.com"
+              value={formData.email}
               onChange={handleChange}
-              className="form-select"
-              style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px' }}
-            >
-              <option value="General">General / Open Merit</option>
-              <option value="OBC">Other Backward Classes (OBC)</option>
-              <option value="EWS">Economically Weaker Sections (EWS)</option>
-              <option value="SC">Scheduled Caste (SC)</option>
-              <option value="ST">Scheduled Tribe (ST)</option>
-            </select>
+              required
+            />
+
+            <InputField
+              id="mobileNumber"
+              name="mobileNumber"
+              label="Mobile Number"
+              type="tel"
+              placeholder="10-digit mobile"
+              value={formData.mobileNumber}
+              onChange={handleChange}
+              required
+            />
           </div>
 
+          <SelectField
+            id="category"
+            name="category"
+            label="Reservation Category"
+            value={formData.category}
+            onChange={handleChange}
+            options={[
+              { value: 'General', label: 'General / Open Merit' },
+              { value: 'OBC', label: 'Other Backward Classes (OBC)' },
+              { value: 'EWS', label: 'Economically Weaker Sections (EWS)' },
+              { value: 'SC', label: 'Scheduled Caste (SC)' },
+              { value: 'ST', label: 'Scheduled Tribe (ST)' }
+            ]}
+            required
+          />
+
           <div>
-            <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
-              Choose Password (min 6 characters) <span style={{ color: '#DC2626' }}>*</span>
-            </label>
-            <input
-              type="password"
+            <InputField
+              id="password"
               name="password"
+              label="Choose Password (min 6 characters)"
+              type="password"
               placeholder="Create strong password"
               value={formData.password}
               onChange={handleChange}
               required
-              className="form-input"
-              style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px' }}
             />
             {/* Live Password Strength Meter */}
             <PasswordStrength password={formData.password} />
           </div>
 
-          <div>
-            <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
-              Confirm Password <span style={{ color: '#DC2626' }}>*</span>
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Re-enter password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              className="form-input"
-              style={{ width: '100%', padding: '0.65rem 0.75rem', border: 'var(--border-light)', borderRadius: '4px' }}
-            />
-          </div>
+          <InputField
+            id="confirmPassword"
+            name="confirmPassword"
+            label="Confirm Password"
+            type="password"
+            placeholder="Re-enter password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
 
-          <button
+          <Button
             type="submit"
-            className="btn btn--primary"
-            style={{ width: '100%', marginTop: '0.5rem', padding: '0.75rem' }}
+            variant="primary"
             disabled={loading}
+            style={{ width: '100%', marginTop: '0.75rem', padding: '0.75rem' }}
           >
             {loading ? 'Submitting Registration...' : 'Register & Generate Application No'}
-          </button>
+          </Button>
         </form>
 
         <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: 'var(--fs-sm)', borderTop: '1px solid #E2E8F0', paddingTop: '1rem' }}>

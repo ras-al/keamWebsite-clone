@@ -7,6 +7,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import CaptchaBox from '../components/auth/CaptchaBox';
+import InputField from '../components/common/InputField';
+import Button from '../components/common/Button';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -110,40 +112,22 @@ function LoginPage() {
           </div>
         )}
 
-        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div>
-            <label
-              htmlFor="appNo"
-              style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}
-            >
-              Application Number / Admin Username <span style={{ color: '#DC2626' }}>*</span>
-            </label>
-            <input
-              id="appNo"
-              type="text"
-              placeholder="e.g. 2648219 or admin"
-              value={appNo}
-              onChange={(e) => setAppNo(e.target.value)}
-              className="form-input"
-              style={{
-                width: '100%',
-                padding: '0.65rem 0.75rem',
-                border: 'var(--border-light)',
-                borderRadius: '4px',
-                fontSize: 'var(--fs-sm)'
-              }}
-              required
-            />
-          </div>
+        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {/* Reusable Controlled InputField for Application Number */}
+          <InputField
+            id="appNo"
+            name="appNo"
+            label="Application Number / Admin Username"
+            type="text"
+            placeholder="e.g. 2648219 or admin"
+            value={appNo}
+            onChange={(e) => setAppNo(e.target.value)}
+            required
+          />
 
+          {/* Reusable Controlled InputField for Password with Show/Hide toggle */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-              <label
-                htmlFor="password"
-                style={{ fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)' }}
-              >
-                Password <span style={{ color: '#DC2626' }}>*</span>
-              </label>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '-1.5rem', position: 'relative', zIndex: 2 }}>
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -159,27 +143,21 @@ function LoginPage() {
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
-            <input
+            <InputField
               id="password"
+              name="password"
+              label="Password"
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="form-input"
-              style={{
-                width: '100%',
-                padding: '0.65rem 0.75rem',
-                border: 'var(--border-light)',
-                borderRadius: '4px',
-                fontSize: 'var(--fs-sm)'
-              }}
               required
             />
           </div>
 
-          {/* CAPTCHA Challenge Box */}
-          <div>
-            <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)' }}>
+          {/* CAPTCHA Challenge Box and Reusable InputField */}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ display: 'block', fontSize: 'var(--fs-xs)', fontWeight: '600', color: 'var(--color-navy)', marginBottom: '4px' }}>
               Security CAPTCHA <span style={{ color: '#DC2626' }}>*</span>
             </label>
             <CaptchaBox onCaptchaChange={(code) => setActiveCaptcha(code)} />
@@ -203,14 +181,15 @@ function LoginPage() {
             />
           </div>
 
-          <button
+          {/* Reusable Button Component */}
+          <Button
             type="submit"
-            className="btn btn--primary"
-            style={{ width: '100%', marginTop: '0.5rem', padding: '0.75rem' }}
+            variant="primary"
             disabled={loading}
+            style={{ width: '100%', padding: '0.75rem', marginTop: '0.5rem' }}
           >
             {loading ? 'Authenticating...' : 'Sign In'}
-          </button>
+          </Button>
         </form>
 
         <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: 'var(--fs-sm)', borderTop: '1px solid #E2E8F0', paddingTop: '1rem' }}>
