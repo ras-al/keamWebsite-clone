@@ -15,7 +15,7 @@ const candidateSchema = new mongoose.Schema(
     fullName: {
       type: String,
       required: true,
-      trim: true          // removes extra spaces: " Safdil " → "Safdil"
+      trim: true          // removes extra spaces: " Safdil " -> "Safdil"
     },
 
     // Date of Birth - stored as string in YYYY-MM-DD format
@@ -29,7 +29,7 @@ const candidateSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true     // auto-converts "JOHN@Gmail.com" → "john@gmail.com"
+      lowercase: true     // auto-converts "JOHN@Gmail.com" -> "john@gmail.com"
     },
 
     // Mobile Number - 10-digit Indian phone number

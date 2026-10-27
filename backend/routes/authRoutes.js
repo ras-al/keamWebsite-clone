@@ -13,13 +13,13 @@ const { protect } = require('../middleware/auth');
 // So "/register" below becomes "/api/auth/register"
 // ──────────────────────────────────────────────────────────
 
-// POST /api/auth/register → calls register() - Public (anyone can register)
+// POST /api/auth/register -> calls register() - Public (anyone can register)
 router.post('/register', register);
 
-// POST /api/auth/login → calls login() - Public (anyone can log in)
+// POST /api/auth/login -> calls login() - Public (anyone can log in)
 router.post('/login', login);
 
-// GET /api/auth/me → calls getMe() - Protected (needs valid JWT token)
+// GET /api/auth/me -> calls getMe() - Protected (needs valid JWT token)
 // The 'protect' middleware runs FIRST, verifies the token,
 // then passes control to getMe() via next()
 router.get('/me', protect, getMe);

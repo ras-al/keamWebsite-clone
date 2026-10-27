@@ -189,7 +189,7 @@ function StepReview({ data, files = {}, onSubmit, onPrev, isSubmitting, submitEr
 
       <div className="form-nav" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.25rem 2rem' }}>
         <button type="button" onClick={onPrev} className="btn btn--outline" disabled={isSubmitting}>
-          ← Back to Payment
+          Back to Payment
         </button>
         <button
           type="button"

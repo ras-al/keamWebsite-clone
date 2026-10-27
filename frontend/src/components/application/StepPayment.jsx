@@ -208,10 +208,10 @@ function StepPayment({ data, onUpdate, onNext, onPrev }) {
 
       <div className="form-nav" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.25rem 2rem' }}>
         <button type="button" onClick={onPrev} className="btn btn--outline">
-          ← Back to Uploads
+          Back to Uploads
         </button>
         <button type="submit" className="btn btn--primary">
-          Continue to Final Review →
+          Continue to Final Review
         </button>
       </div>
     </form>

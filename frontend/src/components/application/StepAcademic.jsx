@@ -25,12 +25,18 @@ function StepAcademic({ data, onUpdate, onNext, onPrev }) {
     if (!data.schoolName?.trim()) {
       errs.schoolName = 'School / institution name is required';
     }
-    if (!data.totalMarks?.toString().trim()) {
-      errs.totalMarks = 'Total marks obtained is required';
+    // For already passed candidates (2025 or earlier), require marks
+    const isAppearing = data.passYear === '2026';
+    if (!isAppearing) {
+      if (!data.totalMarks?.toString().trim()) {
+        errs.totalMarks = 'Total marks obtained is required for passed candidates';
+      }
+      if (!data.percentage?.toString().trim()) {
+        errs.percentage = 'Percentage of marks is required for passed candidates';
+      }
     }
-    if (!data.percentage?.toString().trim()) {
-      errs.percentage = 'Percentage of marks is required';
-    } else {
+
+    if (data.percentage?.toString().trim()) {
       const pct = parseFloat(data.percentage);
       if (isNaN(pct) || pct < 0 || pct > 100) {
         errs.percentage = 'Please enter a valid percentage between 0 and 100';
@@ -39,6 +45,19 @@ function StepAcademic({ data, onUpdate, onNext, onPrev }) {
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
+  };
+
+  const handleAutoFillSample = () => {
+    onUpdate({
+      qualifyingExam: 'Plus Two (HSE Kerala)',
+      board: 'DHSE Kerala',
+      passYear: '2026',
+      rollNumber: '8493012',
+      schoolName: 'Govt Model Higher Secondary School',
+      totalMarks: '560',
+      percentage: '93.3'
+    });
+    setErrors({});
   };
 
   const handleSubmit = (e) => {
@@ -50,11 +69,21 @@ function StepAcademic({ data, onUpdate, onNext, onPrev }) {
 
   return (
     <form onSubmit={handleSubmit} className="form-card" noValidate>
-      <div className="form-card__header">
-        <h2 className="form-card__title">Step 2: Academic Details</h2>
-        <p className="form-card__desc">
-          Enter your qualifying examination background (Plus Two / Class 12 or equivalent). All fields marked with <span style={{ color: 'var(--color-error)' }}>*</span> are mandatory.
-        </p>
+      <div className="form-card__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem' }}>
+        <div>
+          <h2 className="form-card__title">Step 2: Academic Details</h2>
+          <p className="form-card__desc">
+            Enter your qualifying examination background (Plus Two / Class 12 or equivalent). All fields marked with <span style={{ color: 'var(--color-error)' }}>*</span> are mandatory.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleAutoFillSample}
+          className="btn btn--outline"
+          style={{ fontSize: '0.8rem', padding: '0.4rem 0.85rem' }}
+        >
+          Auto-Fill Sample Data
+        </button>
       </div>
 
       <div className="form-card__body">
@@ -214,10 +243,10 @@ function StepAcademic({ data, onUpdate, onNext, onPrev }) {
 
       <div className="form-nav" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.25rem 2rem' }}>
         <button type="button" onClick={onPrev} className="btn btn--outline">
-          ← Back to Personal
+          Back to Personal
         </button>
         <button type="submit" className="btn btn--primary">
-          Continue to Communication →
+          Continue to Communication
         </button>
       </div>
     </form>

@@ -6,58 +6,63 @@
 import React from 'react';
 
 function ProfileCard({ candidate, application }) {
-  // Extract data with safe fallbacks from application and candidate props
+  const currentAppNo = candidate?.applicationNumber || candidate?.applicationNo || candidate?.appNo;
+
+  // Only consider application if it belongs to this logged-in candidate
+  const isMatchingApp = Boolean(
+    application &&
+    (!currentAppNo || !application.applicationNumber || application.applicationNumber === currentAppNo)
+  );
+  const validApp = isMatchingApp ? application : null;
+
   const name =
-    application?.personalDetails?.candidateName ||
     candidate?.fullName ||
     candidate?.name ||
+    validApp?.personalDetails?.candidateName ||
     'Registered Candidate';
 
   const appNo =
-    application?.applicationNumber ||
-    candidate?.applicationNumber ||
-    candidate?.applicationNo ||
-    candidate?.appNo ||
+    currentAppNo ||
+    validApp?.applicationNumber ||
     '2600000';
 
   const exam =
-    (application?.courseSelections && application.courseSelections.length > 0)
-      ? application.courseSelections.join(', ')
+    (validApp?.courseSelections && validApp.courseSelections.length > 0)
+      ? validApp.courseSelections.join(', ')
       : (candidate?.exam || candidate?.course || 'Engineering (KEAM 2026)');
 
   const category =
-    application?.personalDetails?.category ||
     candidate?.category ||
+    validApp?.personalDetails?.category ||
     'General';
 
   const dob =
-    application?.personalDetails?.dob ||
     candidate?.dob ||
+    validApp?.personalDetails?.dob ||
     '-';
 
   const gender =
-    application?.personalDetails?.gender ||
     candidate?.gender ||
+    validApp?.personalDetails?.gender ||
     '-';
 
   const phone =
-    application?.communicationDetails?.mobileNumber ||
     candidate?.mobileNumber ||
     candidate?.phone ||
+    validApp?.communicationDetails?.mobileNumber ||
     '-';
 
   const email =
-    application?.communicationDetails?.email ||
     candidate?.email ||
+    validApp?.communicationDetails?.email ||
     '-';
 
   const status =
-    application?.status ||
-    candidate?.status ||
-    'Active';
+    validApp?.status ||
+    (candidate ? 'Registered (Pending Submission)' : 'Active');
 
   // Photo URL if candidate uploaded a photo
-  const photoUrl = application?.documents?.photoPath || candidate?.photoUrl || null;
+  const photoUrl = validApp?.documents?.photoPath || candidate?.photoUrl || null;
 
   // Status tag styling
   const getStatusBadgeStyle = () => {

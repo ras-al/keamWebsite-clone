@@ -31,6 +31,7 @@ router.get('/applications', getAllApplications);
 // Updates an application's status and remarks
 // Body: { status: 'Approved', remarks: 'All docs verified.' }
 router.put('/applications/:id/status', updateApplicationStatus);
+router.put('/applications/:id/manage', updateApplicationStatus);
 
 // ===== Admin Notification Endpoints =====
 router.route('/notifications')

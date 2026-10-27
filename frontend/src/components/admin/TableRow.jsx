@@ -58,18 +58,35 @@ function TableRow({ application, onReview }) {
         {courses}
       </td>
       <td style={{ padding: '0.85rem 1rem' }}>
-        <span
-          style={{
-            display: 'inline-block',
-            padding: '0.25rem 0.6rem',
-            borderRadius: '9999px',
-            fontSize: 'var(--fs-xs)',
-            fontWeight: '600',
-            ...getBadgeStyle(status)
-          }}
-        >
-          {status}
-        </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', alignItems: 'flex-start' }}>
+          <span
+            style={{
+              display: 'inline-block',
+              padding: '0.2rem 0.55rem',
+              borderRadius: '9999px',
+              fontSize: 'var(--fs-xs)',
+              fontWeight: '600',
+              ...getBadgeStyle(status)
+            }}
+          >
+            {status}
+          </span>
+          {application.seatAllotment?.allotted && (
+            <span style={{ fontSize: '10px', backgroundColor: '#FEF3C7', color: '#92400E', padding: '1px 5px', borderRadius: '4px', fontWeight: 'bold' }}>
+              Allotted: {application.seatAllotment.course ? application.seatAllotment.course.slice(0, 15) + '...' : 'Seat'}
+            </span>
+          )}
+          {application.rankDetails?.published && (
+            <span style={{ fontSize: '10px', backgroundColor: '#DCFCE7', color: '#166534', padding: '1px 5px', borderRadius: '4px', fontWeight: 'bold' }}>
+              Rank: #{application.rankDetails.stateMeritRank || 'N/A'}
+            </span>
+          )}
+          {application.admitCard?.issued && (
+            <span style={{ fontSize: '10px', backgroundColor: '#EFF6FF', color: '#1E40AF', padding: '1px 5px', borderRadius: '4px' }}>
+              Admit Card Issued
+            </span>
+          )}
+        </div>
       </td>
       <td style={{ padding: '0.85rem 1rem', color: 'var(--color-mid-gray)', fontSize: 'var(--fs-xs)' }}>
         {formattedDate}
@@ -78,10 +95,10 @@ function TableRow({ application, onReview }) {
         <button
           type="button"
           onClick={() => onReview(application)}
-          className="btn btn--secondary"
+          className="btn btn--primary"
           style={{ padding: '0.35rem 0.75rem', fontSize: 'var(--fs-xs)' }}
         >
-          Review
+          Manage
         </button>
       </td>
     </tr>

@@ -49,3 +49,12 @@ frontend/dist/
 *.sw?
 .DS_Store
 Thumbs.db
+
+# Uploaded files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Project report files (Overleaf / LaTeX)
+keam_project_report.zip
+keam_project_report_overleaf/
+

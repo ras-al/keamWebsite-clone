@@ -14,7 +14,7 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Username is required'],
       unique: true,
-      trim: true          // removes extra spaces: " admin1 " → "admin1"
+      trim: true          // removes extra spaces: " admin1 " -> "admin1"
     },
 
     // Admin email - must be unique
@@ -22,7 +22,7 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Email is required'],
       unique: true,
-      lowercase: true      // auto-converts "ADMIN@Gmail.com" → "admin@gmail.com"
+      lowercase: true      // auto-converts "ADMIN@Gmail.com" -> "admin@gmail.com"
     },
 
     // Password - stored as a bcrypt HASH (never plain text!)

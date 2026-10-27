@@ -55,6 +55,17 @@ function StepCommunication({ data, onUpdate, onNext, onPrev }) {
     return Object.keys(errs).length === 0;
   };
 
+  const handleAutoFillSample = () => {
+    onUpdate({
+      permanentAddress: data.permanentAddress || 'TC 14/230, Near Medical College, Kowdiar PO',
+      district: data.district || 'Thiruvananthapuram',
+      state: 'Kerala',
+      pincode: data.pincode || '695003',
+      examCenterPref: data.examCenterPref || 'Thiruvananthapuram'
+    });
+    setErrors({});
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
@@ -64,11 +75,21 @@ function StepCommunication({ data, onUpdate, onNext, onPrev }) {
 
   return (
     <form onSubmit={handleSubmit} className="form-card" noValidate>
-      <div className="form-card__header">
-        <h2 className="form-card__title">Step 3: Communication Details</h2>
-        <p className="form-card__desc">
-          Provide your permanent residential address and valid contact credentials. All fields marked with <span style={{ color: 'var(--color-error)' }}>*</span> are mandatory.
-        </p>
+      <div className="form-card__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem' }}>
+        <div>
+          <h2 className="form-card__title">Step 3: Communication Details</h2>
+          <p className="form-card__desc">
+            Provide your permanent residential address and valid contact credentials. All fields marked with <span style={{ color: 'var(--color-error)' }}>*</span> are mandatory.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleAutoFillSample}
+          className="btn btn--outline"
+          style={{ fontSize: '0.8rem', padding: '0.4rem 0.85rem' }}
+        >
+          Auto-Fill Sample Data
+        </button>
       </div>
 
       <div className="form-card__body">
@@ -238,10 +259,10 @@ function StepCommunication({ data, onUpdate, onNext, onPrev }) {
 
       <div className="form-nav" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.25rem 2rem' }}>
         <button type="button" onClick={onPrev} className="btn btn--outline">
-          ← Back to Academic
+          Back to Academic
         </button>
         <button type="submit" className="btn btn--primary">
-          Continue to Document Uploads →
+          Continue to Document Uploads
         </button>
       </div>
     </form>

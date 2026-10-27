@@ -75,8 +75,8 @@ const getAllApplications = async (req, res) => {
  * - Finds an application by its MongoDB _id
  * - Updates its status (Approved / Rejected / Defective) and remarks
  * - Also updates currentStep based on the new status:
- *     Approved → step 6 (final approval done)
- *     Rejected or Defective → step 3 (sent back for correction)
+ *     Approved -> step 6 (final approval done)
+ *     Rejected or Defective -> step 3 (sent back for correction)
  *
  * Request body example:
  *   { "status": "Approved", "remarks": "All documents verified." }
@@ -86,8 +86,14 @@ const updateApplicationStatus = async (req, res) => {
     // Step 1: Get the application ID from the URL
     const { id } = req.params;
 
-    // Step 2: Get status and remarks from the request body
-    const { status, remarks } = req.body;
+    // Step 2: Extract admin management fields from the request body
+    const {
+      status,
+      remarks,
+      admitCard,
+      rankDetails,
+      seatAllotment
+    } = req.body;
 
     // Step 3: Find the application in the database
     const application = await Application.findById(id);
@@ -100,35 +106,99 @@ const updateApplicationStatus = async (req, res) => {
       });
     }
 
-    // Step 4: Update the status field
-    application.status = status;
-
-    // Step 5: Update remarks (admin's comment)
-    application.remarks = remarks || '';
-
-    // Step 6: Update currentStep based on new status
-    // Approved = step 6 (approval complete)
-    // Rejected or Defective = step 3 (back to verification)
-    if (status === 'Approved') {
-      application.currentStep = 6;
-    } else if (status === 'Rejected' || status === 'Defective') {
-      application.currentStep = 3;
+    // Step 4: Update status and remarks
+    if (status) {
+      application.status = status;
     }
 
-    // Step 7: Save the updated document to MongoDB
+    if (remarks !== undefined) {
+      application.remarks = remarks.trim();
+    }
+
+    // Step 5: Update Admit Card details if provided
+    if (admitCard) {
+      application.admitCard = {
+        issued: Boolean(admitCard.issued),
+        rollNumber: (admitCard.rollNumber || application.admitCard?.rollNumber || `26${application.applicationNumber.slice(-5)}`).trim(),
+        examCenter: (admitCard.examCenter || application.admitCard?.examCenter || 'Govt Model Higher Secondary School, Thiruvananthapuram').trim(),
+        paper1Schedule: admitCard.paper1Schedule || application.admitCard?.paper1Schedule || '10 Aug 2026 (10:00 AM - 12:30 PM)',
+        paper2Schedule: admitCard.paper2Schedule || application.admitCard?.paper2Schedule || '10 Aug 2026 (02:00 PM - 04:30 PM)',
+        issuedAt: admitCard.issued ? (application.admitCard?.issuedAt || new Date()) : null
+      };
+    }
+
+    // Step 6: Update Rank details if provided
+    if (rankDetails) {
+      const p1 = rankDetails.paper1Score !== undefined && rankDetails.paper1Score !== ''
+        ? Number(rankDetails.paper1Score)
+        : application.rankDetails?.paper1Score;
+      const p2 = rankDetails.paper2Score !== undefined && rankDetails.paper2Score !== ''
+        ? Number(rankDetails.paper2Score)
+        : application.rankDetails?.paper2Score;
+      const std = rankDetails.standardizedScore !== undefined && rankDetails.standardizedScore !== ''
+        ? Number(rankDetails.standardizedScore)
+        : (p1 !== null && p2 !== null && p1 !== undefined && p2 !== undefined ? Number((p1 + p2).toFixed(2)) : null);
+
+      application.rankDetails = {
+        published: Boolean(rankDetails.published),
+        paper1Score: p1,
+        paper2Score: p2,
+        standardizedScore: std,
+        stateMeritRank: rankDetails.stateMeritRank !== undefined && rankDetails.stateMeritRank !== ''
+          ? Number(rankDetails.stateMeritRank)
+          : application.rankDetails?.stateMeritRank,
+        categoryRank: rankDetails.categoryRank !== undefined && rankDetails.categoryRank !== ''
+          ? Number(rankDetails.categoryRank)
+          : application.rankDetails?.categoryRank,
+        publishedAt: rankDetails.published ? (application.rankDetails?.publishedAt || new Date()) : null
+      };
+    }
+
+    // Step 7: Update Seat Allotment details if provided
+    if (seatAllotment) {
+      application.seatAllotment = {
+        allotted: Boolean(seatAllotment.allotted),
+        institution: (seatAllotment.institution || application.seatAllotment?.institution || '').trim(),
+        course: (seatAllotment.course || application.seatAllotment?.course || '').trim(),
+        optionNo: seatAllotment.optionNo !== undefined && seatAllotment.optionNo !== ''
+          ? Number(seatAllotment.optionNo)
+          : (application.seatAllotment?.optionNo || 1),
+        quota: (seatAllotment.quota || application.seatAllotment?.quota || 'State Merit Quota').trim(),
+        reportingDate: (seatAllotment.reportingDate || application.seatAllotment?.reportingDate || '25 October 2026 - 04:00 PM').trim(),
+        memoIssued: Boolean(seatAllotment.allotted),
+        allottedAt: seatAllotment.allotted ? (application.seatAllotment?.allottedAt || new Date()) : null
+      };
+    }
+
+    // Step 8: Update pipeline currentStep accurately
+    if (application.seatAllotment?.allotted) {
+      application.currentStep = 7; // Allotment issued
+    } else if (application.rankDetails?.published) {
+      application.currentStep = 6; // Rank list published
+    } else if (application.admitCard?.issued) {
+      application.currentStep = 5; // Admit Card released
+    } else if (application.status === 'Approved') {
+      application.currentStep = 4; // Verified and Approved
+    } else if (application.status === 'Rejected' || application.status === 'Defective') {
+      application.currentStep = 3; // Correction flagged
+    } else if (application.status === 'Submitted') {
+      application.currentStep = 2; // Submitted
+    }
+
+    // Step 9: Save the updated document to MongoDB
     await application.save();
 
-    // Step 8: Return the updated application
+    // Step 10: Return the updated application
     res.status(200).json({
       success: true,
-      message: `Application ${status} successfully`,
+      message: 'Application managed and saved successfully',
       data: application
     });
   } catch (error) {
-    console.error('Error updating application status:', error);
+    console.error('Error updating application by admin:', error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Failed to update application status'
+      message: error.message || 'Failed to update application'
     });
   }
 };
@@ -205,7 +275,17 @@ const trackStatus = async (req, res) => {
 
     // Verify date of birth matches for application (security check)
     const storedDob = (application.personalDetails && application.personalDetails.dob) || '';
-    if (dob.trim() !== storedDob.trim()) {
+    let candidateDob = '';
+    if (application.candidateId) {
+      const cand = await Candidate.findById(application.candidateId);
+      if (cand && cand.dob) candidateDob = cand.dob;
+    }
+
+    const cleanInput = (dob || '').trim();
+    const cleanStored = storedDob.trim();
+    const cleanCandDob = candidateDob.trim();
+
+    if (cleanInput !== cleanStored && cleanInput !== cleanCandDob) {
       return res.status(400).json({
         success: false,
         message: 'Date of Birth does not match our records'

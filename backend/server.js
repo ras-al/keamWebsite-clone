@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
@@ -16,8 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 3. Serve Frontend Static Files & Uploads
-app.use(express.static(path.join(__dirname, '..')));
+// 3. Serve Uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 4. API Routes
@@ -30,8 +30,25 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/application', require('./routes/applicationRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 
-// 5. Root page
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, '..', 'index.html')));
+// 5. Serve React Frontend
+const frontendDist = path.join(__dirname, '../frontend/dist');
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.url.startsWith('/api') || req.url.startsWith('/uploads')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.json({
+      success: true,
+      message: 'KEAM Portal API server is running.',
+      frontendDevUrl: 'http://localhost:3000'
+    });
+  });
+}
 
 // 6. Error Handlers
 app.use(notFound);
