@@ -272,7 +272,53 @@ const getMyApplication = async (req, res) => {
   }
 };
 
+/**
+ * 3. SAVE OPTION REGISTRATION PREFERENCES
+ * Route: POST /api/application/options
+ * Access: Private (Candidate only - protected with JWT)
+ */
+const saveOptions = async (req, res) => {
+  try {
+    const candidateId = req.user?.id || req.candidate?._id;
+    if (!candidateId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized. Please log in first.'
+      });
+    }
+
+    const { options, locked } = req.body;
+    const application = await Application.findOne({ candidateId });
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: 'No application found. You must submit your application form first.'
+      });
+    }
+
+    application.optionRegistration = {
+      locked: Boolean(locked),
+      options: Array.isArray(options) ? options : application.optionRegistration?.options || []
+    };
+
+    await application.save();
+
+    return res.json({
+      success: true,
+      message: locked ? 'Option preferences locked successfully.' : 'Option preferences saved.',
+      data: application
+    });
+  } catch (error) {
+    console.error('Error saving options:', error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || 'Failed to save option preferences'
+    });
+  }
+};
+
 module.exports = {
   submitApplication,
-  getMyApplication
+  getMyApplication,
+  saveOptions
 };

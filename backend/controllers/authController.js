@@ -21,7 +21,7 @@ const register = async (req, res) => {
 
     // 2. Check if a candidate already exists with this email
     //    findOne() = searches MongoDB for ONE document matching the filter
-    //    If found → return error (don't allow duplicate accounts)
+    //    If found -> return error (don't allow duplicate accounts)
     const existingCandidate = await Candidate.findOne({ email });
     if (existingCandidate) {
       return res.status(400).json({
@@ -31,15 +31,15 @@ const register = async (req, res) => {
     }
 
     // 3. Generate a unique 7-digit Application Number
-    //    '26' prefix + random 5 digits → e.g., "2648219"
+    //    '26' prefix + random 5 digits -> e.g., "2648219"
     //    Math.floor(10000 + Math.random() * 90000) gives a number between 10000-99999
     const applicationNumber = '26' + Math.floor(10000 + Math.random() * 90000);
 
     // 4. Hash the password (NEVER store plain-text passwords!)
-    //    Step a: genSalt(10) → creates random "salt" to mix into the hash
+    //    Step a: genSalt(10) -> creates random "salt" to mix into the hash
     //            10 = number of salt rounds (higher = slower but more secure)
     const salt = await bcrypt.genSalt(10);
-    //    Step b: hash() → converts "Password@123" to "$2a$10$X7jK..." (irreversible!)
+    //    Step b: hash() -> converts "Password@123" to "$2a$10$X7jK..." (irreversible!)
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // 5. Create the candidate document in MongoDB
@@ -134,6 +134,7 @@ const login = async (req, res) => {
         id: candidate._id,
         applicationNumber: candidate.applicationNumber,
         fullName: candidate.fullName,
+        dob: candidate.dob || '',
         email: candidate.email,
         mobileNumber: candidate.mobileNumber,
         gender: candidate.gender,

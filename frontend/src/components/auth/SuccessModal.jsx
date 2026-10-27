@@ -53,11 +53,13 @@ function SuccessModal({ candidateData, onClose }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '2rem',
             margin: '0 auto 1rem'
           }}
         >
-          </div>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
 
         <h2 style={{ color: 'var(--color-navy)', marginBottom: '0.5rem' }}>Registration Successful!</h2>
         <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--color-dark-gray)', marginBottom: '1.5rem' }}>
@@ -109,7 +111,7 @@ function SuccessModal({ candidateData, onClose }) {
             className="btn btn--primary"
             onClick={handleProceedLogin}
           >
-            Proceed to Login →
+            Proceed to Login
           </button>
         </div>
       </div>

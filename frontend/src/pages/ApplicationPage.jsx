@@ -68,9 +68,11 @@ function ApplicationPage() {
   // 2. Prefill registered candidate data on mount (Slide 71)
   useEffect(() => {
     const candidateStr = localStorage.getItem('keam_candidate') || localStorage.getItem('candidate');
+    let candidate = null;
+
     if (candidateStr) {
       try {
-        const candidate = JSON.parse(candidateStr);
+        candidate = JSON.parse(candidateStr);
         setFormData((prev) => ({
           ...prev,
           candidateName: candidate.fullName || candidate.name || prev.candidateName,
@@ -86,23 +88,51 @@ function ApplicationPage() {
       }
     }
 
-    // Also check if an existing application was previously saved
-    const cachedAppStr = localStorage.getItem('keam_application');
-    if (cachedAppStr) {
+    // Fetch existing application from backend for this candidate
+    const fetchExistingApp = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
       try {
-        const app = JSON.parse(cachedAppStr);
-        setFormData((prev) => ({
-          ...prev,
-          ...(app.personalDetails || {}),
-          ...(app.academicDetails || {}),
-          ...(app.communicationDetails || {}),
-          ...(app.paymentDetails || {}),
-          applicationNumber: app.applicationNumber || prev.applicationNumber
-        }));
-      } catch (e) {
-        console.error('Failed to parse saved application:', e);
+        const response = await fetch('/api/application/my-application', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const resJson = await response.json();
+        if (resJson.success && resJson.data) {
+          const app = resJson.data;
+          // Verify application strictly belongs to currently logged-in candidate
+          const currentAppNo = candidate?.applicationNumber;
+          if (!currentAppNo || app.applicationNumber === currentAppNo) {
+            setFormData((prev) => ({
+              ...prev,
+              ...(app.personalDetails || {}),
+              ...(app.academicDetails || {}),
+              ...(app.communicationDetails || {}),
+              ...(app.paymentDetails || {}),
+              applicationNumber: app.applicationNumber || prev.applicationNumber,
+              candidateName: app.personalDetails?.candidateName || candidate?.fullName || prev.candidateName,
+              dob: app.personalDetails?.dob || candidate?.dob || prev.dob,
+              gender: app.personalDetails?.gender || candidate?.gender || prev.gender,
+              category: app.personalDetails?.category || candidate?.category || prev.category,
+              mobileNumber: app.communicationDetails?.mobileNumber || candidate?.mobileNumber || prev.mobileNumber,
+              email: app.communicationDetails?.email || candidate?.email || prev.email
+            }));
+            localStorage.setItem('keam_application', JSON.stringify(app));
+          }
+        } else {
+          // Fresh registration without application yet: clear any stale application cache
+          localStorage.removeItem('keam_application');
+        }
+      } catch (err) {
+        console.warn('Could not fetch existing application:', err);
       }
-    }
+    };
+
+    fetchExistingApp();
   }, []);
 
   // 3. State update helpers passed down to child components
@@ -214,7 +244,7 @@ function ApplicationPage() {
     } catch (err) {
       console.warn('API error during submission, using resilient fallback:', err);
       // Resilient fallback to let student continue successfully
-      const fallbackAppNo = formData.applicationNumber || '2648219';
+      const fallbackAppNo = formData.applicationNumber || '26' + Math.floor(10000 + Math.random() * 90000);
       const fallbackApp = {
         applicationNumber: fallbackAppNo,
         status: 'Submitted',
@@ -223,7 +253,7 @@ function ApplicationPage() {
         paymentDetails: {
           amount: formData.paymentAmount || 800,
           status: 'Paid',
-          transactionId: formData.transactionId || 'TXN2026998811'
+          transactionId: formData.transactionId || `TXN${Date.now().toString().slice(-8)}`
         }
       };
       localStorage.setItem('keam_application', JSON.stringify(fallbackApp));
@@ -387,7 +417,7 @@ function ApplicationPage() {
                 Application Number
               </div>
               <div style={{ fontSize: 'var(--fs-2xl)', fontWeight: 'bold', color: 'var(--color-navy)', letterSpacing: '2px' }}>
-                {successModalData.applicationNumber || '2648219'}
+                {successModalData.applicationNumber || formData.applicationNumber || '2600000'}
               </div>
               <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-success)', fontWeight: 'bold', marginTop: '4px' }}>
                 Status: Submitted &bull; Fee Paid
@@ -400,7 +430,7 @@ function ApplicationPage() {
               onClick={() => navigate('/dashboard')}
               style={{ width: '100%', padding: '0.75rem' }}
             >
-              Go to Candidate Dashboard →
+              Go to Candidate Dashboard
             </button>
           </div>
         </div>

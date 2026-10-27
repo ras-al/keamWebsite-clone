@@ -45,6 +45,22 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
     }
   };
 
+  // Auto-attach sample documents for seamless testing
+  const handleAutoFillDemoFiles = () => {
+    const dummyPhoto = new File([new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10])], 'candidate_photo.png', { type: 'image/png' });
+    const dummySig = new File([new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10])], 'candidate_signature.png', { type: 'image/png' });
+    const dummySslc = new File([new Uint8Array([37, 80, 68, 70, 45, 49, 46, 53])], 'sslc_certificate.pdf', { type: 'application/pdf' });
+
+    setFileNames({
+      photo: 'candidate_photo.png',
+      signature: 'candidate_signature.png',
+      certificate: '',
+      sslc: 'sslc_certificate.pdf'
+    });
+    setErrorMsg('');
+    onSaveFiles({ photo: dummyPhoto, signature: dummySig, sslc: dummySslc });
+  };
+
   const handleContinue = (e) => {
     e.preventDefault();
 
@@ -55,12 +71,12 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
 
     // Validate required uploads
     if (!photo) {
-      setErrorMsg('Candidate photograph is required. Please select an image.');
+      setErrorMsg('Candidate photograph is required. Please select an image or click "Attach Sample Documents".');
       return;
     }
 
     if (!signature) {
-      setErrorMsg('Candidate signature is required. Please select a signature image.');
+      setErrorMsg('Candidate signature is required. Please select a signature image or click "Attach Sample Documents".');
       return;
     }
 
@@ -76,11 +92,21 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
 
   return (
     <form onSubmit={handleContinue} className="form-card">
-      <div className="form-card__header">
-        <h2 className="form-card__title">Step 4: Document Uploads</h2>
-        <p className="form-card__desc">
-          Upload clear scanned copies of required documents (JPG, PNG, or PDF, max 2MB each).
-        </p>
+      <div className="form-card__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem' }}>
+        <div>
+          <h2 className="form-card__title">Step 4: Document Uploads</h2>
+          <p className="form-card__desc">
+            Upload clear scanned copies of required documents (JPG, PNG, or PDF, max 2MB each).
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleAutoFillDemoFiles}
+          className="btn btn--outline"
+          style={{ fontSize: '0.8rem', padding: '0.4rem 0.85rem' }}
+        >
+          Attach Sample Documents (Demo)
+        </button>
       </div>
 
       <div className="form-card__body">
@@ -199,10 +225,10 @@ function StepUploads({ onNext, onPrev, onSaveFiles, existingFiles = {} }) {
 
       <div className="form-nav" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.25rem 2rem' }}>
         <button type="button" onClick={onPrev} className="btn btn--outline">
-          ← Back to Communication
+          Back to Communication
         </button>
         <button type="submit" className="btn btn--primary">
-          Continue to Payment →
+          Continue to Payment
         </button>
       </div>
     </form>

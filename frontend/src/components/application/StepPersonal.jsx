@@ -25,6 +25,18 @@ function StepPersonal({ data, onUpdate, onNext }) {
     return Object.keys(errs).length === 0;
   };
 
+  const handleAutoFillSample = () => {
+    onUpdate({
+      fatherName: data.fatherName || 'Mohan Kumar',
+      motherName: data.motherName || 'Lakshmi Kumar',
+      guardianName: data.guardianName || 'Mohan Kumar',
+      guardianOccupation: 'Government Service',
+      nationality: 'Indian',
+      aadhaarNumber: data.aadhaarNumber || '987654321098'
+    });
+    setErrors({});
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
@@ -34,11 +46,21 @@ function StepPersonal({ data, onUpdate, onNext }) {
 
   return (
     <form onSubmit={handleSubmit} className="form-card" noValidate>
-      <div className="form-card__header">
-        <h2 className="form-card__title">Step 1: Personal Details</h2>
-        <p className="form-card__desc">
-          Enter your personal information as it appears in your official Class 10 certificate. All fields marked with <span style={{ color: 'var(--color-error)' }}>*</span> are mandatory.
-        </p>
+      <div className="form-card__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem' }}>
+        <div>
+          <h2 className="form-card__title">Step 1: Personal Details</h2>
+          <p className="form-card__desc">
+            Enter your personal information as it appears in your official Class 10 certificate. All fields marked with <span style={{ color: 'var(--color-error)' }}>*</span> are mandatory.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleAutoFillSample}
+          className="btn btn--outline"
+          style={{ fontSize: '0.8rem', padding: '0.4rem 0.85rem' }}
+        >
+          Auto-Fill Sample Data
+        </button>
       </div>
 
       <div className="form-card__body">
@@ -244,7 +266,7 @@ function StepPersonal({ data, onUpdate, onNext }) {
 
       <div className="form-nav" style={{ display: 'flex', justifyContent: 'flex-end', padding: '1.25rem 2rem' }}>
         <button type="submit" className="btn btn--primary">
-          Continue to Academic Details →
+          Continue to Academic Details
         </button>
       </div>
     </form>

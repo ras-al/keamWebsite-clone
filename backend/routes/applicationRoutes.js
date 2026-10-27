@@ -8,7 +8,8 @@ const router = express.Router();
 // Import controller functions
 const {
   submitApplication,
-  getMyApplication
+  getMyApplication,
+  saveOptions
 } = require('../controllers/applicationController');
 
 // Import authentication guard and file upload middleware
@@ -41,5 +42,12 @@ router.post(
  * @access  Private (Candidate JWT required)
  */
 router.get('/my-application', protect, getMyApplication);
+
+/**
+ * @route   POST /api/application/options
+ * @desc    Save candidate college & course preferences
+ * @access  Private (Candidate JWT required)
+ */
+router.post('/options', protect, saveOptions);
 
 module.exports = router;

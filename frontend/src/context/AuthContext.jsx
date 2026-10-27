@@ -43,6 +43,10 @@ export function AuthProvider({ children }) {
 
   // Login handler
   const login = (newToken, userData) => {
+    // Clear any previous user's cached application data to prevent cross-account bleeding
+    localStorage.removeItem('keam_application');
+    localStorage.removeItem('application');
+
     setToken(newToken);
     setUser(userData);
     localStorage.setItem('token', newToken);
@@ -58,6 +62,8 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('candidate');
     localStorage.removeItem('keam_candidate');
     localStorage.removeItem('keam_user');
+    localStorage.removeItem('keam_application');
+    localStorage.removeItem('application');
   };
 
   const isAuthenticated = Boolean(token);

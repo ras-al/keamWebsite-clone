@@ -255,6 +255,117 @@ const applicationSchema = new mongoose.Schema(
     remarks: {
       type: String,
       default: ''
+    },
+
+    // 12. Admit Card Details (Managed by Admin)
+    admitCard: {
+      issued: {
+        type: Boolean,
+        default: false
+      },
+      rollNumber: {
+        type: String,
+        default: ''
+      },
+      examCenter: {
+        type: String,
+        default: ''
+      },
+      paper1Schedule: {
+        type: String,
+        default: '10 Aug 2026 (10:00 AM - 12:30 PM)'
+      },
+      paper2Schedule: {
+        type: String,
+        default: '10 Aug 2026 (02:00 PM - 04:30 PM)'
+      },
+      issuedAt: {
+        type: Date,
+        default: null
+      }
+    },
+
+    // 13. Examination Rank & Scores (Managed by Admin)
+    rankDetails: {
+      published: {
+        type: Boolean,
+        default: false
+      },
+      paper1Score: {
+        type: Number,
+        default: null
+      },
+      paper2Score: {
+        type: Number,
+        default: null
+      },
+      standardizedScore: {
+        type: Number,
+        default: null
+      },
+      stateMeritRank: {
+        type: Number,
+        default: null
+      },
+      categoryRank: {
+        type: Number,
+        default: null
+      },
+      publishedAt: {
+        type: Date,
+        default: null
+      }
+    },
+
+    // 14. Centralized Allotment Process (CAP) Seat Allotment (Managed by Admin)
+    seatAllotment: {
+      allotted: {
+        type: Boolean,
+        default: false
+      },
+      institution: {
+        type: String,
+        default: ''
+      },
+      course: {
+        type: String,
+        default: ''
+      },
+      optionNo: {
+        type: Number,
+        default: null
+      },
+      quota: {
+        type: String,
+        default: 'State Merit Quota'
+      },
+      reportingDate: {
+        type: String,
+        default: ''
+      },
+      memoIssued: {
+        type: Boolean,
+        default: false
+      },
+      allottedAt: {
+        type: Date,
+        default: null
+      }
+    },
+
+    // 15. Candidate College & Course Preferences
+    optionRegistration: {
+      locked: {
+        type: Boolean,
+        default: false
+      },
+      options: [
+        {
+          priority: Number,
+          college: String,
+          course: String
+        }
+      ]
     }
   },
   {
