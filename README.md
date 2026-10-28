@@ -16,21 +16,6 @@ This project is developed strictly for educational and academic demonstration pu
 
 ---
 
-## Evaluation Rubric Compliance (20 / 20 Marks)
-
-The project satisfies all five criteria of the React UI Project Final Evaluation Rubric at the "Excellent (4)" level:
-
-| Criterion | Target Level | Project Implementation Evidence | Marks |
-| :--- | :--- | :--- | :---: |
-| **1. Component Design & Rendering** | Excellent (4) | Modular functional components; reusable UI library (`InputField`, `SelectField`, `Button`); conditional rendering in navigation and step wizards. | 4 / 4 |
-| **2. UI Styling & Responsiveness** | Excellent (4) | Design tokens in `index.css`; dynamic state-driven styling in `PasswordStrength` and progress indicators; responsive media queries across viewports. | 4 / 4 |
-| **3. Hooks & State Management** | Excellent (4) | Idiomatic usage of `useState`, `useEffect` with `clearInterval` cleanup in `DigitalClock`, Lifting State Up in `ApplicationPage`, and global `AuthContext`. | 4 / 4 |
-| **4. Routing & Forms** | Excellent (4) | Client-side routing with React Router v6; route protection via `ProtectedRoute`; controlled form inputs with validation; async error and submit handling. | 4 / 4 |
-| **5. Individual Understanding & Demonstration** | Excellent (4) | Clearly divided module architecture across five team members; independent problem-solving; verifiable contributions and demonstration workflows. | 4 / 4 |
-| **Total Marks** | | | **20 / 20** |
-
----
-
 ## Project Status
 
 ### Phase 1: Static UI Foundation (Complete)
